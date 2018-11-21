@@ -94,7 +94,6 @@ export interface MakeHtml {
 export interface WebpackStats {
   chunks: boolean;
   entrypoints: boolean;
-  errors: true;
   [x: string]: boolean;
 }
 
