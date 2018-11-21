@@ -25,6 +25,7 @@ module.exports = {
         node: '8.11',
       },
     }],
+    "@babel/preset-react",
     "@babel/preset-typescript"
   ]
 };
