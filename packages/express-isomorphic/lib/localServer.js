@@ -74,11 +74,11 @@ function setupWatchingWebpackUniversalCompiler({ serverDistPath, state, webpackC
     serverWebpackCompiler.watch(watchOptions, (err, stats) => {
         if (err || stats.hasErrors()) {
             const errorJson = stats.toString('errors-only');
-            log_1.log('[server-local] [error] webpack watch() fails:\n%s', errorJson);
+            log_1.log('[server-local] [error] webpack-universal-local watch() fails:\n%s', errorJson);
         }
         else {
             const info = stats.toJson(webpackStats);
-            log_1.log('[server-local] webpack watch() success: at: %s,\n%o', new Date(), info);
+            log_1.log('[server-local] webpack-universal-local watch() success: at: %s,\n%o', new Date(), info);
             // fs.writeFileSync(`${paths.distServer}/build.json`, JSON.stringify(info, null, 2));
             delete require.cache[state.universalAppPath];
             log_1.log('[server-local] require cache after deleting universalAppPath (%s):\n%o', state.universalAppPath, serverUtils_1.getProperRequireCache());
