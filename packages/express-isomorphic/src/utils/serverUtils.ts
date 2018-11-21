@@ -1,5 +1,6 @@
 export const parseWebpackBuildInfo: ParseWebpackBuildInfo = function ({
   entrypoints,
+  errors,
 }) {
   console.log('parseWebpackBuildInfo() with entrypoints:\n%o', entrypoints);
 
@@ -9,6 +10,11 @@ export const parseWebpackBuildInfo: ParseWebpackBuildInfo = function ({
       return {
         assets,
         error: 'entrypoints undefined',
+      };
+    } else if (errors.length > 0) {
+      return {
+        assets,
+        error: 'webpack build failed. Original error messages: ' + errors,
       };
     }
 
@@ -60,4 +66,5 @@ interface ParseWebpackBuildInfo {
 interface WebpackBuildInfo {
   chunks: any[];
   entrypoints: any;
+  errors: string[];
 }

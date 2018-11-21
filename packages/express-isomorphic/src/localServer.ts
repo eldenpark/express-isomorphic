@@ -111,8 +111,8 @@ function setupWatchingWebpackUniversalCompiler({
 
   serverWebpackCompiler.watch(watchOptions, (err, stats) => {
     if (err || stats.hasErrors()) {
-      const errorJson = stats.toJson('errors-only');
-      log('[server-local] [error] webpack watch() fails: %j\n%o', errorJson);
+      const errorJson = stats.toString('errors-only');
+      log('[server-local] [error] webpack watch() fails:\n%s', errorJson);
     } else {
       const info = stats.toJson(webpackStats);
       log('[server-local] webpack watch() success: at: %s,\n%o', new Date(), info);
