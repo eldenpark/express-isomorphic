@@ -1,4 +1,4 @@
-import { MakeHtml, Server } from './createExpress';
+import { MakeHtml, Server, WebpackStats } from './createExpress';
 declare const ExpressIsomorphic: ExpressIsomorphicType;
 export default ExpressIsomorphic;
 export { attachAssets } from './utils/serverUtils';
@@ -19,10 +19,5 @@ interface Create {
         localServer: () => Server;
         productionServer: () => Server;
     };
-}
-interface WebpackStats {
-    chunks: boolean;
-    entrypoints: boolean;
-    [x: string]: boolean;
 }
 //# sourceMappingURL=index.d.ts.map

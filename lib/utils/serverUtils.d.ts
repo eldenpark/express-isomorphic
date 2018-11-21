@@ -10,6 +10,7 @@ interface ParseWebpackBuildInfo {
 interface WebpackBuildInfo {
     chunks: any[];
     entrypoints: any;
+    errors: string[];
 }
 export {};
 //# sourceMappingURL=serverUtils.d.ts.map

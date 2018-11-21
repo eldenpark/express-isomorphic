@@ -5,6 +5,7 @@ import createProductionServer from './productionServer';
 import { 
   MakeHtml,
   Server,
+  WebpackStats,
 } from './createExpress';
 
 const create: Create = function ({
@@ -70,10 +71,4 @@ interface Create {
     localServer: () => Server;
     productionServer: () => Server;
   };
-}
-
-interface WebpackStats {
-  chunks: boolean;
-  entrypoints: boolean;
-  [x: string]: boolean;
 }

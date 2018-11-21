@@ -21,6 +21,12 @@ export interface MakeHtml {
         universalAppPath: string | undefined;
     }): Promise<string>;
 }
+export interface WebpackStats {
+    chunks: boolean;
+    entrypoints: boolean;
+    errors: true;
+    [x: string]: boolean;
+}
 interface CreateExpress {
     (arg: {
         enhance: (app: express.Application, state: State) => any;
