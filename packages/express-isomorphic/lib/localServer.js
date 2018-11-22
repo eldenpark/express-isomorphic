@@ -47,11 +47,9 @@ webpackStats: %o`, serverDistPath, webpackConfigClientLocalPath, webpackConfigUn
             app.use(devMiddleware);
             app.use(hotMiddleware);
             app.use((req, res, next) => {
-                if (!state.assets) {
-                    const info = res.locals.webpackStats.toJson(webpackStats);
-                    const { error, assets } = serverUtils_1.parseWebpackBuildInfo(info);
-                    state.update(Object.assign({}, error && { error }, { assets }));
-                }
+                const info = res.locals.webpackStats.toJson(webpackStats);
+                const { error, assets } = serverUtils_1.parseWebpackBuildInfo(info);
+                state.update(Object.assign({}, error && { error }, { assets }));
                 next();
             });
         },
