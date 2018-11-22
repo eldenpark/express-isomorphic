@@ -68,15 +68,14 @@ webpackStats: %o`,
       app.use(hotMiddleware);
 
       app.use((req, res, next) => {
-        if (!state.assets) {
-          const info = res.locals.webpackStats.toJson(webpackStats);
-          const { error, assets } = parseWebpackBuildInfo(info);
-          
-          state.update({
-            ...error && { error },
-            assets,
-          });
-        }
+        const info = res.locals.webpackStats.toJson(webpackStats);
+        const { error, assets } = parseWebpackBuildInfo(info);
+        
+        state.update({
+          ...error && { error },
+          assets,
+        });
+        
         next();
       });
     },
