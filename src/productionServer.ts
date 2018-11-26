@@ -10,6 +10,8 @@ import {
 } from './utils/serverUtils';
 import { log } from './utils/log';
 
+const tag = 'productionServer';
+
 const productionServer: ProductionServer = function ({
   bundlePath,
   makeHtml,
@@ -20,7 +22,7 @@ const productionServer: ProductionServer = function ({
     enhance: (app, state) => {
       const bundleBuildJson = fs.readFileSync(`${bundlePath}/build.json`, 'utf-8');
       const buildInfo = JSON.parse(bundleBuildJson);
-      log('[server-prod] enhance(), build.json:\n%o', buildInfo);
+      log(`${tag} enhance(), build.json:\n%o`, buildInfo);
   
       const { error, assets } = parseWebpackBuildInfo(buildInfo);
           

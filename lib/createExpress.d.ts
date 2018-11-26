@@ -1,15 +1,7 @@
 import express from "express";
+import { State } from './state';
 declare const createExpress: CreateExpress;
 export default createExpress;
-export interface State {
-    assets: string[] | undefined;
-    clientBuildInfo: any;
-    error: string | undefined;
-    isLaunched: boolean;
-    universalAppPath: string | undefined;
-    update: (arg: Partial<State>) => void;
-    webpackStats: any;
-}
 export interface Server {
     app: express.Application;
     state: State;
