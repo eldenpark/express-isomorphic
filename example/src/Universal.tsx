@@ -1,6 +1,7 @@
+import { hot } from 'react-hot-loader';
 import * as React from 'react';
 
-const someValue = 10110;
+const someValue = 1022;
 
 class Universal extends React.Component {
   render() {
@@ -13,4 +14,4 @@ class Universal extends React.Component {
   }
 }
 
-export default Universal;
+export default hot(module)(Universal);

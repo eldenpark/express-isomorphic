@@ -19,7 +19,13 @@ const createExpress: CreateExpress = function ({
   app.use(express.static(publicPath));
   
   app.get("*", async (req, res) => {
-    log('server is at state: %o', state);
+    log(
+      'server is last updated at: %o, assets: %s, buildHash: %s', 
+      state.updatedAt, 
+      state.assets,
+      state.buildHash,
+    );
+
     if (!state.isLaunched) {
       res.writeHead(500);
       res.end('server is not launched yet');

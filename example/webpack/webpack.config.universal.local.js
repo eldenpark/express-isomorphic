@@ -26,7 +26,7 @@ const config = {
     filename: 'universal.local.[name].js',
     library: '',
     libraryTarget: 'commonjs',
-    path: paths.distServer,
+    path: paths.dist,
     publicPath: '/',
   },
   stats: {
