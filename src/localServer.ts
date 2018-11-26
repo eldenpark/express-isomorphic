@@ -76,6 +76,7 @@ webpackStats: %o`,
 
           state.update({
             assets,
+            isLaunched: true,
             ...error && { error },
           });
         }
@@ -134,7 +135,6 @@ function setupWatchingWebpackUniversalCompiler({
       const universalAppPath = path.resolve(serverDistPath, 'universal.local.rootContainer.js');
       state.update({
         error: undefined,
-        isLaunched: true,
         universalAppPath,
       });
     }
