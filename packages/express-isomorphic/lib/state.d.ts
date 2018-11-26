@@ -1,13 +1,12 @@
-declare const state: State;
-export default state;
-export interface State {
+export declare class State {
     assets: string[] | undefined;
-    clientBuildInfo: any;
+    buildHash: number | undefined;
     error: string | undefined;
     isLaunched: boolean;
     universalAppPath: string | undefined;
-    update: (arg: Partial<State>) => void;
     updatedAt: Date | undefined;
-    webpackStats: any;
+    update(obj?: Partial<State>): void;
 }
+declare const _default: State;
+export default _default;
 //# sourceMappingURL=state.d.ts.map

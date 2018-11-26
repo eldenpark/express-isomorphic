@@ -22,7 +22,7 @@ const createExpress = function ({ enhance = (app, state) => { }, makeHtml, publi
     enhance(app, state_1.default);
     app.use(express_1.default.static(publicPath));
     app.get("*", (req, res) => __awaiter(this, void 0, void 0, function* () {
-        log_1.log('server is at state: %o', state_1.default);
+        log_1.log('server is last updated at: %o, assets: %s, buildHash: %s', state_1.default.updatedAt, state_1.default.assets, state_1.default.buildHash);
         if (!state_1.default.isLaunched) {
             res.writeHead(500);
             res.end('server is not launched yet');

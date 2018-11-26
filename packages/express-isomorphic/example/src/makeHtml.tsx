@@ -1,14 +1,21 @@
-import * as React from "react";
-import { renderToString } from "react-dom/server";
+import * as React from 'react';
+import { renderToString } from 'react-dom/server';
 
 import { attachAssets } from '../../lib';
-import Universal from './Universal';
 
 const makeHtml: MakeHtml = async function ({
   assets,
   requestUrl = '',
   universalAppPath = '',
 }) {
+  let Universal = undefined;
+  try {
+    Universal = require(universalAppPath).default;
+  } catch (err) {
+    console.error('Error loading UniversalApp at path: %s\nOriginal Error: %o', universalAppPath, err);
+    Universal = () => <div>RootContainer not found</div>;
+  }
+
   const appRoot = (
     <Universal />
   );

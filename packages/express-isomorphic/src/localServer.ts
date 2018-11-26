@@ -18,6 +18,8 @@ import { log } from './utils/log';
 
 const tag = '[localServer]';
 
+let webpackStats = undefined;
+
 const localServer: LocalServer = function ({
   makeHtml,
   publicPath,
@@ -70,14 +72,15 @@ webpackStats: %o`,
       app.use(hotMiddleware);
 
       app.use((req, res, next) => {
-        if (!state.isLaunched) {
+        if (state.buildHash !== res.locals.webpackStats.hash) {
           const info = res.locals.webpackStats.toJson(webpackStats);
           const { error, assets } = parseWebpackBuildInfo(info);
 
           state.update({
             assets,
-            isLaunched: true,
+            buildHash: res.locals.webpackStats.hash,
             ...error && { error },
+            isLaunched: true,
           });
         }
         next();
