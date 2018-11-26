@@ -1,6 +1,7 @@
 import express from "express";
 
 import { log } from './utils/log';
+import state, { State } from './state';
 
 const createExpress: CreateExpress = function ({
   enhance = (app, state) => {},
@@ -8,22 +9,6 @@ const createExpress: CreateExpress = function ({
   publicPath,
 }) {
   const app = express();
-  const state: State = {
-    assets: undefined,
-    clientBuildInfo: undefined,
-    error: undefined,
-    isLaunched: false,
-    universalAppPath: undefined,
-    update(obj = {}) {
-      log('[state] state will update with:\n%o', obj);
-      for (let key in this) {
-        if (obj[key]) {
-          this[key] = obj[key];
-        }
-      }
-    },
-    webpackStats: undefined,
-  };
 
   app.use(htmlLogger);
 
@@ -32,6 +17,7 @@ const createExpress: CreateExpress = function ({
   app.use(express.static(publicPath));
   
   app.get("*", async (req, res) => {
+    log('server is at state: %o', state);
     if (!state.isLaunched) {
       res.writeHead(500);
       res.end('server is not launched yet');
@@ -66,16 +52,6 @@ export default createExpress;
 function htmlLogger(req, res, next) {
   log('[express] %s url: %s, user agent: %s', new Date(), req.url, req.get('User-Agent'));
   next();
-}
-
-export interface State {
-  assets: string[] | undefined;
-  clientBuildInfo: any;
-  error: string | undefined;
-  isLaunched: boolean;
-  universalAppPath: string | undefined;
-  update: (arg: Partial<State>) => void;
-  webpackStats: any;
 }
 
 export interface Server {
