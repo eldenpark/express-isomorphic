@@ -1,8 +1,10 @@
+import { log } from './log';
+
 export const parseWebpackBuildInfo: ParseWebpackBuildInfo = function ({
   entrypoints,
   errors,
 }) {
-  console.log('parseWebpackBuildInfo() with entrypoints:\n%o', entrypoints);
+  log('parseWebpackBuildInfo() with entrypoints:\n%o', entrypoints);
 
   const assets: string[] = [];
   try {

@@ -12,6 +12,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
+const util_1 = __importDefault(require("util"));
+const env_1 = require("./env");
 const log_1 = require("./utils/log");
 const state_1 = __importDefault(require("./state"));
 const createExpress = function ({ enhance = (app, state) => { }, makeHtml, publicPath, }) {
@@ -26,8 +28,11 @@ const createExpress = function ({ enhance = (app, state) => { }, makeHtml, publi
             res.end('server is not launched yet');
         }
         else if (state_1.default.error) {
+            const errorMsg = !env_1.isProduction
+                ? util_1.default.format('Server is not successfully launched: %s', state_1.default.error)
+                : 'Server is not successfully launched. Check out the log';
             res.writeHead(500);
-            res.end('Server is not successfully launched: %s', state_1.default.error);
+            res.end(errorMsg);
         }
         else {
             res.writeHead(200, { "Content-Type": "text/html" });

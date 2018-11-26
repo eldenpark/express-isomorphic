@@ -1,5 +1,7 @@
 import express from "express";
+import util from 'util';
 
+import { isProduction } from './env';
 import { log } from './utils/log';
 import state, { State } from './state';
 
@@ -22,8 +24,12 @@ const createExpress: CreateExpress = function ({
       res.writeHead(500);
       res.end('server is not launched yet');
     } else if (state.error) {
+      const errorMsg = !isProduction 
+        ? util.format('Server is not successfully launched: %s', state.error)
+        : 'Server is not successfully launched. Check out the log';
+
       res.writeHead(500);
-      res.end('Server is not successfully launched: %s', state.error);
+      res.end(errorMsg);
     } else {
       res.writeHead(200, { "Content-Type": "text/html" });
 
