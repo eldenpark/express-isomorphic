@@ -1,5 +1,3 @@
-import * as express from 'express';
-
 import createLocalServer from './localServer';
 import createProductionServer from './productionServer';
 import { 

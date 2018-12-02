@@ -1,6 +1,4 @@
 import del from 'del';
-import * as express from "express";
-import * as fs from 'fs';
 import * as path from "path";
 import webpack from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';

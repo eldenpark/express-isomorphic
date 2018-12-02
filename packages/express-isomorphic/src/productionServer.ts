@@ -1,5 +1,4 @@
 import * as fs from 'fs';
-import * as express from "express";
 
 import createExpress, { 
   MakeHtml,
