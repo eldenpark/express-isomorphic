@@ -1,3 +1,4 @@
+import chalk from 'chalk';
 import del from 'del';
 import * as path from "path";
 import webpack from 'webpack';
@@ -116,14 +117,14 @@ function setupWatchingWebpackUniversalCompiler({
   serverWebpackCompiler.watch(watchOptions, (err, stats) => {
     if (err || stats.hasErrors()) {
       const error = stats.toString('errors-only');
-      log(`${tag} [watch] [error] webpack-universal-local watch() fails:\n%s`, error);
+      log(`${tag} [watch] [error] webpack-universal-local watch() ${chalk.red('fails')}:\n%s`, error);
 
       state.update({
         error,
       });
     } else {
       const info = stats.toJson(webpackStats);
-      log(`${tag} [watch] webpack-universal-local watch() success: at: %s,\n%o`, new Date(), info);
+      log(`${tag} [watch] webpack-universal-local watch() ${chalk.green('success')}: at: %s,\n%o`, new Date(), info);
       // fs.writeFileSync(`${paths.distServer}/build.json`, JSON.stringify(info, null, 2));
       
       delete require.cache[state.universalAppPath];

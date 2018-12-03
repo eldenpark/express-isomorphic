@@ -1,3 +1,4 @@
+import chalk from 'chalk';
 import express from "express";
 import util from 'util';
 
@@ -47,7 +48,7 @@ const createExpress: CreateExpress = function ({
         });
         res.end(html);
       } catch (err) {
-        log('[express] failed to create html: %o', err);
+        log(`[express] ${chalk.red('failed')} to create html: %o`, err);
         res.end('Failed to create html');
       }
     }

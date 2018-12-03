@@ -16,7 +16,7 @@ class State {
     }
     update(obj = {}) {
         const time = new Date();
-        log_1.log(`[state] state will ${chalk_1.default.yellow('update')} at %s with:\n%o`, time, obj);
+        log_1.log(`[state] state will ${chalk_1.default.green('update')} at %s with:\n%o`, time, obj);
         for (let key in obj) {
             if (this.hasOwnProperty(key)) {
                 this[key] = obj[key];
