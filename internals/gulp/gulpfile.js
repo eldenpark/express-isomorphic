@@ -34,7 +34,7 @@ const paths = {
 };
 
 const buildLog = (tag, ...args) => {
-  console.info(chalk.cyan(`[build - ${tag}]`), util.format(...args));
+  console.info(chalk.cyan(`[gulp>${tag}]`), util.format(...args));
 };
 
 const Task = {

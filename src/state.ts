@@ -12,7 +12,7 @@ export class State {
 
   update(obj: Partial<State> = {}): void {
     const time = new Date();
-    log(`[state] state will ${chalk.yellow('update')} at %s with:\n%o`, time, obj);
+    log(`[state] state will ${chalk.green('update')} at %s with:\n%o`, time, obj);
 
     for (let key in obj) {
       if (this.hasOwnProperty(key)) {
