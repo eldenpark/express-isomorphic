@@ -20,19 +20,24 @@ const eject: Eject = async function ({
 }) {
   log('eject():\n%o', arguments[0]);
 
-  const bundleBuildJson = fs.readFileSync(`${bundlePath}/build.json`, 'utf-8');
-  const buildInfo = JSON.parse(bundleBuildJson);
-  log(`${logTag} enhance(), build.json:\n%o`, buildInfo);
+  try {
+    const bundleBuildJson = fs.readFileSync(`${bundlePath}/build.json`, 'utf-8');
+    const buildInfo = JSON.parse(bundleBuildJson);
+    log(`${logTag} enhance(), build.json:\n%o`, buildInfo);
 
-  const { error, assets } = parseWebpackBuildInfo(buildInfo);
+    const { error, assets } = parseWebpackBuildInfo(buildInfo);
 
-  const html = await makeHtml({
-    assets,
-    requestUrl: '/',
-    universalAppPath,
-  });
+    const html = await makeHtml({
+      assets,
+      requestUrl: '/',
+      universalAppPath,
+    });
 
-  fs.writeFileSync(ejectPath, html);
+    fs.writeFileSync(ejectPath, html);
+    
+  } catch (err) {
+    log(`${logTag} error while eject()`);
+  }
 };
 
 export default eject;
