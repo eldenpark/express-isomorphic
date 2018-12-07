@@ -4,8 +4,9 @@
   "description": "",
   "main": "lib/index.js",
   "scripts": {
-    "build": "./node_modules/.bin/gulp --gulpfile ./internals/gulp/gulpfile.js build",
-    "example": "yarn run build && node example/launch.js",
+    "build": "yarn run gulp build",
+    "example": "yarn run gulp build && yarn run gulp build:example && node example/launch.js",
+    "gulp": "./node_modules/.bin/gulp --gulpfile ./internals/gulp/gulpfile.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Elden S. Park",
@@ -35,6 +36,8 @@
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
     "react-hot-loader": "^4.3.12",
+    "react-redux": "^6.0.0",
+    "redux": "^4.0.1",
     "typescript": "^3.1.6"
   },
   "dependencies": {

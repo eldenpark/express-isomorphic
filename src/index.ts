@@ -1,5 +1,6 @@
 import createLocalServer from './localServer';
 import createProductionServer from './productionServer';
+import _eject from './eject';
 import { 
   MakeHtml,
   Server,
@@ -8,6 +9,7 @@ import {
 
 const create: Create = function ({
   bundlePath,
+  ejectPath = '',
   makeHtml,
   publicPath,
   serverDistPath,
@@ -17,6 +19,13 @@ const create: Create = function ({
   webpackStats = defaultWebpackStats,
 }) {
   return {
+    eject: () => _eject({
+      bundlePath,
+      ejectPath,
+      makeHtml,
+      publicPath,
+      universalAppPath,
+    }),
     localServer: () => createLocalServer({
       makeHtml,
       publicPath,
@@ -51,6 +60,8 @@ export default ExpressIsomorphic;
 
 export { attachAssets } from './utils/serverUtils';
 
+export { defaultWebpackStats as webpackStats }
+
 interface ExpressIsomorphicType {
   create: Create,
 }
@@ -58,6 +69,7 @@ interface ExpressIsomorphicType {
 interface Create {
   (arg: {
     bundlePath: string;
+    ejectPath?: string;
     makeHtml: MakeHtml;
     publicPath: string;
     serverDistPath: string;
@@ -66,6 +78,7 @@ interface Create {
     webpackConfigUniversalLocalPath: string;
     webpackStats?: WebpackStats;
   }): {
+    eject: any;
     localServer: () => Server;
     productionServer: () => Server;
   };
