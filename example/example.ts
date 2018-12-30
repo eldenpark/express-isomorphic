@@ -17,9 +17,9 @@ const { localServer, productionServer, eject } = ExpressIsomorphic.create({
 
 const port = 5234
 
-// const httpServer = http.createServer(localServer().app);
-// httpServer.listen(port, () => {
-//   console.log(`Listening on ${port}`);
-// });
+const httpServer = http.createServer(localServer().app);
+httpServer.listen(port, () => {
+  console.log(`Listening on ${port}`);
+});
 
-eject();
+// eject();
