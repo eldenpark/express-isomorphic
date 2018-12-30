@@ -7,7 +7,7 @@ import { log } from './utils/log';
 import state, { State } from './state';
 
 const createExpress: CreateExpress = function ({
-  enhance = (app, state) => {},
+  _extend = (app, state) => {},
   makeHtml,
   publicPath,
 }) {
@@ -15,7 +15,7 @@ const createExpress: CreateExpress = function ({
 
   app.use(htmlLogger);
 
-  enhance(app, state);
+  _extend(app, state);
 
   app.use(express.static(publicPath));
   
@@ -86,9 +86,13 @@ export interface WebpackStats {
   [x: string]: boolean;
 }
 
+export interface Extend {
+  (app: express.Application, state: State): any;
+}
+
 interface CreateExpress {
   (arg: {
-    enhance: (app: express.Application, state: State) => any;
+    _extend: Extend;
     makeHtml: MakeHtml;
     publicPath: string;
   }): Server;

@@ -6,6 +6,7 @@ import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
 
 import createExpress, { 
+  Extend,
   MakeHtml,
   Server,
 } from './createExpress';
@@ -20,6 +21,7 @@ const tag = '[localServer]';
 let webpackStats = undefined;
 
 const localServer: LocalServer = function ({
+  extend,
   makeHtml,
   publicPath,
   serverDistPath,
@@ -28,7 +30,7 @@ const localServer: LocalServer = function ({
   webpackStats,
 }) {
   return createExpress({
-    enhance: (app, state) => {
+    _extend: (app, state) => {
       log(
 `${tag}
 serverDistPath: %s
@@ -65,7 +67,7 @@ webpackStats: %o`,
         heartbeat: 2000,
         reload: true,
       });
-
+      
       app.use(devMiddleware);
 
       app.use(hotMiddleware);
@@ -84,6 +86,8 @@ webpackStats: %o`,
         }
         next();
       });
+
+      extend && extend(app, state);
     },
     makeHtml,
     publicPath,
@@ -145,6 +149,7 @@ function setupWatchingWebpackUniversalCompiler({
 
 interface LocalServer {
   (arg: {
+    extend?: Extend;
     makeHtml: MakeHtml;
     publicPath: string;
     serverDistPath: string;

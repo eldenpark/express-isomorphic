@@ -1,4 +1,4 @@
-import { MakeHtml, Server, WebpackStats } from './createExpress';
+import { Extend, MakeHtml, Server, WebpackStats } from './createExpress';
 declare const ExpressIsomorphic: ExpressIsomorphicType;
 declare const defaultWebpackStats: {
     all: boolean;
@@ -17,6 +17,7 @@ interface ExpressIsomorphicType {
 interface Create {
     (arg: {
         bundlePath: string;
+        extend?: Extend;
         ejectPath?: string;
         makeHtml: MakeHtml;
         publicPath: string;
