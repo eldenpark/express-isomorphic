@@ -1,8 +1,9 @@
-import { MakeHtml, Server } from './createExpress';
+import { Extend, MakeHtml, Server } from './createExpress';
 declare const productionServer: ProductionServer;
 interface ProductionServer {
     (arg: {
         bundlePath: string;
+        extend?: Extend;
         makeHtml: MakeHtml;
         publicPath: string;
         universalAppPath: string;

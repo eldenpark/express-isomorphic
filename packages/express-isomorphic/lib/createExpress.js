@@ -17,10 +17,10 @@ const util_1 = __importDefault(require("util"));
 const env_1 = require("./env");
 const log_1 = require("./utils/log");
 const state_1 = __importDefault(require("./state"));
-const createExpress = function ({ enhance = (app, state) => { }, makeHtml, publicPath, }) {
+const createExpress = function ({ _extend = (app, state) => { }, makeHtml, publicPath, }) {
     const app = express_1.default();
     app.use(htmlLogger);
-    enhance(app, state_1.default);
+    _extend(app, state_1.default);
     app.use(express_1.default.static(publicPath));
     app.get("*", (req, res) => __awaiter(this, void 0, void 0, function* () {
         log_1.log('server is last updated at: %o, assets: %s, buildHash: %s', state_1.default.updatedAt, state_1.default.assets, state_1.default.buildHash);

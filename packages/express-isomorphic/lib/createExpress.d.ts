@@ -18,9 +18,12 @@ export interface WebpackStats {
     entrypoints: boolean;
     [x: string]: boolean;
 }
+export interface Extend {
+    (app: express.Application, state: State): any;
+}
 interface CreateExpress {
     (arg: {
-        enhance: (app: express.Application, state: State) => any;
+        _extend: Extend;
         makeHtml: MakeHtml;
         publicPath: string;
     }): Server;

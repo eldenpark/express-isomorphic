@@ -21,9 +21,9 @@ const serverUtils_1 = require("./utils/serverUtils");
 const log_1 = require("./utils/log");
 const tag = '[localServer]';
 let webpackStats = undefined;
-const localServer = function ({ makeHtml, publicPath, serverDistPath, webpackConfigClientLocalPath, webpackConfigUniversalLocalPath, webpackStats, }) {
+const localServer = function ({ extend, makeHtml, publicPath, serverDistPath, webpackConfigClientLocalPath, webpackConfigUniversalLocalPath, webpackStats, }) {
     return createExpress_1.default({
-        enhance: (app, state) => {
+        _extend: (app, state) => {
             log_1.log(`${tag}
 serverDistPath: %s
 webpackConfigClientLocalPath: %s
@@ -57,6 +57,7 @@ webpackStats: %o`, serverDistPath, webpackConfigClientLocalPath, webpackConfigUn
                 }
                 next();
             });
+            extend && extend(app, state);
         },
         makeHtml,
         publicPath,
