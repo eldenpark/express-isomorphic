@@ -18,8 +18,6 @@ import { log } from './utils/log';
 
 const tag = '[localServer]';
 
-let webpackStats = undefined;
-
 const localServer: LocalServer = function ({
   extend,
   makeHtml,

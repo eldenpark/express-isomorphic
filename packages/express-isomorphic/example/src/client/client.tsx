@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 
-import Universal from './Universal';
+import Universal from '../universal/Universal';
 
 (function setBabelPolyfill() {
   if ((typeof window !== 'undefined' && !window['_babelPolyfill']) 

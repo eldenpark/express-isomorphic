@@ -8,7 +8,7 @@ const webpackConfigClientWeb = require('./webpack.config.client.web');
 const config = {
   devtool: 'source-map',
   entry: {
-    rootContainer: path.join(paths.src, 'Universal.tsx'),
+    rootContainer: path.join(paths.src, 'universal/Universal.tsx'),
   },
   externals: [
     nodeExternals({

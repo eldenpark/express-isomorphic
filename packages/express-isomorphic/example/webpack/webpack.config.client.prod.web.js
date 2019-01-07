@@ -6,7 +6,7 @@ const webpackConfigClientWeb  = require('./webpack.config.client.web');
 
 const config = {
   entry: {
-    client: path.resolve(paths.src, 'client.tsx'),
+    client: path.resolve(paths.src, 'client/client.tsx'),
     react: [ 'react', 'react-dom', 'redux', 'react-redux' ],
   },
   mode: 'production',

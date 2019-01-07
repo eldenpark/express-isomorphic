@@ -5,9 +5,9 @@ import {
 } from 'express';
 import http from 'http';
 
-import ExpressIsomorphic from '../lib';
-import * as paths from './paths';
-import makeHtml from './src/makeHtml';
+import ExpressIsomorphic from '../../../lib';
+import * as paths from '../../paths';
+import makeHtml from './makeHtml';
 
 function extend(app, state) {
   console.log('extend()');
