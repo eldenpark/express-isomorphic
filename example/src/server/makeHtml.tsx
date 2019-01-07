@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { renderToString } from 'react-dom/server';
 
-import { attachAssets } from '../../lib';
+import { attachAssets } from '../../../lib';
 
 const makeHtml: MakeHtml = async function ({
   assets,
