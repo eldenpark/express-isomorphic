@@ -11,6 +11,8 @@ const createExpress: CreateExpress = function ({
   makeHtml,
   publicPath,
 }) {
+  log('NODE_ENV: %s', process.env.NODE_ENV);
+
   const app = express();
 
   app.use(htmlLogger);
@@ -67,7 +69,7 @@ function htmlLogger(req, res, next) {
   next();
 }
 
-export interface Server {
+export interface ServerCreation {
   app: express.Application;
   state: State;
 }
@@ -95,5 +97,5 @@ interface CreateExpress {
     _extend: Extend;
     makeHtml: MakeHtml;
     publicPath: string;
-  }): Server;
+  }): ServerCreation;
 }

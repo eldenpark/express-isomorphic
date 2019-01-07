@@ -16,7 +16,6 @@ const webpack = require('webpack');
 
 const babelRc = require('./.babelrc');
 const tsConfig = require('../../tsconfig.json');
-const webpackStats = require('../../lib').webpackStats;
 
 const ROOT_PATH = (function(currentWorkingDirectory) {
   const rootPath = fs.realpathSync(currentWorkingDirectory);
@@ -72,8 +71,16 @@ gulp.task(Task.BUILD_EXAMPLE, (done) => {
       buildLog(Task.BUILD_EXAMPLE, 'error', errorMsg);
       done(new Error(errorMsg));
     } else {
-      const info = stats.toJson(webpackStats);
+      const info = stats.toJson({
+        all: false,
+        assets: true,
+        builtAt: true,
+        chunks: true,
+        color: true,
+        entrypoints: true,
+      });
       buildLog(Task.BUILD_EXAMPLE, 'compilation success:\n%o\n', info);
+      
       fs.writeFileSync(`${paths.distBundle}/build.json`, JSON.stringify(info, null, 2));
       done();
     }

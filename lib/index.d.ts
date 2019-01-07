@@ -1,4 +1,4 @@
-import { Extend, MakeHtml, Server, WebpackStats } from './createExpress';
+import { Extend, MakeHtml, ServerCreation, WebpackStats } from './createExpress';
 declare const ExpressIsomorphic: ExpressIsomorphicType;
 declare const defaultWebpackStats: {
     all: boolean;
@@ -28,8 +28,8 @@ interface Create {
         webpackStats?: WebpackStats;
     }): {
         eject: any;
-        localServer: () => Server;
-        productionServer: () => Server;
+        localServer: () => ServerCreation;
+        server: () => ServerCreation;
     };
 }
 //# sourceMappingURL=index.d.ts.map

@@ -2,7 +2,7 @@ import express from "express";
 import { State } from './state';
 declare const createExpress: CreateExpress;
 export default createExpress;
-export interface Server {
+export interface ServerCreation {
     app: express.Application;
     state: State;
 }
@@ -26,6 +26,6 @@ interface CreateExpress {
         _extend: Extend;
         makeHtml: MakeHtml;
         publicPath: string;
-    }): Server;
+    }): ServerCreation;
 }
 //# sourceMappingURL=createExpress.d.ts.map

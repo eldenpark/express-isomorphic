@@ -3,16 +3,16 @@ import * as fs from 'fs';
 import createExpress, { 
   Extend,
   MakeHtml,
-  Server,
+  ServerCreation,
 } from './createExpress';
 import { 
   parseWebpackBuildInfo,
 } from './utils/serverUtils';
 import { log } from './utils/log';
 
-const tag = 'productionServer';
+const tag = 'server';
 
-const productionServer: ProductionServer = function ({
+const server: Server = function ({
   bundlePath,
   extend,
   makeHtml,
@@ -41,14 +41,14 @@ const productionServer: ProductionServer = function ({
   });
 };
 
-interface ProductionServer {
+interface Server {
   (arg: {
     bundlePath: string;
     extend?: Extend;
     makeHtml: MakeHtml;
     publicPath: string;
     universalAppPath: string;
-  }): Server;
+  }): ServerCreation;
 } 
 
-export default productionServer;
+export default server;

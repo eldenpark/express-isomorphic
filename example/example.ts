@@ -1,3 +1,8 @@
+import {
+  NextFunction,
+  Request,
+  Response,
+} from 'express';
 import http from 'http';
 
 import ExpressIsomorphic from '../lib';
@@ -6,13 +11,14 @@ import makeHtml from './src/makeHtml';
 
 function extend(app, state) {
   console.log('extend()');
-  app.use((req, res, next) => {
+
+  app.use((req: Request, res: Response, next: NextFunction) => {
     console.log('middleware: extend');
     next();
-  })
+  });
 }
 
-const { localServer, productionServer, eject } = ExpressIsomorphic.create({
+const { localServer, server, eject } = ExpressIsomorphic.create({
   bundlePath: paths.distPublicBundle,
   ejectPath: paths.ejectPath,
   extend,
