@@ -1,4 +1,4 @@
-import { Extend, MakeHtml, Server } from './createExpress';
+import { Extend, MakeHtml, ServerCreation } from './createExpress';
 declare const localServer: LocalServer;
 export default localServer;
 interface LocalServer {
@@ -10,6 +10,6 @@ interface LocalServer {
         webpackConfigClientLocalPath: string;
         webpackConfigUniversalLocalPath: string;
         webpackStats: any;
-    }): Server;
+    }): ServerCreation;
 }
 //# sourceMappingURL=localServer.d.ts.map

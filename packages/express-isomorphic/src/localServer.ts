@@ -8,7 +8,7 @@ import webpackHotMiddleware from 'webpack-hot-middleware';
 import createExpress, { 
   Extend,
   MakeHtml,
-  Server,
+  ServerCreation,
 } from './createExpress';
 import { 
   getProperRequireCache,
@@ -156,5 +156,5 @@ interface LocalServer {
     webpackConfigClientLocalPath: string;
     webpackConfigUniversalLocalPath: string;
     webpackStats: any;
-  }): Server;
+  }): ServerCreation;
 }

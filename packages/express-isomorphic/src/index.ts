@@ -1,12 +1,12 @@
-import createLocalServer from './localServer';
-import createProductionServer from './productionServer';
+import _localServer from './localServer';
 import _eject from './eject';
 import { 
   Extend,
   MakeHtml,
-  Server,
+  ServerCreation,
   WebpackStats,
 } from './createExpress';
+import _server from './server';
 
 const create: Create = function ({
   bundlePath,
@@ -28,7 +28,7 @@ const create: Create = function ({
       publicPath,
       universalAppPath,
     }),
-    localServer: () => createLocalServer({
+    localServer: () => _localServer({
       extend,
       makeHtml,
       publicPath,
@@ -37,7 +37,7 @@ const create: Create = function ({
       webpackConfigUniversalLocalPath,
       webpackStats,
     }),
-    productionServer: () => createProductionServer({
+    server: () => _server({
       bundlePath,
       extend,
       makeHtml,
@@ -84,7 +84,7 @@ interface Create {
     webpackStats?: WebpackStats;
   }): {
     eject: any;
-    localServer: () => Server;
-    productionServer: () => Server;
+    localServer: () => ServerCreation;
+    server: () => ServerCreation;
   };
 }

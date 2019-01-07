@@ -18,6 +18,7 @@ const env_1 = require("./env");
 const log_1 = require("./utils/log");
 const state_1 = __importDefault(require("./state"));
 const createExpress = function ({ _extend = (app, state) => { }, makeHtml, publicPath, }) {
+    log_1.log('NODE_ENV: %s', process.env.NODE_ENV);
     const app = express_1.default();
     app.use(htmlLogger);
     _extend(app, state_1.default);
