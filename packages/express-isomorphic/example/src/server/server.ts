@@ -1,9 +1,10 @@
+import http from 'http';
 import {
   NextFunction,
   Request,
   Response,
 } from 'express';
-import http from 'http';
+import path from 'path';
 
 import ExpressIsomorphic from '../../../lib';
 import * as paths from '../../paths';
@@ -19,13 +20,13 @@ function extend(app, state) {
 }
 
 const { localServer, server, eject } = ExpressIsomorphic.create({
-  bundlePath: paths.distPublicBundle,
   ejectPath: paths.ejectPath,
   extend,
   makeHtml,
   publicPath: paths.dist,
   serverDistPath: paths.dist,
   universalAppPath: paths.universalApp,
+  webpackBuildJsonPath: path.resolve(paths.distPublicBundle, 'build.json'),
   webpackConfigClientLocalPath: paths.webpackConfigClientLocalWeb,
   webpackConfigUniversalLocalPath: paths.webpackConfigUniversalLocal,
 });

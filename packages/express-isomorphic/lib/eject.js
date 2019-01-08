@@ -19,11 +19,11 @@ const fs = __importStar(require("fs"));
 const log_1 = require("./utils/log");
 const serverUtils_1 = require("./utils/serverUtils");
 const logTag = 'eject';
-const eject = function ({ bundlePath, ejectPath, makeHtml, publicPath, universalAppPath, }) {
+const eject = function ({ ejectPath, makeHtml, publicPath, universalAppPath, webpackBuildJsonPath, }) {
     return __awaiter(this, arguments, void 0, function* () {
         log_1.log('eject():\n%o', arguments[0]);
         try {
-            const bundleBuildJson = fs.readFileSync(`${bundlePath}/build.json`, 'utf-8');
+            const bundleBuildJson = fs.readFileSync(webpackBuildJsonPath, 'utf-8');
             const buildInfo = JSON.parse(bundleBuildJson);
             log_1.log(`${logTag} enhance(), build.json:\n%o`, buildInfo);
             const { error, assets } = serverUtils_1.parseWebpackBuildInfo(buildInfo);

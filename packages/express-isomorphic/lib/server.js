@@ -15,10 +15,10 @@ const createExpress_1 = __importDefault(require("./createExpress"));
 const serverUtils_1 = require("./utils/serverUtils");
 const log_1 = require("./utils/log");
 const tag = 'server';
-const server = function ({ bundlePath, extend, makeHtml, publicPath, universalAppPath, }) {
+const server = function ({ extend, makeHtml, publicPath, universalAppPath, webpackBuildJsonPath, }) {
     return createExpress_1.default({
         _extend: (app, state) => {
-            const bundleBuildJson = fs.readFileSync(`${bundlePath}/build.json`, 'utf-8');
+            const bundleBuildJson = fs.readFileSync(webpackBuildJsonPath, 'utf-8');
             const buildInfo = JSON.parse(bundleBuildJson);
             log_1.log(`%s enhance(), build.json:\n%o`, tag, buildInfo);
             const { error, assets } = serverUtils_1.parseWebpackBuildInfo(buildInfo);

@@ -9,24 +9,24 @@ import {
 import _server from './server';
 
 const create: Create = function ({
-  bundlePath,
   ejectPath = '',
   extend,
   makeHtml,
   publicPath,
   serverDistPath,
   universalAppPath,
+  webpackBuildJsonPath,
   webpackConfigClientLocalPath,
   webpackConfigUniversalLocalPath,
   webpackStats = defaultWebpackStats,
 }) {
   return {
     eject: () => _eject({
-      bundlePath,
       ejectPath,
       makeHtml,
       publicPath,
       universalAppPath,
+      webpackBuildJsonPath,
     }),
     localServer: () => _localServer({
       extend,
@@ -38,11 +38,11 @@ const create: Create = function ({
       webpackStats,
     }),
     server: () => _server({
-      bundlePath,
       extend,
       makeHtml,
       publicPath,
       universalAppPath,
+      webpackBuildJsonPath,
     }),
   };
 };
@@ -72,13 +72,29 @@ interface ExpressIsomorphicType {
 
 interface Create {
   (arg: {
-    bundlePath: string;
+    /**
+     * Function to use if you want to extend Express application.
+     */
     extend?: Extend;
     ejectPath?: string;
+    /**
+     * On server side rendering, makeHtml() is called to serve static html.
+     */
     makeHtml: MakeHtml;
+    /**
+     * express public path
+     */
     publicPath: string;
     serverDistPath: string;
+    /**
+     * The path to universal app entry. It is dynamically generated with localServer.
+     * If you use server, then it should be predetermined.
+     */
     universalAppPath: string;
+    /**
+     * The path of webpack build object.
+     */
+    webpackBuildJsonPath: string;
     webpackConfigClientLocalPath: string;
     webpackConfigUniversalLocalPath: string;
     webpackStats?: WebpackStats;
