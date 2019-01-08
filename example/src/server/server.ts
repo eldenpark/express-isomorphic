@@ -20,7 +20,6 @@ function extend(app, state) {
 }
 
 const { localServer, server, eject } = ExpressIsomorphic.create({
-  ejectPath: paths.ejectPath,
   extend,
   makeHtml,
   publicPath: paths.dist,
@@ -31,11 +30,13 @@ const { localServer, server, eject } = ExpressIsomorphic.create({
   webpackConfigUniversalLocalPath: paths.webpackConfigUniversalLocal,
 });
 
-const port = 5234
+const port = 5234;
 
-const httpServer = http.createServer(localServer().app);
+const httpServer = http.createServer(server().app);
 httpServer.listen(port, () => {
   console.log(`Listening on ${port}`);
 });
 
-// eject();
+eject({
+  ejectPath: paths.distEject,
+});

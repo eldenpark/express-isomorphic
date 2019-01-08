@@ -1,5 +1,5 @@
 import _localServer from './localServer';
-import _eject from './eject';
+import _eject, { Eject } from './eject';
 import { 
   Extend,
   MakeHtml,
@@ -9,7 +9,6 @@ import {
 import _server from './server';
 
 const create: Create = function ({
-  ejectPath = '',
   extend,
   makeHtml,
   publicPath,
@@ -21,7 +20,9 @@ const create: Create = function ({
   webpackStats = defaultWebpackStats,
 }) {
   return {
-    eject: () => _eject({
+    eject: ({
+      ejectPath,
+    }) => _eject({
       ejectPath,
       makeHtml,
       publicPath,
@@ -76,7 +77,6 @@ interface Create {
      * Function to use if you want to extend Express application.
      */
     extend?: Extend;
-    ejectPath?: string;
     /**
      * On server side rendering, makeHtml() is called to serve static html.
      */
@@ -99,8 +99,17 @@ interface Create {
     webpackConfigUniversalLocalPath: string;
     webpackStats?: WebpackStats;
   }): {
-    eject: any;
+    eject: (arg: {
+      ejectPath: string;
+    }) => void;
+    /**
+     * Express application. localServer has built-in HMR functionality and dynamically
+     * compiles files. This does not use pre-built bundle. It 
+     */
     localServer: () => ServerCreation;
+    /**
+     * Express application. server uses pre-built bundle.
+     */
     server: () => ServerCreation;
   };
 }
