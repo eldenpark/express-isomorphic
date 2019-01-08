@@ -11,16 +11,16 @@ import {
 const logTag = 'eject';
 
 const eject: Eject = async function ({
-  bundlePath,
   ejectPath,
   makeHtml,
   publicPath,
   universalAppPath,
+  webpackBuildJsonPath,
 }) {
   log('eject():\n%o', arguments[0]);
 
   try {
-    const bundleBuildJson = fs.readFileSync(`${bundlePath}/build.json`, 'utf-8');
+    const bundleBuildJson = fs.readFileSync(webpackBuildJsonPath, 'utf-8');
     const buildInfo = JSON.parse(bundleBuildJson);
     log(`${logTag} enhance(), build.json:\n%o`, buildInfo);
 
@@ -43,10 +43,10 @@ export default eject;
 
 interface Eject {
   (args: {
-    bundlePath: string;
     ejectPath: string;
     makeHtml: MakeHtml;
     publicPath: string;
     universalAppPath: string;
+    webpackBuildJsonPath: string;
   }): void;
 }

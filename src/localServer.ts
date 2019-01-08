@@ -144,11 +144,10 @@ function setupWatchingWebpackUniversalCompiler({
         new Date(), 
         info
       );
-      // fs.writeFileSync(`${paths.distServer}/build.json`, JSON.stringify(info, null, 2));
       
       delete require.cache[state.universalAppPath];
       log(
-        '%s [watch] require cache after deleting universalAppPath (%s):\n%o',
+        '%s [watch] require cache after deleting universalAppPath (at %s):\n%o',
         tag,
         state.universalAppPath,
         getProperRequireCache(),

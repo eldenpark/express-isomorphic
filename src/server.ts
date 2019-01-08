@@ -14,15 +14,15 @@ import { log } from './utils/log';
 const tag = 'server';
 
 const server: Server = function ({
-  bundlePath,
   extend,
   makeHtml,
   publicPath,
   universalAppPath,
+  webpackBuildJsonPath,
 }) {
   return createExpress({
     _extend: (app, state) => {
-      const bundleBuildJson = fs.readFileSync(`${bundlePath}/build.json`, 'utf-8');
+      const bundleBuildJson = fs.readFileSync(webpackBuildJsonPath, 'utf-8');
       const buildInfo = JSON.parse(bundleBuildJson);
       log(`%s enhance(), build.json:\n%o`, tag, buildInfo);
   
@@ -49,11 +49,11 @@ const server: Server = function ({
 
 interface Server {
   (arg: {
-    bundlePath: string;
     extend?: Extend;
     makeHtml: MakeHtml;
     publicPath: string;
     universalAppPath: string;
+    webpackBuildJsonPath: string;
   }): ServerCreation;
 } 
 

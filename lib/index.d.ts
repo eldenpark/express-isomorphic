@@ -16,13 +16,29 @@ interface ExpressIsomorphicType {
 }
 interface Create {
     (arg: {
-        bundlePath: string;
+        /**
+         * Function to use if you want to extend Express application.
+         */
         extend?: Extend;
         ejectPath?: string;
+        /**
+         * On server side rendering, makeHtml() is called to serve static html.
+         */
         makeHtml: MakeHtml;
+        /**
+         * express public path
+         */
         publicPath: string;
         serverDistPath: string;
+        /**
+         * The path to universal app entry. It is dynamically generated with localServer.
+         * If you use server, then it should be predetermined.
+         */
         universalAppPath: string;
+        /**
+         * The path of webpack build object.
+         */
+        webpackBuildJsonPath: string;
         webpackConfigClientLocalPath: string;
         webpackConfigUniversalLocalPath: string;
         webpackStats?: WebpackStats;
