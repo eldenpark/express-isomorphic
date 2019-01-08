@@ -5,6 +5,7 @@ import createExpress, {
   MakeHtml,
   ServerCreation,
 } from './createExpress';
+import ErrorType from './ErrorType';
 import { 
   parseWebpackBuildInfo,
 } from './utils/serverUtils';
@@ -23,13 +24,18 @@ const server: Server = function ({
     _extend: (app, state) => {
       const bundleBuildJson = fs.readFileSync(`${bundlePath}/build.json`, 'utf-8');
       const buildInfo = JSON.parse(bundleBuildJson);
-      log(`${tag} enhance(), build.json:\n%o`, buildInfo);
+      log(`%s enhance(), build.json:\n%o`, tag, buildInfo);
   
       const { error, assets } = parseWebpackBuildInfo(buildInfo);
           
       state.update({
         assets,
-        ...error && { error },
+        ...error && { 
+          error: {
+            type: ErrorType.BUILD_ERROR,
+            errorObj: error,
+          },
+        },
         isLaunched: true,
         universalAppPath,
       });
