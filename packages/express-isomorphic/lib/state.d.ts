@@ -1,7 +1,8 @@
+import ErrorType from './ErrorType';
 export declare class State {
     assets: string[] | undefined;
     buildHash: number | undefined;
-    error: string | undefined;
+    error?: Error;
     isLaunched: boolean;
     universalAppPath: string | undefined;
     updatedAt: Date | undefined;
@@ -9,4 +10,8 @@ export declare class State {
 }
 declare const _default: State;
 export default _default;
+interface Error {
+    type: ErrorType;
+    errorObj: any;
+}
 //# sourceMappingURL=state.d.ts.map

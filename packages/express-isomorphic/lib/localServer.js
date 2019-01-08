@@ -20,15 +20,10 @@ const createExpress_1 = __importDefault(require("./createExpress"));
 const serverUtils_1 = require("./utils/serverUtils");
 const log_1 = require("./utils/log");
 const tag = '[localServer]';
-let webpackStats = undefined;
 const localServer = function ({ extend, makeHtml, publicPath, serverDistPath, webpackConfigClientLocalPath, webpackConfigUniversalLocalPath, webpackStats, }) {
     return createExpress_1.default({
         _extend: (app, state) => {
-            log_1.log(`${tag}
-serverDistPath: %s
-webpackConfigClientLocalPath: %s
-webpackConfigUniversalLocal: %s
-webpackStats: %o`, serverDistPath, webpackConfigClientLocalPath, webpackConfigUniversalLocalPath, webpackStats);
+            log_1.log('%s serverDistPath: %s webpackConfigClientLocalPath: %s webpackConfigUniversalLocal: %s webpackStats: %o', tag, serverDistPath, webpackConfigClientLocalPath, webpackConfigUniversalLocalPath, webpackStats);
             setupWatchingWebpackUniversalCompiler({
                 serverDistPath,
                 state,
@@ -36,7 +31,7 @@ webpackStats: %o`, serverDistPath, webpackConfigClientLocalPath, webpackConfigUn
                 webpackStats,
             });
             const webpackConfigClientLocalWeb = require(webpackConfigClientLocalPath);
-            log_1.log(`${tag} webpack-client-local will be compiled with config:\n%o`, webpackConfigClientLocalWeb);
+            log_1.log('%s webpack-client-local will be compiled with config:\n%o', tag, webpackConfigClientLocalWeb);
             const clientWebpackCompiler = webpack_1.default(webpackConfigClientLocalWeb);
             const devMiddleware = webpack_dev_middleware_1.default(clientWebpackCompiler, {
                 publicPath: webpackConfigClientLocalWeb.output.publicPath,
@@ -53,7 +48,12 @@ webpackStats: %o`, serverDistPath, webpackConfigClientLocalPath, webpackConfigUn
                 if (state.buildHash !== res.locals.webpackStats.hash) {
                     const info = res.locals.webpackStats.toJson(webpackStats);
                     const { error, assets } = serverUtils_1.parseWebpackBuildInfo(info);
-                    state.update(Object.assign({ assets, buildHash: res.locals.webpackStats.hash }, error && { error }, { isLaunched: true }));
+                    state.update(Object.assign({ assets, buildHash: res.locals.webpackStats.hash }, error && {
+                        error: {
+                            type: "WATCH_UNIVERSAL_ERROR" /* WATCH_UNIVERSAL_ERROR */,
+                            errorObj: error,
+                        },
+                    }, { isLaunched: true }));
                 }
                 next();
             });
@@ -69,7 +69,7 @@ function setupWatchingWebpackUniversalCompiler({ serverDistPath, state, webpackC
     del_1.default.sync([
         serverDistPath,
     ]);
-    log_1.log(`${tag} [watch] webpack-universal-local will be compiled with config:\n%o`, webpackConfig);
+    log_1.log('%s [watch] webpack-universal-local will be compiled with config:\n%o', tag, webpackConfig);
     const serverWebpackCompiler = webpack_1.default(webpackConfig);
     const watchOptions = {
         aggregateTimeout: 2000,
@@ -78,17 +78,20 @@ function setupWatchingWebpackUniversalCompiler({ serverDistPath, state, webpackC
     serverWebpackCompiler.watch(watchOptions, (err, stats) => {
         if (err || stats.hasErrors()) {
             const error = stats.toString('errors-only');
-            log_1.log(`${tag} [watch] [error] webpack-universal-local watch() ${chalk_1.default.red('fails')}:\n%s`, error);
+            log_1.log(`%s [watch] [error] webpack-universal-local watch() ${chalk_1.default.red('fails')}:\n%s`, tag, error);
             state.update({
-                error,
+                error: {
+                    type: "WATCH_UNIVERSAL_ERROR" /* WATCH_UNIVERSAL_ERROR */,
+                    errorObj: error,
+                },
             });
         }
         else {
             const info = stats.toJson(webpackStats);
-            log_1.log(`${tag} [watch] webpack-universal-local watch() ${chalk_1.default.green('success')}: at: %s,\n%o`, new Date(), info);
+            log_1.log(`%s [watch] webpack-universal-local watch() ${chalk_1.default.green('success')}: at: %s,\n%o`, tag, new Date(), info);
             // fs.writeFileSync(`${paths.distServer}/build.json`, JSON.stringify(info, null, 2));
             delete require.cache[state.universalAppPath];
-            log_1.log(`${tag} [watch] require cache after deleting universalAppPath (%s):\n%o`, state.universalAppPath, serverUtils_1.getProperRequireCache());
+            log_1.log('%s [watch] require cache after deleting universalAppPath (%s):\n%o', tag, state.universalAppPath, serverUtils_1.getProperRequireCache());
             const universalAppPath = path.resolve(serverDistPath, 'universal.local.rootContainer.js');
             state.update({
                 error: undefined,

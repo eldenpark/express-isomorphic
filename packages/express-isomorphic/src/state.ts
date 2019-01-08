@@ -1,11 +1,12 @@
 import chalk from 'chalk';
 
+import ErrorType from './ErrorType';
 import { log } from './utils/log';
 
 export class State {
   assets: string[] | undefined = undefined;
   buildHash: number | undefined = undefined;
-  error: string | undefined = undefined;
+  error?: Error = undefined;
   isLaunched: boolean = false;
   universalAppPath: string | undefined = undefined;
   updatedAt: Date | undefined = undefined;
@@ -24,3 +25,8 @@ export class State {
 }
 
 export default new State();
+
+interface Error {
+  type: ErrorType;
+  errorObj: any;
+}
