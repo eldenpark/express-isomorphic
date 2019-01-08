@@ -1,4 +1,7 @@
+import chalk from 'chalk';
 import * as fs from 'fs';
+import mkdirp from 'mkdirp';
+import path from 'path';
 
 import createExpress, { 
   MakeHtml,
@@ -8,7 +11,7 @@ import {
   parseWebpackBuildInfo,
 } from './utils/serverUtils';
 
-const logTag = 'eject';
+const tag = 'eject';
 
 const eject: Eject = async function ({
   ejectPath,
@@ -19,10 +22,16 @@ const eject: Eject = async function ({
 }) {
   log('eject():\n%o', arguments[0]);
 
+  if (!ejectPath) {
+    throw new Error('eject() cannot operate without valid ejectPath');
+  }
+  
+  mkdirp.sync(ejectPath);
+
   try {
     const bundleBuildJson = fs.readFileSync(webpackBuildJsonPath, 'utf-8');
     const buildInfo = JSON.parse(bundleBuildJson);
-    log(`${logTag} enhance(), build.json:\n%o`, buildInfo);
+    log('%s, build.json:\n%o', tag, buildInfo);
 
     const { error, assets } = parseWebpackBuildInfo(buildInfo);
 
@@ -32,16 +41,17 @@ const eject: Eject = async function ({
       universalAppPath,
     });
 
-    fs.writeFileSync(ejectPath, html);
-    
+    fs.writeFileSync(path.resolve(ejectPath, 'power.html'), html);
+    log(`eject ${chalk.green('success')}`);
+
   } catch (err) {
-    log(`${logTag} error while eject()`);
+    log('%s error: %o', tag, err);
   }
 };
 
 export default eject;
 
-interface Eject {
+export interface Eject {
   (args: {
     ejectPath: string;
     makeHtml: MakeHtml;

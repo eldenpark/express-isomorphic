@@ -1,7 +1,7 @@
 import { MakeHtml } from './createExpress';
 declare const eject: Eject;
 export default eject;
-interface Eject {
+export interface Eject {
     (args: {
         ejectPath: string;
         makeHtml: MakeHtml;

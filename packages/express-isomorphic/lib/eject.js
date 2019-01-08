@@ -7,6 +7,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 var __importStar = (this && this.__importStar) || function (mod) {
     if (mod && mod.__esModule) return mod;
     var result = {};
@@ -15,27 +18,35 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const chalk_1 = __importDefault(require("chalk"));
 const fs = __importStar(require("fs"));
+const mkdirp_1 = __importDefault(require("mkdirp"));
+const path_1 = __importDefault(require("path"));
 const log_1 = require("./utils/log");
 const serverUtils_1 = require("./utils/serverUtils");
-const logTag = 'eject';
+const tag = 'eject';
 const eject = function ({ ejectPath, makeHtml, publicPath, universalAppPath, webpackBuildJsonPath, }) {
     return __awaiter(this, arguments, void 0, function* () {
         log_1.log('eject():\n%o', arguments[0]);
+        if (!ejectPath) {
+            throw new Error('eject() cannot operate without valid ejectPath');
+        }
+        mkdirp_1.default.sync(ejectPath);
         try {
             const bundleBuildJson = fs.readFileSync(webpackBuildJsonPath, 'utf-8');
             const buildInfo = JSON.parse(bundleBuildJson);
-            log_1.log(`${logTag} enhance(), build.json:\n%o`, buildInfo);
+            log_1.log('%s, build.json:\n%o', tag, buildInfo);
             const { error, assets } = serverUtils_1.parseWebpackBuildInfo(buildInfo);
             const html = yield makeHtml({
                 assets,
                 requestUrl: '/',
                 universalAppPath,
             });
-            fs.writeFileSync(ejectPath, html);
+            fs.writeFileSync(path_1.default.resolve(ejectPath, 'power.html'), html);
+            log_1.log(`eject ${chalk_1.default.green('success')}`);
         }
         catch (err) {
-            log_1.log(`${logTag} error while eject()`);
+            log_1.log('%s error: %o', tag, err);
         }
     });
 };

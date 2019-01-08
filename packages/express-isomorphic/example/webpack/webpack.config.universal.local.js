@@ -19,14 +19,11 @@ const config = {
   node: {
     __dirname: false,
   },
-  optimization: {
-    minimize: false,
-  },
   output: {
     filename: 'universal.local.[name].js',
     library: '',
     libraryTarget: 'commonjs',
-    path: paths.dist,
+    path: paths.distUniversal,
     publicPath: '/',
   },
   stats: {
