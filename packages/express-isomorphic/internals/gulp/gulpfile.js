@@ -3,7 +3,6 @@
   console.info('Current working directory %s', process.cwd());
 })();
 
-const babel = require('gulp-babel');
 const chalk = require('chalk');
 const del = require('del');
 const fs = require('fs');
@@ -13,8 +12,8 @@ const sourcemaps = require('gulp-sourcemaps');
 const ts = require('gulp-typescript');
 const util = require('util');
 const webpack = require('webpack');
+const webpackBuilder = require('@nodekit/webpack-builder').default;
 
-const babelRc = require('./.babelrc');
 const tsConfig = require('../../tsconfig.json');
 
 const ROOT_PATH = (function(currentWorkingDirectory) {
@@ -31,9 +30,11 @@ Did you call process.chdir() properly?`);
 
 const paths = {
   distBundle: path.resolve(ROOT_PATH, 'example/dist/bundle'),
+  distUniversal: path.resolve(ROOT_PATH, 'example/dist/universal'),
   lib: path.resolve(ROOT_PATH, 'lib'),
   src: path.resolve(ROOT_PATH, 'src'),
   webpackConfigClientProdWeb: path.resolve(ROOT_PATH, 'example/webpack/webpack.config.client.prod.web'),
+  webpackConfigUniversalProdWeb: path.resolve(ROOT_PATH, 'example/webpack/webpack.config.universal.prod'),
 };
 
 const buildLog = (tag, ...args) => {
@@ -49,41 +50,18 @@ const Task = {
 };
 
 gulp.task(Task.BUILD_EXAMPLE, (done) => {
-  let webpackConfig = undefined;
-  try {
-    webpackConfig = require(paths.webpackConfigClientProdWeb);
-  } catch (err) {
-    buildLog(Task.BUILD_EXAMPLE, 'error, webpack config is not found');
-    done(new Error(err));
-  }
-  const compiler = webpack(webpackConfig);
+  webpackBuilder({
+    callback: () => {},
+    webpack,
+    webpackBuildPath: paths.distBundle,
+    webpackConfigPath: paths.webpackConfigClientProdWeb,
+  });
 
-  compiler.run((err, stats) => {
-    buildLog(
-      Task.BUILD_EXAMPLE,
-      'NODE_ENV: %s, webpack configuration: %o',
-      process.env.NODE_ENV,
-      webpackConfig,
-    );
-
-    if (err || stats.hasErrors()) {
-      const errorMsg = stats.toString('errors-only');
-      buildLog(Task.BUILD_EXAMPLE, 'error', errorMsg);
-      done(new Error(errorMsg));
-    } else {
-      const info = stats.toJson({
-        all: false,
-        assets: true,
-        builtAt: true,
-        chunks: true,
-        color: true,
-        entrypoints: true,
-      });
-      buildLog(Task.BUILD_EXAMPLE, 'compilation success:\n%o\n', info);
-      
-      fs.writeFileSync(`${paths.distBundle}/build.json`, JSON.stringify(info, null, 2));
-      done();
-    }
+  webpackBuilder({
+    callback: () => done(),
+    webpack,
+    webpackBuildPath: paths.distUniversal,
+    webpackConfigPath: paths.webpackConfigUniversalProdWeb,
   });
 });
 

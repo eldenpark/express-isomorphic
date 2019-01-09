@@ -20,7 +20,7 @@ const config = {
     __dirname: false,
   },
   output: {
-    filename: 'universal.local.[name].js',
+    filename: 'universal.[name].js',
     library: '',
     libraryTarget: 'commonjs',
     path: paths.distUniversal,
