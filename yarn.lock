@@ -814,6 +814,10 @@
     normalize-path "^2.0.1"
     through2 "^2.0.3"
 
+"@nodekit/webpack-builder@git+https://github.com/nodekit-org/webpack-builder.git":
+  version "0.0.1"
+  resolved "git+https://github.com/nodekit-org/webpack-builder.git#943f579c240204dab19c91f73bd20f091bb58be2"
+
 "@types/body-parser@*":
   version "1.17.0"
   resolved "https://registry.yarnpkg.com/@types/body-parser/-/body-parser-1.17.0.tgz#9f5c9d9bd04bb54be32d5eb9fc0d8c974e6cf58c"

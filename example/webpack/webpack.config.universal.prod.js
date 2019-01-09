@@ -23,7 +23,7 @@ const config = {
     minimize: false,
   },
   output: {
-    filename: 'universal.prod.[name].js',
+    filename: 'universal.[name].js',
     library: '',
     libraryTarget: 'commonjs',
     path: paths.distUniversal,

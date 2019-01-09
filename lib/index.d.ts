@@ -51,7 +51,7 @@ interface Create {
          */
         localServer: () => ServerCreation;
         /**
-         * Epxress application. server uses pre-built bundle.
+         * Express application. server uses pre-built bundle.
          */
         server: () => ServerCreation;
     };
