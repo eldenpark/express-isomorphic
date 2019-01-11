@@ -3,11 +3,10 @@ declare const eject: Eject;
 export default eject;
 export interface Eject {
     (args: {
+        assets?: string[];
         ejectPath: string;
         makeHtml: MakeHtml;
-        publicPath: string;
         universalAppPath: string;
-        webpackBuildJsonPath: string;
     }): void;
 }
 //# sourceMappingURL=eject.d.ts.map

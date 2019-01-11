@@ -10,6 +10,7 @@ import createExpress, {
   MakeHtml,
   ServerCreation,
 } from './createExpress';
+import eject, { Eject } from './eject';
 import ErrorType from './ErrorType';
 import { 
   getProperRequireCache,
@@ -20,10 +21,12 @@ import { log } from './utils/log';
 const tag = '[localServer]';
 
 const localServer: LocalServer = function ({
+  ejectPath,
   extend,
   makeHtml,
   publicPath,
   serverDistPath,
+  universalAppPath,
   webpackConfigClientLocalPath,
   webpackConfigUniversalLocalPath,
   webpackStats,
@@ -44,6 +47,13 @@ const localServer: LocalServer = function ({
         state,
         webpackConfigUniversalLocalPath,
         webpackStats,
+      }).then(() => {
+        ejectPath && eject({
+          assets: state.assets,
+          ejectPath,
+          makeHtml,
+          universalAppPath,
+        });
       });
 
       const webpackConfigClientLocalWeb = require(webpackConfigClientLocalPath);
@@ -79,8 +89,8 @@ const localServer: LocalServer = function ({
             buildHash: res.locals.webpackStats.hash,
             ...error && { 
               error: {
-                type: ErrorType.WATCH_UNIVERSAL_ERROR,
                 errorObj: error,
+                type: ErrorType.WATCH_UNIVERSAL_ERROR,
               },
             },
             isLaunched: true,
@@ -121,53 +131,57 @@ function setupWatchingWebpackUniversalCompiler({
     poll: undefined,
   };
 
-  serverWebpackCompiler.watch(watchOptions, (err, stats) => {
-    if (err || stats.hasErrors()) {
-      const error = stats.toString('errors-only');
-      log(
-        `%s [watch] [error] webpack-universal-local watch() ${chalk.red('fails')}:\n%s`,
-        tag,
-        error
-      );
-
-      state.update({
-        error: {
-          type: ErrorType.WATCH_UNIVERSAL_ERROR,
-          errorObj: error,
-        },
-      });
-    } else {
-      const info = stats.toJson(webpackStats);
-      log(
-        `%s [watch] webpack-universal-local watch() ${chalk.green('success')}: at: %s,\n%o`,
-        tag,
-        new Date(), 
-        info
-      );
-      
-      delete require.cache[state.universalAppPath];
-      log(
-        '%s [watch] require cache after deleting universalAppPath (at %s):\n%o',
-        tag,
-        state.universalAppPath,
-        getProperRequireCache(),
-      );
-      
-      const universalAppPath = path.resolve(serverDistPath, 'universal.local.rootContainer.js');
-      state.update({
-        error: undefined,
-        universalAppPath,
-      });
-    }
+  return new Promise((resolve, reject) => {
+    serverWebpackCompiler.watch(watchOptions, (err, stats) => {
+      if (err || stats.hasErrors()) {
+        const error = stats.toString('errors-only');
+        log(
+          `%s [watch] [error] webpack-universal-local watch() ${chalk.red('fails')}:\n%s`,
+          tag,
+          error
+        );
+  
+        state.update({
+          error: {
+            type: ErrorType.WATCH_UNIVERSAL_ERROR,
+            errorObj: error,
+          },
+        });
+        reject(error);
+      } else {
+        const info = stats.toJson(webpackStats);
+        log(
+          `%s [watch] webpack-universal-local watch() ${chalk.green('success')}: at: %s,\n%o`,
+          tag,
+          new Date(), 
+          info
+        );
+        
+        delete require.cache[state.universalAppPath];
+        log(
+          '%s [watch] require cache after deleting universalAppPath (at %s):\n%o',
+          tag,
+          state.universalAppPath,
+          getProperRequireCache(),
+        );
+        
+        state.update({
+          error: undefined,
+        });
+        resolve();
+      }
+    });
   });
 }
 
 interface LocalServer {
   (arg: {
+    ejectPath?: string;
     extend?: Extend;
     makeHtml: MakeHtml;
     publicPath: string;
     serverDistPath: string;
+    universalAppPath: string;
     webpackConfigClientLocalPath: string;
     webpackConfigUniversalLocalPath: string;
     webpackStats: any;

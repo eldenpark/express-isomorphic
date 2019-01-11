@@ -4,22 +4,26 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const localServer_1 = __importDefault(require("./localServer"));
-const eject_1 = __importDefault(require("./eject"));
 const server_1 = __importDefault(require("./server"));
 const create = function ({ extend, makeHtml, publicPath, serverDistPath, universalAppPath, webpackBuildJsonPath, webpackConfigClientLocalPath, webpackConfigUniversalLocalPath, webpackStats = defaultWebpackStats, }) {
     return {
-        eject: ({ ejectPath, }) => eject_1.default({
+        eject: ({ ejectPath, }) => localServer_1.default({
             ejectPath,
+            extend,
             makeHtml,
             publicPath,
+            serverDistPath,
             universalAppPath,
-            webpackBuildJsonPath,
+            webpackConfigClientLocalPath,
+            webpackConfigUniversalLocalPath,
+            webpackStats,
         }),
         localServer: () => localServer_1.default({
             extend,
             makeHtml,
             publicPath,
             serverDistPath,
+            universalAppPath,
             webpackConfigClientLocalPath,
             webpackConfigUniversalLocalPath,
             webpackStats,

@@ -58,15 +58,15 @@ export function attachAssets(assets: string[] = []): string {
     .join('');
 }
 
+export interface WebpackBuildInfo {
+  chunks: any[];
+  entrypoints: any;
+  errors: string[];
+}
+
 interface ParseWebpackBuildInfo {
   (buildInfo: WebpackBuildInfo): {
     assets: string[];
     error?: string;
   };
-}
-
-interface WebpackBuildInfo {
-  chunks: any[];
-  entrypoints: any;
-  errors: string[];
 }

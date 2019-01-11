@@ -1,5 +1,5 @@
 import _localServer from './localServer';
-import _eject, { Eject } from './eject';
+// import _eject, { Eject } from './eject';
 import { 
   Extend,
   MakeHtml,
@@ -22,18 +22,23 @@ const create: Create = function ({
   return {
     eject: ({
       ejectPath,
-    }) => _eject({
+    }) => _localServer({
       ejectPath,
+      extend,
       makeHtml,
       publicPath,
+      serverDistPath,
       universalAppPath,
-      webpackBuildJsonPath,
+      webpackConfigClientLocalPath,
+      webpackConfigUniversalLocalPath,
+      webpackStats,
     }),
     localServer: () => _localServer({
       extend,
       makeHtml,
       publicPath,
       serverDistPath,
+      universalAppPath,
       webpackConfigClientLocalPath,
       webpackConfigUniversalLocalPath,
       webpackStats,

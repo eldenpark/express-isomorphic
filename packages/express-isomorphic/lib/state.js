@@ -7,7 +7,6 @@ const chalk_1 = __importDefault(require("chalk"));
 const log_1 = require("./utils/log");
 class State {
     constructor() {
-        this.assets = undefined;
         this.buildHash = undefined;
         this.error = undefined;
         this.isLaunched = false;

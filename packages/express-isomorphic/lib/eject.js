@@ -23,31 +23,28 @@ const fs = __importStar(require("fs"));
 const mkdirp_1 = __importDefault(require("mkdirp"));
 const path_1 = __importDefault(require("path"));
 const log_1 = require("./utils/log");
-const serverUtils_1 = require("./utils/serverUtils");
 const tag = 'eject';
-const eject = function ({ ejectPath, makeHtml, publicPath, universalAppPath, webpackBuildJsonPath, }) {
+const eject = function ({ assets, ejectPath, makeHtml, universalAppPath, }) {
     return __awaiter(this, arguments, void 0, function* () {
         log_1.log('eject():\n%o', arguments[0]);
         if (!ejectPath) {
             throw new Error('eject() cannot operate without valid ejectPath');
         }
         mkdirp_1.default.sync(ejectPath);
+        log_1.log('%s, assets:\n%o', tag, assets);
+        const html = yield makeHtml({
+            assets,
+            requestUrl: '/',
+            universalAppPath,
+        });
         try {
-            const bundleBuildJson = fs.readFileSync(webpackBuildJsonPath, 'utf-8');
-            const buildInfo = JSON.parse(bundleBuildJson);
-            log_1.log('%s, build.json:\n%o', tag, buildInfo);
-            const { error, assets } = serverUtils_1.parseWebpackBuildInfo(buildInfo);
-            const html = yield makeHtml({
-                assets,
-                requestUrl: '/',
-                universalAppPath,
-            });
             fs.writeFileSync(path_1.default.resolve(ejectPath, 'power.html'), html);
             log_1.log(`eject ${chalk_1.default.green('success')}`);
         }
         catch (err) {
             log_1.log('%s error: %o', tag, err);
         }
+        process.exit(0);
     });
 };
 exports.default = eject;
