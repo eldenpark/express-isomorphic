@@ -1,6 +1,6 @@
 import ErrorType from './ErrorType';
 export declare class State {
-    assets: string[] | undefined;
+    assets?: string[];
     buildHash: number | undefined;
     error?: Error;
     isLaunched: boolean;

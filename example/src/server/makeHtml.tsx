@@ -29,7 +29,7 @@ const makeHtml: MakeHtml = async function ({
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,height=device-height,initial-scale=1">
-  <title>ECommerce-web</title>
+  <title>express-isomorphic-example</title>
 </head>
 <body>
   <div id="app-root">${appRootInString}</div>

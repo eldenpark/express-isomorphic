@@ -3,22 +3,18 @@ import * as fs from 'fs';
 import mkdirp from 'mkdirp';
 import path from 'path';
 
-import createExpress, { 
+import { 
   MakeHtml,
 } from './createExpress';
 import { log } from './utils/log';
-import { 
-  parseWebpackBuildInfo,
-} from './utils/serverUtils';
 
 const tag = 'eject';
 
 const eject: Eject = async function ({
+  assets,
   ejectPath,
   makeHtml,
-  publicPath,
   universalAppPath,
-  webpackBuildJsonPath,
 }) {
   log('eject():\n%o', arguments[0]);
 
@@ -28,35 +24,31 @@ const eject: Eject = async function ({
   
   mkdirp.sync(ejectPath);
 
+  log('%s, assets:\n%o', tag, assets);
+
+  const html = await makeHtml({
+    assets,
+    requestUrl: '/',
+    universalAppPath,
+  });
+
   try {
-    const bundleBuildJson = fs.readFileSync(webpackBuildJsonPath, 'utf-8');
-    const buildInfo = JSON.parse(bundleBuildJson);
-    log('%s, build.json:\n%o', tag, buildInfo);
-
-    const { error, assets } = parseWebpackBuildInfo(buildInfo);
-
-    const html = await makeHtml({
-      assets,
-      requestUrl: '/',
-      universalAppPath,
-    });
-
     fs.writeFileSync(path.resolve(ejectPath, 'power.html'), html);
     log(`eject ${chalk.green('success')}`);
-
   } catch (err) {
     log('%s error: %o', tag, err);
   }
+
+  process.exit(0);
 };
 
 export default eject;
 
 export interface Eject {
   (args: {
+    assets?: string[];
     ejectPath: string;
     makeHtml: MakeHtml;
-    publicPath: string;
     universalAppPath: string;
-    webpackBuildJsonPath: string;
   }): void;
 }
