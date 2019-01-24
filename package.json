@@ -1,5 +1,5 @@
 {
-  "name": "express-isomorphic",
+  "name": "@nodekit/express-isomorphic",
   "version": "0.0.9",
   "description": "",
   "main": "lib/index.js",
