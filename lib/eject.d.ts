@@ -1,4 +1,5 @@
 import { MakeHtml } from './createExpress';
+import { State } from './state';
 declare const eject: Eject;
 export default eject;
 export interface Eject {
@@ -6,7 +7,7 @@ export interface Eject {
         assets?: string[];
         ejectPath: string;
         makeHtml: MakeHtml;
-        universalAppPath: string;
+        state: State;
     }): void;
 }
 //# sourceMappingURL=eject.d.ts.map

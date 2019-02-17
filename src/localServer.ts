@@ -42,6 +42,10 @@ const localServer: LocalServer = function ({
         webpackStats,
       );
 
+      state.update({
+        universalAppPath,
+      });
+
       setupWatchingWebpackUniversalCompiler({
         serverDistPath,
         state,
@@ -52,7 +56,7 @@ const localServer: LocalServer = function ({
           assets: state.assets,
           ejectPath,
           makeHtml,
-          universalAppPath,
+          state,
         });
       });
 
