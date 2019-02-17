@@ -27,7 +27,7 @@ const server: Server = function ({
       log(`%s enhance(), build.json:\n%o`, tag, buildInfo);
   
       const { error, assets } = parseWebpackBuildInfo(buildInfo);
-          
+
       state.update({
         assets,
         ...error && { 

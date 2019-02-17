@@ -22,6 +22,7 @@ const makeHtml: MakeHtml = async function ({
 
   const appRootInString = renderToString(appRoot);
   console.log('[make-html] app in string: %s', appRootInString);
+  console.log('[make-html] assets: %s', assets);
 
   return `
 <!DOCTYPE html>

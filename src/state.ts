@@ -4,7 +4,7 @@ import ErrorType from './ErrorType';
 import { log } from './utils/log';
 
 export class State {
-  assets?: string[];
+  assets?: string[] = [];
   buildHash: number | undefined = undefined;
   error?: Error = undefined;
   isLaunched: boolean = false;
