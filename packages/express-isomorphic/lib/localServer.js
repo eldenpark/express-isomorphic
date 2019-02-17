@@ -17,6 +17,9 @@ const localServer = function ({ ejectPath, extend, makeHtml, publicPath, serverD
     return createExpress_1.default({
         _extend: (app, state) => {
             log_1.log('%s serverDistPath: %s webpackConfigClientLocalPath: %s webpackConfigUniversalLocal: %s webpackStats: %o', tag, serverDistPath, webpackConfigClientLocalPath, webpackConfigUniversalLocalPath, webpackStats);
+            state.update({
+                universalAppPath,
+            });
             setupWatchingWebpackUniversalCompiler({
                 serverDistPath,
                 state,
@@ -27,7 +30,7 @@ const localServer = function ({ ejectPath, extend, makeHtml, publicPath, serverD
                     assets: state.assets,
                     ejectPath,
                     makeHtml,
-                    universalAppPath,
+                    state,
                 });
             });
             const webpackConfigClientLocalWeb = require(webpackConfigClientLocalPath);

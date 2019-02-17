@@ -7,6 +7,7 @@ import {
   MakeHtml,
 } from './createExpress';
 import { log } from './utils/log';
+import { State } from './state';
 
 const tag = 'eject';
 
@@ -14,7 +15,7 @@ const eject: Eject = async function ({
   assets,
   ejectPath,
   makeHtml,
-  universalAppPath,
+  state,
 }) {
   log('eject():\n%o', arguments[0]);
 
@@ -29,7 +30,7 @@ const eject: Eject = async function ({
   const html = await makeHtml({
     assets,
     requestUrl: '/',
-    universalAppPath,
+    universalAppPath: state.universalAppPath,
   });
 
   try {
@@ -49,6 +50,6 @@ export interface Eject {
     assets?: string[];
     ejectPath: string;
     makeHtml: MakeHtml;
-    universalAppPath: string;
+    state: State;
   }): void;
 }
