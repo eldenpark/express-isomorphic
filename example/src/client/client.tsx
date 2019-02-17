@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 
-import Universal from '../universal/Universal';
+import ClientApp from './ClientApp';
 
 (function setBabelPolyfill() {
   if ((typeof window !== 'undefined' && !window['_babelPolyfill']) 
@@ -16,6 +16,6 @@ console.info('[client] Running in NODE_ENV: %s', process.env.NODE_ENV);
 const appRoot = document.getElementById('app-root');
 
 ReactDOM.hydrate(
-  <Universal />,
+  <ClientApp />,
   appRoot,
 );

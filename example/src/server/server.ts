@@ -24,13 +24,13 @@ const { localServer, server, eject } = ExpressIsomorphic.create({
   makeHtml,
   publicPath: paths.dist,
   serverDistPath: paths.dist,
-  universalAppPath: paths.universalApp,
+  universalAppPath: path.resolve(paths.distUniversal, 'universal.rootContainer.js'),
   webpackBuildJsonPath: path.resolve(paths.distPublicBundle, 'build.json'),
   webpackConfigClientLocalPath: paths.webpackConfigClientLocalWeb,
   webpackConfigUniversalLocalPath: paths.webpackConfigUniversalLocal,
 });
 
-const port = 5234;
+const port = 6234;
 
 const httpServer = http.createServer(localServer().app);
 // const httpServer = http.createServer(server().app);
