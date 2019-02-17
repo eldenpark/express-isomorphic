@@ -161,12 +161,19 @@ function setupWatchingWebpackUniversalCompiler({
           info
         );
         
+        const cacheInMemory = getProperRequireCache();
+        if (cacheInMemory.indexOf(state.universalAppPath) === -1) {
+          log(`[warn] Cache not found: %s`, state.universalAppPath);
+        }
+
         delete require.cache[state.universalAppPath];
+        const remainingModulesInCache = getProperRequireCache();
+        
         log(
           '%s [watch] require cache after deleting universalAppPath (at %s):\n%o',
           tag,
           state.universalAppPath,
-          getProperRequireCache(),
+          remainingModulesInCache,
         );
         
         state.update({

@@ -1,17 +1,21 @@
-import { hot } from 'react-hot-loader';
 import * as React from 'react';
 
-const someValue = 1022;
+import Header from './Header';
 
 class Universal extends React.Component {
+  state = {
+    value: 10221,
+  };
+
   render() {
     return (
       <div>
+        <Header />
         <p>universal</p>
-        <p>{someValue}</p>
+        <p>{this.state.value}</p>
       </div>
     );
   }
 }
 
-export default hot(module)(Universal);
+export default Universal;
