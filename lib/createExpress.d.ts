@@ -28,4 +28,3 @@ interface CreateExpress {
         publicPath: string;
     }): ServerCreation;
 }
-//# sourceMappingURL=createExpress.d.ts.map

@@ -10,4 +10,3 @@ export interface Eject {
         state: State;
     }): void;
 }
-//# sourceMappingURL=eject.d.ts.map

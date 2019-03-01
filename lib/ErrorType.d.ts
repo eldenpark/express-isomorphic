@@ -3,4 +3,3 @@ declare const enum ErrorType {
     WATCH_UNIVERSAL_ERROR = "WATCH_UNIVERSAL_ERROR"
 }
 export default ErrorType;
-//# sourceMappingURL=ErrorType.d.ts.map

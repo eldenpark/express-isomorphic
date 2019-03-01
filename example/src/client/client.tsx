@@ -15,7 +15,11 @@ console.info('[client] Running in NODE_ENV: %s', process.env.NODE_ENV);
 
 const appRoot = document.getElementById('app-root');
 
+const predefinedState = window['$state'];
+
 ReactDOM.hydrate(
-  <ClientApp />,
+  <ClientApp 
+    predefinedState={predefinedState}
+  />,
   appRoot,
 );

@@ -1,13 +1,13 @@
-import { hot } from 'react-hot-loader';
 import * as React from 'react';
 
-import Universal from '../universal/Universal';
-import UniversalContext from '../universal/contexts/UniversalContext';
-
-const ClientApp = ({
+const ServerApp = ({
   predefinedState,
+  renderUniversal: Universal,
 }) => {
+  console.log('[server] predefinedState: %o', predefinedState);
+
   const { UniversalContext } = Universal.contexts;
+
   return (
     <UniversalContext.Provider value={predefinedState}>
       <Universal />
@@ -15,4 +15,4 @@ const ClientApp = ({
   );
 };
 
-export default hot(module)(ClientApp);
+export default ServerApp;
