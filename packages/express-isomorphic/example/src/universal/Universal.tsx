@@ -1,21 +1,45 @@
-import * as React from 'react';
+import React, { useState, useMemo } from 'react';
 
-import Header from './Header';
+import Header from './components/Header';
+import TransferredState from './components/TransferredState';
+import UniversalContext from './contexts/UniversalContext';
 
-class Universal extends React.Component {
-  state = {
-    value: 10221,
-  };
+const Universal: UniversalType = ({
+  children,
+}) => {
+  const [ count, setCount ] = React.useState(0);
 
-  render() {
-    return (
+  const handleClickButton = useMemo(
+    () => {
+      return () => {
+        setCount(count + 1);
+      };
+    },
+    [count],
+  );
+
+  return (
+    <div>
+      <Header />
       <div>
-        <Header />
-        <p>universal</p>
-        <p>{this.state.value}</p>
+        <p>[count]</p>
+        <p>{count}</p>
+        <button onClick={handleClickButton}>add</button>
       </div>
-    );
-  }
-}
+      <TransferredState />
+      {children}
+    </div>
+  );
+};
 
 export default Universal;
+
+Universal.contexts = {
+  UniversalContext,
+};
+
+type UniversalType = React.FC<UniversalProps> & { contexts };
+
+interface UniversalProps {
+  children?: React.ReactNode;
+}

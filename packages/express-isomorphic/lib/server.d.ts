@@ -10,4 +10,3 @@ interface Server {
     }): ServerCreation;
 }
 export default server;
-//# sourceMappingURL=server.d.ts.map

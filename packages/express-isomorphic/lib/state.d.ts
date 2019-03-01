@@ -14,4 +14,3 @@ interface Error {
     type: ErrorType;
     errorObj: any;
 }
-//# sourceMappingURL=state.d.ts.map

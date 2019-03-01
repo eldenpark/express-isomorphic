@@ -2,26 +2,26 @@ import * as React from 'react';
 import { renderToString } from 'react-dom/server';
 
 import { attachAssets } from '../../../lib';
+import ServerApp from './ServerApp';
 
 const makeHtml: MakeHtml = async function ({
   assets,
   requestUrl = '',
   universalAppPath = '',
 }) {
-  let Universal = undefined;
-  try {
-    Universal = require(universalAppPath).default;
-  } catch (err) {
-    console.error('Error loading UniversalApp at path: %s\nOriginal Error: %o', universalAppPath, err);
-    Universal = () => <div>RootContainer not found</div>;
-  }
+  const Universal = requireUniversalComponent(universalAppPath);
+  const predefinedState = {
+    foo: '1313',
+  };
 
-  const appRoot = (
-    <Universal />
+  const element = (
+    <ServerApp
+      predefinedState={predefinedState}
+      renderUniversal={Universal}
+    />
   );
 
-  const appRootInString = renderToString(appRoot);
-  console.log('[make-html] app in string: %s', appRootInString);
+  const appRootInString = renderToString(element);
   console.log('[make-html] assets: %s', assets);
 
   return `
@@ -31,6 +31,7 @@ const makeHtml: MakeHtml = async function ({
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,height=device-height,initial-scale=1">
   <title>express-isomorphic-example</title>
+  <script>window['$state']=${JSON.stringify(predefinedState)}</script>
 </head>
 <body>
   <div id="app-root">${appRootInString}</div>
@@ -41,6 +42,17 @@ const makeHtml: MakeHtml = async function ({
 };
 
 export default makeHtml;
+
+function requireUniversalComponent(universalAppPath) {
+  let Universal = undefined;
+  try {
+    Universal = require(universalAppPath).default;
+  } catch (err) {
+    console.error('Error loading UniversalApp at path: %s\nOriginal Error: %o', universalAppPath, err);
+    Universal = () => <div>RootContainer not found</div>;
+  }
+  return Universal;
+}
 
 interface MakeHtml {
   (arg: {

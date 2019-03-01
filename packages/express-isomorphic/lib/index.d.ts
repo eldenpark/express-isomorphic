@@ -56,4 +56,3 @@ interface Create {
         server: () => ServerCreation;
     };
 }
-//# sourceMappingURL=index.d.ts.map
