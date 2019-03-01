@@ -68,7 +68,7 @@ const defaultWebpackStats = {
 
 export default ExpressIsomorphic;
 
-export { attachAssets } from './utils/serverUtils';
+export { attachAssets, requireUniversalComponent } from './utils/serverUtils';
 
 export { defaultWebpackStats as webpackStats }
 

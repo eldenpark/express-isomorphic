@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { renderToString } from 'react-dom/server';
 
-import { attachAssets } from '../../../lib';
+import { attachAssets, requireUniversalComponent } from '../../../lib';
 import ServerApp from './ServerApp';
 
 const makeHtml: MakeHtml = async function ({
@@ -42,17 +42,6 @@ const makeHtml: MakeHtml = async function ({
 };
 
 export default makeHtml;
-
-function requireUniversalComponent(universalAppPath) {
-  let Universal = undefined;
-  try {
-    Universal = require(universalAppPath).default;
-  } catch (err) {
-    console.error('Error loading UniversalApp at path: %s\nOriginal Error: %o', universalAppPath, err);
-    Universal = () => <div>RootContainer not found</div>;
-  }
-  return Universal;
-}
 
 interface MakeHtml {
   (arg: {

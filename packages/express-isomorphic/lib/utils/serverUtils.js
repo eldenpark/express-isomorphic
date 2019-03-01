@@ -56,3 +56,15 @@ function attachAssets(assets = []) {
         .join('');
 }
 exports.attachAssets = attachAssets;
+function requireUniversalComponent(universalAppPath) {
+    let Universal;
+    try {
+        Universal = require(universalAppPath).default;
+    }
+    catch (err) {
+        console.error('Error loading UniversalApp at path: %s\nOriginal Error: %o', universalAppPath, err);
+        Universal = 'Universal Component not found';
+    }
+    return Universal;
+}
+exports.requireUniversalComponent = requireUniversalComponent;
