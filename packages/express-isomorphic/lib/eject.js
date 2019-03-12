@@ -24,6 +24,15 @@ const mkdirp_1 = __importDefault(require("mkdirp"));
 const path_1 = __importDefault(require("path"));
 const log_1 = require("./utils/log");
 const tag = 'eject';
+class EjectServer {
+    constructor() {
+        this.paths = [];
+    }
+    addPath(path) {
+        this.paths.push(path);
+    }
+}
+const ejectServerInstance = new EjectServer();
 const eject = function ({ assets, ejectPath, makeHtml, state, }) {
     return __awaiter(this, arguments, void 0, function* () {
         log_1.log('eject():\n%o', arguments[0]);
@@ -32,6 +41,7 @@ const eject = function ({ assets, ejectPath, makeHtml, state, }) {
         }
         mkdirp_1.default.sync(ejectPath);
         log_1.log('%s, assets:\n%o', tag, assets);
+        log_1.log('eject route paths: %o', ejectServerInstance.paths);
         const html = yield makeHtml({
             assets,
             requestUrl: '/',
@@ -44,7 +54,9 @@ const eject = function ({ assets, ejectPath, makeHtml, state, }) {
         catch (err) {
             log_1.log('%s error: %o', tag, err);
         }
+        // Terminate the program after ejecting.
         process.exit(0);
     });
 };
 exports.default = eject;
+exports.addPath = ejectServerInstance.addPath.bind(ejectServerInstance);

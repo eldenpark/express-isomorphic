@@ -50,6 +50,8 @@ const defaultWebpackStats = {
 };
 exports.webpackStats = defaultWebpackStats;
 exports.default = ExpressIsomorphic;
+var eject_1 = require("./eject");
+exports.addPath = eject_1.addPath;
 var serverUtils_1 = require("./utils/serverUtils");
 exports.attachAssets = serverUtils_1.attachAssets;
 exports.requireUniversalComponent = serverUtils_1.requireUniversalComponent;

@@ -9,6 +9,7 @@ declare const defaultWebpackStats: {
     entrypoints: boolean;
 };
 export default ExpressIsomorphic;
+export { addPath } from './eject';
 export { attachAssets, requireUniversalComponent } from './utils/serverUtils';
 export { defaultWebpackStats as webpackStats };
 interface ExpressIsomorphicType {
