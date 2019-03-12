@@ -41,7 +41,7 @@ const createExpress = function ({ _extend = (app, state) => { }, makeHtml, publi
             try {
                 const html = yield makeHtml({
                     assets: state_1.default.assets,
-                    requestUrl: req.url,
+                    request: req,
                     universalAppPath: state_1.default.universalAppPath,
                 });
                 res.end(html);

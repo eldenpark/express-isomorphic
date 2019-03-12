@@ -1,4 +1,4 @@
-import express from "express";
+import express, { Request } from "express";
 import { State } from './state';
 declare const createExpress: CreateExpress;
 export default createExpress;
@@ -9,7 +9,7 @@ export interface ServerCreation {
 export interface MakeHtml {
     (arg: {
         assets: string[] | undefined;
-        requestUrl: string;
+        request?: Request;
         universalAppPath: string | undefined;
     }): Promise<string>;
 }
