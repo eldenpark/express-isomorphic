@@ -6,13 +6,15 @@ import ServerApp from './ServerApp';
 
 const makeHtml: MakeHtml = async function ({
   assets,
-  requestUrl = '',
+  request,
   universalAppPath = '',
 }) {
   const Universal = requireUniversalComponent(universalAppPath);
   const universalState = {
     foo: '1313',
   };
+
+  console.log('request headers: %o', request.headers);
 
   const element = (
     <ServerApp
@@ -46,7 +48,7 @@ export default makeHtml;
 interface MakeHtml {
   (arg: {
     assets: string[];
-    requestUrl: string;
+    request?;
     universalAppPath: string;
   }): Promise<string>;
 }

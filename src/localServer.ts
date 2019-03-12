@@ -31,6 +31,25 @@ const localServer: LocalServer = function ({
   webpackConfigUniversalLocalPath,
   webpackStats,
 }) {
+  const webpackConfigClientLocalWeb = require(webpackConfigClientLocalPath);
+  log(
+    '%s webpack-client-local will be compiled with config:\n%o',
+    tag,
+    webpackConfigClientLocalWeb,
+  );
+  const clientWebpackCompiler = webpack(webpackConfigClientLocalWeb);
+
+  const devMiddleware = webpackDevMiddleware(clientWebpackCompiler, {
+    publicPath: webpackConfigClientLocalWeb.output.publicPath,
+    serverSideRender: true,
+    stats: webpackStats,
+  });
+
+  const hotMiddleware = webpackHotMiddleware(clientWebpackCompiler, {
+    heartbeat: 2000,
+    reload: true,
+  });
+
   return createExpress({
     _extend: (app, state) => {
       log(
@@ -58,27 +77,8 @@ const localServer: LocalServer = function ({
           makeHtml,
           state,
         });
-      });
+      })
 
-      const webpackConfigClientLocalWeb = require(webpackConfigClientLocalPath);
-      log(
-        '%s webpack-client-local will be compiled with config:\n%o',
-        tag,
-        webpackConfigClientLocalWeb,
-      );
-      const clientWebpackCompiler = webpack(webpackConfigClientLocalWeb);
-
-      const devMiddleware = webpackDevMiddleware(clientWebpackCompiler, {
-        publicPath: webpackConfigClientLocalWeb.output.publicPath,
-        serverSideRender: true,
-        stats: webpackStats,
-      });
-
-      const hotMiddleware = webpackHotMiddleware(clientWebpackCompiler, {
-        heartbeat: 2000,
-        reload: true,
-      });
-      
       app.use(devMiddleware);
 
       app.use(hotMiddleware);

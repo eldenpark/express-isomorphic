@@ -2,6 +2,7 @@ import chalk from 'chalk';
 import * as fs from 'fs';
 import mkdirp from 'mkdirp';
 import path from 'path';
+import { Request } from 'express';
 
 import { 
   MakeHtml,
@@ -40,7 +41,6 @@ const eject: Eject = async function ({
 
   const html = await makeHtml({
     assets,
-    requestUrl: '/',
     universalAppPath: state.universalAppPath,
   });
 
@@ -64,6 +64,7 @@ export interface Eject {
     assets?: string[];
     ejectPath: string;
     makeHtml: MakeHtml;
+    request?: Request;
     state: State;
   }): void;
 }

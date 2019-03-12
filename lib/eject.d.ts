@@ -1,3 +1,4 @@
+import { Request } from 'express';
 import { MakeHtml } from './createExpress';
 import { State } from './state';
 declare const eject: Eject;
@@ -8,6 +9,7 @@ export interface Eject {
         assets?: string[];
         ejectPath: string;
         makeHtml: MakeHtml;
+        request?: Request;
         state: State;
     }): void;
 }

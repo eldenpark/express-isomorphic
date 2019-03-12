@@ -1,5 +1,5 @@
 import chalk from 'chalk';
-import express from "express";
+import express, { Request } from "express";
 import util from 'util';
 
 import { isProduction } from './env';
@@ -45,7 +45,7 @@ const createExpress: CreateExpress = function ({
       try {
         const html = await makeHtml({
           assets: state.assets,
-          requestUrl: req.url,  
+          request: req,
           universalAppPath: state.universalAppPath,
         });
         res.end(html);
@@ -77,7 +77,7 @@ export interface ServerCreation {
 export interface MakeHtml {
   (arg: {
     assets: string[] | undefined;
-    requestUrl: string;
+    request?: Request;
     universalAppPath: string | undefined;
   }): Promise<string>;
 }
