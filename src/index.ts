@@ -1,5 +1,4 @@
 import _localServer from './localServer';
-// import _eject, { Eject } from './eject';
 import { 
   Extend,
   MakeHtml,
@@ -67,6 +66,8 @@ const defaultWebpackStats = {
 };
 
 export default ExpressIsomorphic;
+
+export { addPath } from './eject';
 
 export { attachAssets, requireUniversalComponent } from './utils/serverUtils';
 

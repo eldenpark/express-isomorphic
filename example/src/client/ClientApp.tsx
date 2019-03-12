@@ -2,14 +2,14 @@ import { hot } from 'react-hot-loader';
 import * as React from 'react';
 
 import Universal from '../universal/Universal';
-import UniversalContext from '../universal/contexts/UniversalContext';
 
 const ClientApp = ({
-  predefinedState,
+  universalState,
 }) => {
   const { UniversalContext } = Universal.contexts;
+
   return (
-    <UniversalContext.Provider value={predefinedState}>
+    <UniversalContext.Provider value={universalState}>
       <Universal />
     </UniversalContext.Provider>
   );

@@ -5,6 +5,7 @@ import TransferredState from './components/TransferredState';
 import UniversalContext from './contexts/UniversalContext';
 
 const Universal: UniversalType = ({
+  addPath,
   children,
 }) => {
   const [ count, setCount ] = React.useState(0);
@@ -41,5 +42,6 @@ Universal.contexts = {
 type UniversalType = React.FC<UniversalProps> & { contexts };
 
 interface UniversalProps {
+  addPath?: Function;
   children?: React.ReactNode;
 }

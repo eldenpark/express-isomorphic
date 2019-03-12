@@ -11,6 +11,16 @@ import { State } from './state';
 
 const tag = 'eject';
 
+class EjectServer {
+  paths: string[] = [];
+
+  addPath(path: string) {
+    this.paths.push(path);
+  }
+}
+
+const ejectServerInstance = new EjectServer();
+
 const eject: Eject = async function ({
   assets,
   ejectPath,
@@ -26,6 +36,7 @@ const eject: Eject = async function ({
   mkdirp.sync(ejectPath);
 
   log('%s, assets:\n%o', tag, assets);
+  log('eject route paths: %o', ejectServerInstance.paths);
 
   const html = await makeHtml({
     assets,
@@ -40,10 +51,13 @@ const eject: Eject = async function ({
     log('%s error: %o', tag, err);
   }
 
+  // Terminate the program after ejecting.
   process.exit(0);
 };
 
 export default eject;
+
+export const addPath = ejectServerInstance.addPath.bind(ejectServerInstance);
 
 export interface Eject {
   (args: {

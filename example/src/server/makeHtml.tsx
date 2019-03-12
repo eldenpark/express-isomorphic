@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { renderToString } from 'react-dom/server';
 
-import { attachAssets, requireUniversalComponent } from '../../../lib';
+import { addPath, attachAssets, requireUniversalComponent } from '../../../lib';
 import ServerApp from './ServerApp';
 
 const makeHtml: MakeHtml = async function ({
@@ -10,14 +10,14 @@ const makeHtml: MakeHtml = async function ({
   universalAppPath = '',
 }) {
   const Universal = requireUniversalComponent(universalAppPath);
-  const predefinedState = {
+  const universalState = {
     foo: '1313',
   };
 
   const element = (
     <ServerApp
-      predefinedState={predefinedState}
       renderUniversal={Universal}
+      universalState={universalState}
     />
   );
 
@@ -31,7 +31,7 @@ const makeHtml: MakeHtml = async function ({
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,height=device-height,initial-scale=1">
   <title>express-isomorphic-example</title>
-  <script>window['$state']=${JSON.stringify(predefinedState)}</script>
+  <script>window['universalState']=${JSON.stringify(universalState)}</script>
 </head>
 <body>
   <div id="app-root">${appRootInString}</div>
