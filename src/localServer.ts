@@ -33,6 +33,46 @@ const localServer: LocalServer = function ({
   webpackConfigUniversalLocalPath,
   webpackStats,
 }) {
+  const { devMiddleware, hotMiddleware } = createWebpackMiddlewares({
+    webpackConfigClientLocalPath,
+    webpackStats,
+  });
+
+  return createExpress({
+    bootstrap: (state) => {
+      setupWatchingWebpackUniversalCompiler({
+        serverDistPath,
+        state,
+        universalAppPath,
+        webpackConfigUniversalLocalPath,
+        webpackStats,
+      }).then(() => {
+        ejectPath && eject({
+          assets: state.assets,
+          ejectPath,
+          makeHtml,
+          state,
+        });
+      });
+
+      return [
+        devMiddleware,
+        hotMiddleware,
+        setLaunchStatus(state, webpackStats),
+      ];
+    },
+    extend,
+    makeHtml,
+    publicPath,
+  });
+};
+
+export default localServer;
+
+function createWebpackMiddlewares({
+  webpackConfigClientLocalPath,
+  webpackStats,
+}) {
   const webpackConfigClientLocalWeb = require(webpackConfigClientLocalPath);
   log(
     '%s webpack-client-local will be compiled with config:\n%o',
@@ -52,49 +92,8 @@ const localServer: LocalServer = function ({
     reload: true,
   });
 
-  return createExpress({
-    _extend: (app, state) => {
-      log(
-        '%s serverDistPath: %s webpackConfigClientLocalPath: %s webpackConfigUniversalLocal: %s webpackStats: %o',
-        tag,
-        serverDistPath,
-        webpackConfigClientLocalPath,
-        webpackConfigUniversalLocalPath,
-        webpackStats,
-      );
-
-      state.update({
-        universalAppPath,
-      });
-
-      setupWatchingWebpackUniversalCompiler({
-        serverDistPath,
-        state,
-        webpackConfigUniversalLocalPath,
-        webpackStats,
-      }).then(() => {
-        ejectPath && eject({
-          assets: state.assets,
-          ejectPath,
-          makeHtml,
-          state,
-        });
-      });
-
-      app.use([
-        devMiddleware,
-        hotMiddleware,
-        setLaunchStatus(state, webpackStats),
-      ]);
-
-      extend && extend(app, state);
-    },
-    makeHtml,
-    publicPath,
-  });
-};
-
-export default localServer;
+  return { devMiddleware, hotMiddleware };
+}
 
 const setLaunchStatus: SetLaunchStatus = (state, webpackStats) => (req, res, next) => {
   if (state.buildHash !== res.locals.webpackStats.hash) {
@@ -119,20 +118,28 @@ const setLaunchStatus: SetLaunchStatus = (state, webpackStats) => (req, res, nex
 function setupWatchingWebpackUniversalCompiler({
   serverDistPath,
   state,
+  universalAppPath,
   webpackConfigUniversalLocalPath,
   webpackStats,
 }) {
+  state.update({
+    universalAppPath,
+  });
+
   const webpackConfig = require(webpackConfigUniversalLocalPath);
+
+  log(
+    '%s [watch] webpack-universal-local will be compiled with webpack-universal-config:\n deleting serverDistPath: %s\n%o',
+    tag,
+    webpackConfig,
+    serverDistPath,
+  );
 
   del.sync([
     serverDistPath,
   ]);
 
-  log(
-    '%s [watch] webpack-universal-local will be compiled with config:\n%o',
-    tag,
-    webpackConfig,
-  );
+  
   const serverWebpackCompiler = webpack(webpackConfig);
   const watchOptions = {
     aggregateTimeout: 2000,

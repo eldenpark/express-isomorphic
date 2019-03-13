@@ -21,7 +21,7 @@ const server: Server = function ({
   webpackBuildJsonPath,
 }) {
   return createExpress({
-    _extend: (app, state) => {
+    bootstrap: (state) => {
       const bundleBuildJson = fs.readFileSync(webpackBuildJsonPath, 'utf-8');
       const buildInfo = JSON.parse(bundleBuildJson);
       log(`%s enhance(), build.json:\n%o`, tag, buildInfo);
@@ -40,8 +40,9 @@ const server: Server = function ({
         universalAppPath,
       });
 
-      extend && extend(app, state);
+      return [];
     },
+    extend,
     makeHtml,
     publicPath,
   });
