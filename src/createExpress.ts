@@ -1,15 +1,12 @@
 import chalk from 'chalk';
-import express, { 
-  NextFunction,
-  Request,
-  Response,
+import express, {
+  RequestHandler,
 } from "express";
 import util from 'util';
 
 import { isProduction } from './env';
-import { log } from './utils/log';
+import { htmlLogger, log } from './utils/log';
 import state, { State } from './state';
-import { any } from 'prop-types';
 
 const createExpress: CreateExpress = function ({
   _extend = (app, state) => {},
@@ -25,43 +22,13 @@ const createExpress: CreateExpress = function ({
   _extend(app, state);
 
   app.use(express.static(publicPath));
-  
-  app.get("*", async (req, res) => {
-    log(
-      'server is last updated at: %o, assets: %s, buildHash: %s', 
-      state.updatedAt, 
-      state.assets,
-      state.buildHash,
-    );
 
-    if (!state.isLaunched) {
-      res.writeHead(500);
-      res.end('server is not launched yet');
-    } else if (state.error) {
-      const errorMsg = !isProduction 
-        ? util.format('Server is not successfully launched: %s', state.error)
-        : 'Server is not successfully launched. Check out the log';
-
-      res.writeHead(500);
-      res.end(errorMsg);
-    } else {
-      res.writeHead(200, { "Content-Type": "text/html" });
-
-      try {
-        const html = await makeHtml({
-          assets: state.assets,
-          // request: req,
-          requestUrl: req.url,
-          resLocals: res.locals,
-          universalAppPath: state.universalAppPath,
-        });
-        res.end(html);
-      } catch (err) {
-        log(`[express] ${chalk.red('failed')} to create html: %o`, err);
-        res.end('Failed to create html');
-      }
-    }
-  });
+  app.get('*', [
+    logServerUpdate(state),
+    checkLaunch(state),
+    checkBundleError(state),
+    serveHtml(state, makeHtml),
+  ]);
   
   return {
     app,
@@ -69,12 +36,56 @@ const createExpress: CreateExpress = function ({
   };
 };
 
-export default createExpress;
+const logServerUpdate: (state: State) => RequestHandler = (state) => (req, res, next) => {
+  log(
+    'server is last updated at: %o, assets: %s, buildHash: %s', 
+    state.updatedAt, 
+    state.assets,
+    state.buildHash,
+  );
+  next();
+};
 
-function htmlLogger(req, res, next) {
-  log('[express] %s url: %s, user agent: %s', new Date(), req.url, req.get('User-Agent'));
+const checkLaunch: (state: State) => RequestHandler = (state) => (req, res, next) => {
+  if (!state.isLaunched) {
+    res.writeHead(500);
+    res.end('server is not launched yet');
+  }
+  next();
+};
+
+const checkBundleError: (state: State) => RequestHandler = (state) => (req, res, next) => {
+  if (state.error) {
+    const errorMsg = !isProduction 
+      ? util.format('Server is not successfully launched: %s', state.error)
+      : 'Server is not successfully launched. Check out the log';
+
+    res.writeHead(500);
+    res.end(errorMsg);
+  }
   next();
 }
+
+const serveHtml: (state: State, makeHtml: MakeHtml) => RequestHandler = (state, makeHtml) => (
+  async (req, res, next) => {
+    res.writeHead(200, { "Content-Type": "text/html" });
+    
+    try {
+      const html = await makeHtml({
+        assets: state.assets,
+        requestUrl: req.url,
+        resLocals: res.locals,
+        universalAppPath: state.universalAppPath,
+      });
+      res.end(html);
+    } catch (err) {
+      log(`[express] ${chalk.red('failed')} to create html: %o`, err);
+      res.end('Failed to create html');
+    }
+  }
+);
+
+export default createExpress;
 
 export interface ServerCreation {
   app: express.Application;
