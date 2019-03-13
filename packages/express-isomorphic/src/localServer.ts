@@ -1,6 +1,5 @@
 import chalk from 'chalk';
 import del from 'del';
-import * as path from "path";
 import webpack from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
@@ -77,7 +76,7 @@ const localServer: LocalServer = function ({
           makeHtml,
           state,
         });
-      })
+      });
 
       app.use(devMiddleware);
 
@@ -102,6 +101,7 @@ const localServer: LocalServer = function ({
         }
         next();
       });
+
 
       extend && extend(app, state);
     },

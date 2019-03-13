@@ -44,6 +44,8 @@ const eject = function ({ assets, ejectPath, makeHtml, state, }) {
         log_1.log('eject route paths: %o', ejectServerInstance.paths);
         const html = yield makeHtml({
             assets,
+            requestUrl: '',
+            resLocals: {},
             universalAppPath: state.universalAppPath,
         });
         try {

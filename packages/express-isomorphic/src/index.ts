@@ -71,7 +71,11 @@ export { addPath } from './eject';
 
 export { attachAssets, requireUniversalComponent } from './utils/serverUtils';
 
-export { defaultWebpackStats as webpackStats }
+export { 
+  Extend,
+  MakeHtml,
+  defaultWebpackStats as webpackStats,
+}
 
 interface ExpressIsomorphicType {
   create: Create,

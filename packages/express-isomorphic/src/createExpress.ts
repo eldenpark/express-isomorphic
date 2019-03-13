@@ -1,10 +1,15 @@
 import chalk from 'chalk';
-import express, { Request } from "express";
+import express, { 
+  NextFunction,
+  Request,
+  Response,
+} from "express";
 import util from 'util';
 
 import { isProduction } from './env';
 import { log } from './utils/log';
 import state, { State } from './state';
+import { any } from 'prop-types';
 
 const createExpress: CreateExpress = function ({
   _extend = (app, state) => {},
@@ -45,7 +50,9 @@ const createExpress: CreateExpress = function ({
       try {
         const html = await makeHtml({
           assets: state.assets,
-          request: req,
+          // request: req,
+          requestUrl: req.url,
+          resLocals: res.locals,
           universalAppPath: state.universalAppPath,
         });
         res.end(html);
@@ -77,7 +84,8 @@ export interface ServerCreation {
 export interface MakeHtml {
   (arg: {
     assets: string[] | undefined;
-    request?: Request;
+    requestUrl: string;
+    resLocals: ResLocals;
     universalAppPath: string | undefined;
   }): Promise<string>;
 }
@@ -89,13 +97,17 @@ export interface WebpackStats {
 }
 
 export interface Extend {
-  (app: express.Application, state: State): any;
+  (app, state): any;
 }
 
 interface CreateExpress {
   (arg: {
-    _extend: Extend;
+    _extend: (app: express.Application, state: State) => void;
     makeHtml: MakeHtml;
     publicPath: string;
   }): ServerCreation;
+}
+
+interface ResLocals {
+  [key: string]: any;
 }

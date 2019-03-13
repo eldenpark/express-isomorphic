@@ -6,15 +6,17 @@ import {
 } from 'express';
 import path from 'path';
 
-import ExpressIsomorphic from '../../../lib';
+import ExpressIsomorphic, {
+  Extend,
+} from '../../../lib';
 import * as paths from '../../paths';
 import makeHtml from './makeHtml';
 
-function extend(app, state) {
-  console.log('extend()');
+const extend: Extend = (app, state) => {
+  app.use((req: Request, res, next: NextFunction) => {
+    console.log('middleware: extend()', req.headers);
 
-  app.use((req: Request, res: Response, next: NextFunction) => {
-    console.log('middleware: extend');
+    res.locals.headers = req.headers;
     next();
   });
 }
@@ -42,3 +44,7 @@ httpServer.listen(port, () => {
 // eject({
 //   ejectPath: paths.distEject,
 // });
+
+export interface Locals {
+  headers: object;
+}
