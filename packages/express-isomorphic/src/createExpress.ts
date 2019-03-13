@@ -9,19 +9,22 @@ import { htmlLogger, log } from './utils/log';
 import state, { State } from './state';
 
 const createExpress: CreateExpress = function ({
-  _extend = (app, state) => {},
+  bootstrap = (state) => [],
+  extend,
   makeHtml,
   publicPath,
 }) {
-  log('NODE_ENV: %s', process.env.NODE_ENV);
+  log('Creating express, NODE_ENV: %s', process.env.NODE_ENV);
 
   const app = express();
+  const middlewares = bootstrap(state);
+  extend && extend(app, state);
 
-  app.use(htmlLogger);
-
-  _extend(app, state);
-
-  app.use(express.static(publicPath));
+  app.use([
+    ...middlewares,
+    htmlLogger,
+    express.static(publicPath),
+  ]);
 
   app.get('*', [
     logServerUpdate(state),
@@ -113,7 +116,8 @@ export interface Extend {
 
 interface CreateExpress {
   (arg: {
-    _extend: (app: express.Application, state: State) => void;
+    bootstrap: (state: State) => RequestHandler[];
+    extend?: (app: express.Application, state: State) => void;
     makeHtml: MakeHtml;
     publicPath: string;
   }): ServerCreation;

@@ -17,12 +17,16 @@ const util_1 = __importDefault(require("util"));
 const env_1 = require("./env");
 const log_1 = require("./utils/log");
 const state_1 = __importDefault(require("./state"));
-const createExpress = function ({ _extend = (app, state) => { }, makeHtml, publicPath, }) {
-    log_1.log('NODE_ENV: %s', process.env.NODE_ENV);
+const createExpress = function ({ bootstrap = (state) => [], extend, makeHtml, publicPath, }) {
+    log_1.log('Creating express, NODE_ENV: %s', process.env.NODE_ENV);
     const app = express_1.default();
-    app.use(log_1.htmlLogger);
-    _extend(app, state_1.default);
-    app.use(express_1.default.static(publicPath));
+    const middlewares = bootstrap(state_1.default);
+    extend && extend(app, state_1.default);
+    app.use([
+        ...middlewares,
+        log_1.htmlLogger,
+        express_1.default.static(publicPath),
+    ]);
     app.get('*', [
         logServerUpdate(state_1.default),
         checkLaunch(state_1.default),

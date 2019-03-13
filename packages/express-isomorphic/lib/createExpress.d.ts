@@ -1,4 +1,4 @@
-import express from "express";
+import express, { RequestHandler } from "express";
 import { State } from './state';
 declare const createExpress: CreateExpress;
 export default createExpress;
@@ -24,7 +24,8 @@ export interface Extend {
 }
 interface CreateExpress {
     (arg: {
-        _extend: (app: express.Application, state: State) => void;
+        bootstrap: (state: State) => RequestHandler[];
+        extend?: (app: express.Application, state: State) => void;
         makeHtml: MakeHtml;
         publicPath: string;
     }): ServerCreation;
