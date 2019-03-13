@@ -45,21 +45,11 @@ const localServer = function ({ ejectPath, extend, makeHtml, publicPath, serverD
                     state,
                 });
             });
-            app.use(devMiddleware);
-            app.use(hotMiddleware);
-            app.use((req, res, next) => {
-                if (state.buildHash !== res.locals.webpackStats.hash) {
-                    const info = res.locals.webpackStats.toJson(webpackStats);
-                    const { error, assets } = serverUtils_1.parseWebpackBuildInfo(info);
-                    state.update(Object.assign({ assets, buildHash: res.locals.webpackStats.hash }, error && {
-                        error: {
-                            errorObj: error,
-                            type: "WATCH_UNIVERSAL_ERROR" /* WATCH_UNIVERSAL_ERROR */,
-                        },
-                    }, { isLaunched: true }));
-                }
-                next();
-            });
+            app.use([
+                devMiddleware,
+                hotMiddleware,
+                setLaunchStatus(state, webpackStats),
+            ]);
             extend && extend(app, state);
         },
         makeHtml,
@@ -67,6 +57,19 @@ const localServer = function ({ ejectPath, extend, makeHtml, publicPath, serverD
     });
 };
 exports.default = localServer;
+const setLaunchStatus = (state, webpackStats) => (req, res, next) => {
+    if (state.buildHash !== res.locals.webpackStats.hash) {
+        const info = res.locals.webpackStats.toJson(webpackStats);
+        const { error, assets } = serverUtils_1.parseWebpackBuildInfo(info);
+        state.update(Object.assign({ assets, buildHash: res.locals.webpackStats.hash }, error && {
+            error: {
+                errorObj: error,
+                type: "WATCH_UNIVERSAL_ERROR" /* WATCH_UNIVERSAL_ERROR */,
+            },
+        }, { isLaunched: true }));
+    }
+    next();
+};
 function setupWatchingWebpackUniversalCompiler({ serverDistPath, state, webpackConfigUniversalLocalPath, webpackStats, }) {
     const webpackConfig = require(webpackConfigUniversalLocalPath);
     del_1.default.sync([

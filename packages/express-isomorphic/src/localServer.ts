@@ -1,5 +1,6 @@
 import chalk from 'chalk';
 import del from 'del';
+import { RequestHandler } from 'express';
 import webpack from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
@@ -8,6 +9,7 @@ import createExpress, {
   Extend,
   MakeHtml,
   ServerCreation,
+  WebpackStats,
 } from './createExpress';
 import eject, { Eject } from './eject';
 import ErrorType from './ErrorType';
@@ -16,6 +18,7 @@ import {
   parseWebpackBuildInfo,
 } from './utils/serverUtils';
 import { log } from './utils/log';
+import { State } from './state';
 
 const tag = '[localServer]';
 
@@ -78,30 +81,11 @@ const localServer: LocalServer = function ({
         });
       });
 
-      app.use(devMiddleware);
-
-      app.use(hotMiddleware);
-
-      app.use((req, res, next) => {
-        if (state.buildHash !== res.locals.webpackStats.hash) {
-          const info = res.locals.webpackStats.toJson(webpackStats);
-          const { error, assets } = parseWebpackBuildInfo(info);
-
-          state.update({
-            assets,
-            buildHash: res.locals.webpackStats.hash,
-            ...error && { 
-              error: {
-                errorObj: error,
-                type: ErrorType.WATCH_UNIVERSAL_ERROR,
-              },
-            },
-            isLaunched: true,
-          });
-        }
-        next();
-      });
-
+      app.use([
+        devMiddleware,
+        hotMiddleware,
+        setLaunchStatus(state, webpackStats),
+      ]);
 
       extend && extend(app, state);
     },
@@ -111,6 +95,26 @@ const localServer: LocalServer = function ({
 };
 
 export default localServer;
+
+const setLaunchStatus: SetLaunchStatus = (state, webpackStats) => (req, res, next) => {
+  if (state.buildHash !== res.locals.webpackStats.hash) {
+    const info = res.locals.webpackStats.toJson(webpackStats);
+    const { error, assets } = parseWebpackBuildInfo(info);
+
+    state.update({
+      assets,
+      buildHash: res.locals.webpackStats.hash,
+      ...error && { 
+        error: {
+          errorObj: error,
+          type: ErrorType.WATCH_UNIVERSAL_ERROR,
+        },
+      },
+      isLaunched: true,
+    });
+  }
+  next();
+};
 
 function setupWatchingWebpackUniversalCompiler({
   serverDistPath,
@@ -197,4 +201,8 @@ interface LocalServer {
     webpackConfigUniversalLocalPath: string;
     webpackStats: any;
   }): ServerCreation;
+}
+
+interface SetLaunchStatus {
+  (state: State, webpackStats: WebpackStats): RequestHandler;
 }
