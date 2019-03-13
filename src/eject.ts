@@ -41,6 +41,8 @@ const eject: Eject = async function ({
 
   const html = await makeHtml({
     assets,
+    requestUrl: '',
+    resLocals: {},
     universalAppPath: state.universalAppPath,
   });
 

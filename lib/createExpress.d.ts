@@ -1,4 +1,4 @@
-import express, { Request } from "express";
+import express from "express";
 import { State } from './state';
 declare const createExpress: CreateExpress;
 export default createExpress;
@@ -9,7 +9,8 @@ export interface ServerCreation {
 export interface MakeHtml {
     (arg: {
         assets: string[] | undefined;
-        request?: Request;
+        requestUrl: string;
+        resLocals: ResLocals;
         universalAppPath: string | undefined;
     }): Promise<string>;
 }
@@ -19,12 +20,15 @@ export interface WebpackStats {
     [x: string]: boolean;
 }
 export interface Extend {
-    (app: express.Application, state: State): any;
+    (app: any, state: any): any;
 }
 interface CreateExpress {
     (arg: {
-        _extend: Extend;
+        _extend: (app: express.Application, state: State) => void;
         makeHtml: MakeHtml;
         publicPath: string;
     }): ServerCreation;
+}
+interface ResLocals {
+    [key: string]: any;
 }

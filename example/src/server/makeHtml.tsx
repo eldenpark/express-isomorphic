@@ -1,12 +1,19 @@
 import * as React from 'react';
 import { renderToString } from 'react-dom/server';
 
-import { addPath, attachAssets, requireUniversalComponent } from '../../../lib';
+import { 
+  addPath, 
+  attachAssets, 
+  MakeHtml,
+  requireUniversalComponent,
+} from '../../../lib';
+import { Locals } from './server';
 import ServerApp from './ServerApp';
 
 const makeHtml: MakeHtml = async function ({
   assets,
-  request,
+  requestUrl,
+  resLocals,
   universalAppPath = '',
 }) {
   const Universal = requireUniversalComponent(universalAppPath);
@@ -14,7 +21,7 @@ const makeHtml: MakeHtml = async function ({
     foo: '1313',
   };
 
-  console.log('request headers: %o', request.headers);
+  console.log('request headers: %o', resLocals.headers);
 
   const element = (
     <ServerApp
@@ -44,11 +51,3 @@ const makeHtml: MakeHtml = async function ({
 };
 
 export default makeHtml;
-
-interface MakeHtml {
-  (arg: {
-    assets: string[];
-    request?;
-    universalAppPath: string;
-  }): Promise<string>;
-}
