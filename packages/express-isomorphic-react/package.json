@@ -1,6 +1,6 @@
 {
   "name": "@nodekit/express-isomorphic-react",
-  "version": "0.0.1",
+  "version": "0.5.0",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -11,8 +11,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@nodekit/express-isomorphic": "0.4.0"
-  },
-  "devDependencies": {
+    "@nodekit/express-isomorphic": "^0.5.0"
   }
 }
