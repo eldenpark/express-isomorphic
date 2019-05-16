@@ -1,12 +1,12 @@
 {
   "name": "@nodekit/express-isomorphic",
   "version": "0.4.0",
-  "description": "",
+  "description": "Description will be given soon.",
   "main": "lib/index.js",
   "scripts": {
     "build": "yarn run gulp build",
     "example": "yarn run gulp build && yarn run gulp build:example && node example/launch.js",
-    "gulp": "./node_modules/.bin/gulp --gulpfile ./internals/gulp/gulpfile.js",
+    "gulp": "gulp --gulpfile ./internals/gulp/gulpfile.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Elden S. Park",
@@ -57,5 +57,10 @@
     "webpack-hot-middleware": "^2.24.3",
     "webpack-merge": "^4.1.4",
     "webpack-node-externals": "^1.7.2"
-  }
+  },
+  "directories": {
+    "example": "example",
+    "lib": "lib"
+  },
+  "keywords": []
 }

@@ -1,5 +1,5 @@
 import _localServer from './localServer';
-import { 
+import {
   Extend,
   MakeHtml,
   ServerCreation,
@@ -71,7 +71,7 @@ export { addPath } from './eject';
 
 export { attachAssets, requireUniversalComponent } from './utils/serverUtils';
 
-export { 
+export {
   Extend,
   MakeHtml,
   defaultWebpackStats as webpackStats,

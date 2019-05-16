@@ -1,14 +1,19 @@
 {
-  "name": "express-isomorphic2",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "name": "express-isomorphic",
+  "description": "Monorepo for isomorphic web application serving toolchain",
   "scripts": {
+    "build": "node ./internals/builder",
+    "launch": "node ./internals/runner",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "Elden S. Park",
   "license": "ISC",
   "devDependencies": {
-    "lerna": "^3.13.1"
+    "@babel/core": "^7.4.4"
+  },
+  "dependencies": {
+    "@babel/register": "^7.4.4",
+    "gulp": "^4.0.2",
+    "yargs": "^13.2.4"
   }
 }

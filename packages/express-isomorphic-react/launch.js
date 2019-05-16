@@ -1,4 +1,4 @@
-module.exports = {
+const babelRc = {
   "plugins": [
     [
       "module-resolver", {
@@ -26,6 +26,21 @@ module.exports = {
       },
     }],
     "@babel/preset-react",
-    "@babel/preset-typescript"
-  ]
+    "@babel/preset-typescript",
+  ],
 };
+
+require('@babel/register', {
+  ...babelRc,
+  extensions: ['.js', '.jsx', '.ts', '.tsx'],
+});
+
+const expressIsomorphic = require('@nodekit/express-isomorphic');
+
+console.log(123, expressIsomorphic);
+
+setTimeout(() => {
+  console.log(444);
+}, 2000);
+
+module.exports = 'power';
