@@ -4,12 +4,14 @@
   "scripts": {
     "build": "node ./internals/builder",
     "launch": "node ./internals/runner",
+    "lerna": "node ./node_modules/.bin/lerna",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Elden S. Park",
   "license": "ISC",
   "devDependencies": {
-    "@babel/core": "^7.4.4"
+    "@babel/core": "^7.4.4",
+    "lerna": "^3.14.1"
   },
   "dependencies": {
     "@babel/register": "^7.4.4",
