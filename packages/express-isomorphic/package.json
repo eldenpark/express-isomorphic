@@ -1,16 +1,23 @@
 {
-  "name": "@nodekit/express-isomorphic2",
-  "version": "0.5.1",
-  "description": "Description will be given soon.",
-  "main": "lib/index.js",
-  "scripts": {
-    "build": "yarn run gulp build",
-    "example": "yarn run gulp build && yarn run gulp build:example && node example/launch.js",
-    "gulp": "gulp --gulpfile ./internals/gulp/gulpfile.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "author": "Elden S. Park",
-  "license": "ISC",
+  "dependencies": {
+    "babel-loader": "^8.0.4",
+    "babel-plugin-module-resolver": "^3.1.1",
+    "babel-polyfill": "^6.26.0",
+    "chalk": "^2.4.1",
+    "css-loader": "^1.0.1",
+    "del": "^3.0.0",
+    "express": "^4.16.4",
+    "mini-css-extract-plugin": "^0.4.4",
+    "mkdirp": "^0.5.1",
+    "url-loader": "^1.1.2",
+    "webpack": "^4.26.0",
+    "webpack-dev-middleware": "^3.4.0",
+    "webpack-hot-middleware": "^2.24.3",
+    "webpack-merge": "^4.1.4",
+    "webpack-node-externals": "^1.7.2"
+  },
+  "description": "Description will be given soon.",
   "devDependencies": {
     "@babel/core": "^7.3.4",
     "@babel/plugin-proposal-class-properties": "^7.3.4",
@@ -41,26 +48,23 @@
     "redux": "^4.0.1",
     "typescript": "^3.3.3333"
   },
-  "dependencies": {
-    "babel-loader": "^8.0.4",
-    "babel-plugin-module-resolver": "^3.1.1",
-    "babel-polyfill": "^6.26.0",
-    "chalk": "^2.4.1",
-    "css-loader": "^1.0.1",
-    "del": "^3.0.0",
-    "express": "^4.16.4",
-    "mini-css-extract-plugin": "^0.4.4",
-    "mkdirp": "^0.5.1",
-    "url-loader": "^1.1.2",
-    "webpack": "^4.26.0",
-    "webpack-dev-middleware": "^3.4.0",
-    "webpack-hot-middleware": "^2.24.3",
-    "webpack-merge": "^4.1.4",
-    "webpack-node-externals": "^1.7.2"
-  },
   "directories": {
     "example": "example",
     "lib": "lib"
   },
-  "keywords": []
+  "gitHead": "1ed87cecae3082c0d2b6700ca4fb6799ba7c3490",
+  "keywords": [],
+  "license": "ISC",
+  "main": "lib/index.js",
+  "name": "@nodekit/express-isomorphic2",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "yarn run gulp build",
+    "example": "yarn run gulp build && yarn run gulp build:example && node example/launch.js",
+    "gulp": "gulp --gulpfile ./internals/gulp/gulpfile.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "version": "0.5.1"
 }
