@@ -8,8 +8,8 @@ import path from 'path';
 
 import ExpressIsomorphic, {
   Extend,
-} from '../../../lib';
-import * as paths from '../../paths';
+} from '@nodekit/express-isomorphic2';
+import * as paths from '../paths';
 import makeHtml from './makeHtml';
 
 const extend: Extend = (app, state) => {

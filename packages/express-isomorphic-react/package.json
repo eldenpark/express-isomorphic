@@ -1,16 +1,23 @@
 {
-  "name": "@nodekit/express-isomorphic-react",
-  "version": "0.5.0",
+  "author": "Elden S. Park",
+  "dependencies": {
+    "@nodekit/express-isomorphic2": "^0.5.0"
+  },
+  "devDependencies": {
+    "@types/express": "^4.16.1",
+    "express": "^4.17.0"
+  },
   "description": "",
   "main": "index.js",
+  "name": "@nodekit/express-isomorphic-react",
+  "keywords": [],
+  "license": "ISC",
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
-    "start": "node ./launch.js",
+    "dev": "node ./src/launch.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "@nodekit/express-isomorphic": "^0.5.0"
-  }
+  "version": "0.5.0"
 }

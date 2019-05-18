@@ -1,6 +1,6 @@
-exports.requirePackageArg = (argv) => {
-  if (!argv.p) {
-    console.log(`You should provide '-p' with package name`);
+exports.requireNonNull = (obj, message) => {
+  if (obj === undefined || obj === null) {
+    console.log(message);
     process.exit(0);
   }
 };
