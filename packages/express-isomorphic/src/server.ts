@@ -1,12 +1,12 @@
 import * as fs from 'fs';
 
-import createExpress, { 
+import createExpress, {
   Extend,
   MakeHtml,
   ServerCreation,
 } from './createExpress';
 import ErrorType from './ErrorType';
-import { 
+import {
   parseWebpackBuildInfo,
 } from './utils/serverUtils';
 import { log } from './utils/log';
@@ -19,18 +19,19 @@ const server: Server = function ({
   publicPath,
   universalAppPath,
   webpackBuildJsonPath,
+  webpackConfig,
 }) {
   return createExpress({
     bootstrap: (state) => {
       const bundleBuildJson = fs.readFileSync(webpackBuildJsonPath, 'utf-8');
       const buildInfo = JSON.parse(bundleBuildJson);
       log(`%s enhance(), build.json:\n%o`, tag, buildInfo);
-  
+
       const { error, assets } = parseWebpackBuildInfo(buildInfo);
 
       state.update({
         assets,
-        ...error && { 
+        ...error && {
           error: {
             type: ErrorType.BUILD_ERROR,
             errorObj: error,
@@ -45,6 +46,7 @@ const server: Server = function ({
     extend,
     makeHtml,
     publicPath,
+    webpackConfig,
   });
 };
 
@@ -55,7 +57,8 @@ interface Server {
     publicPath: string;
     universalAppPath: string;
     webpackBuildJsonPath: string;
+    webpackConfig: any;
   }): ServerCreation;
-} 
+}
 
 export default server;

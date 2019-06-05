@@ -21,7 +21,7 @@ const makeHtml: MakeHtml = async function ({
     foo: '1313',
   };
 
-  console.log('request headers: %o', resLocals.headers);
+  // console.log('request headers: %o', resLocals.headers);
 
   const element = (
     <ServerApp

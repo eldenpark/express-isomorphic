@@ -5,7 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const localServer_1 = __importDefault(require("./localServer"));
 const server_1 = __importDefault(require("./server"));
-const create = function ({ extend, makeHtml, publicPath, serverDistPath, universalAppPath, webpackBuildJsonPath, webpackConfigClientLocalPath, webpackConfigUniversalLocalPath, webpackStats = defaultWebpackStats, }) {
+const create = function ({ extend, makeHtml, publicPath, serverDistPath, universalAppPath, webpackBuildJsonPath, webpackConfig, webpackConfigClientLocalPath, webpackConfigUniversalLocalPath, webpackStats = defaultWebpackStats, }) {
     return {
         eject: ({ ejectPath, }) => localServer_1.default({
             ejectPath,
@@ -14,6 +14,7 @@ const create = function ({ extend, makeHtml, publicPath, serverDistPath, univers
             publicPath,
             serverDistPath,
             universalAppPath,
+            webpackConfig,
             webpackConfigClientLocalPath,
             webpackConfigUniversalLocalPath,
             webpackStats,
@@ -24,6 +25,7 @@ const create = function ({ extend, makeHtml, publicPath, serverDistPath, univers
             publicPath,
             serverDistPath,
             universalAppPath,
+            webpackConfig,
             webpackConfigClientLocalPath,
             webpackConfigUniversalLocalPath,
             webpackStats,
@@ -34,6 +36,7 @@ const create = function ({ extend, makeHtml, publicPath, serverDistPath, univers
             publicPath,
             universalAppPath,
             webpackBuildJsonPath,
+            webpackConfig,
         }),
     };
 };

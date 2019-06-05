@@ -29,12 +29,13 @@ const localServer: LocalServer = function ({
   publicPath,
   serverDistPath,
   universalAppPath,
+  webpackConfig,
   webpackConfigClientLocalPath,
   webpackConfigUniversalLocalPath,
   webpackStats,
 }) {
   const { devMiddleware, hotMiddleware } = createWebpackMiddlewares({
-    webpackConfigClientLocalPath,
+    webpackConfig,
     webpackStats,
   });
 
@@ -64,16 +65,18 @@ const localServer: LocalServer = function ({
     extend,
     makeHtml,
     publicPath,
+    webpackConfig,
   });
 };
 
 export default localServer;
 
 function createWebpackMiddlewares({
-  webpackConfigClientLocalPath,
+  webpackConfig,
   webpackStats,
 }) {
-  const webpackConfigClientLocalWeb = require(webpackConfigClientLocalPath);
+  // const webpackConfigClientLocalWeb = require(webpackConfigClientLocalPath);
+  const webpackConfigClientLocalWeb = webpackConfig;
   log(
     '%s webpack-client-local will be compiled with config:\n%o',
     tag,
@@ -98,14 +101,12 @@ function createWebpackMiddlewares({
 const setLaunchStatus: SetLaunchStatus = (state, webpackStats) => (req, res, next) => {
   if (state.buildHash !== res.locals.webpackStats.hash) {
     const info = res.locals.webpackStats.toJson(webpackStats);
-    console.log(444, info);
-    
     const { error, assets } = parseWebpackBuildInfo(info);
 
     state.update({
       assets,
       buildHash: res.locals.webpackStats.hash,
-      ...error && { 
+      ...error && {
         error: {
           errorObj: error,
           type: ErrorType.WATCH_UNIVERSAL_ERROR,
@@ -141,7 +142,6 @@ function setupWatchingWebpackUniversalCompiler({
     serverDistPath,
   ]);
 
-  
   const serverWebpackCompiler = webpack(webpackConfig);
   const watchOptions = {
     aggregateTimeout: 2000,
@@ -157,7 +157,7 @@ function setupWatchingWebpackUniversalCompiler({
           tag,
           error
         );
-  
+
         state.update({
           error: {
             type: ErrorType.WATCH_UNIVERSAL_ERROR,
@@ -170,10 +170,10 @@ function setupWatchingWebpackUniversalCompiler({
         log(
           `%s [watch] webpack-universal-local watch() ${chalk.green('success')}: at: %s,\n%o`,
           tag,
-          new Date(), 
+          new Date(),
           info
         );
-        
+
         const cacheInMemory = getProperRequireCache();
         if (cacheInMemory.indexOf(state.universalAppPath) === -1) {
           log(`[warn] Cache not found: %s`, state.universalAppPath);
@@ -181,14 +181,14 @@ function setupWatchingWebpackUniversalCompiler({
 
         delete require.cache[state.universalAppPath];
         const remainingModulesInCache = getProperRequireCache();
-        
+
         log(
           '%s [watch] require cache after deleting universalAppPath (at %s):\n%o',
           tag,
           state.universalAppPath,
           remainingModulesInCache,
         );
-        
+
         state.update({
           error: undefined,
         });
@@ -206,6 +206,7 @@ interface LocalServer {
     publicPath: string;
     serverDistPath: string;
     universalAppPath: string;
+    webpackConfig: any;
     webpackConfigClientLocalPath: string;
     webpackConfigUniversalLocalPath: string;
     webpackStats: any;

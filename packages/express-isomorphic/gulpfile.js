@@ -25,8 +25,9 @@ gulp.task('clean', () => {
 });
 
 gulp.task('tsc', gulp.series('clean', function _tsc(done) {
-  buildLog('tsc', 'tsc config: %o', tsConfig.compilerOptions);
-  const tsProject = ts.createProject('tsconfig.json');
+  buildLog('tsc start');
+  const tsProject = ts.createProject('./tsconfig.json');
+  console.log('tsProject: %o', tsProject);
 
   return gulp.src([`${paths.src}/**/*.{ts,tsx}`])
     .pipe(tsProject())

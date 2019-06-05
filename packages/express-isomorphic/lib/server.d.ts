@@ -7,6 +7,7 @@ interface Server {
         publicPath: string;
         universalAppPath: string;
         webpackBuildJsonPath: string;
+        webpackConfig: any;
     }): ServerCreation;
 }
 export default server;

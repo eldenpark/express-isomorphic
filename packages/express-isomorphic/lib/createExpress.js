@@ -17,15 +17,16 @@ const util_1 = __importDefault(require("util"));
 const env_1 = require("./env");
 const log_1 = require("./utils/log");
 const state_1 = __importDefault(require("./state"));
-const createExpress = function ({ bootstrap = (state) => [], extend, makeHtml, publicPath, }) {
+const createExpress = function ({ bootstrap = (state) => [], extend, makeHtml, publicPath, webpackConfig, }) {
     log_1.log('Creating express, NODE_ENV: %s', process.env.NODE_ENV);
+    const _publicPath = webpackConfig && webpackConfig.output.publicPath;
     const app = express_1.default();
     const middlewares = bootstrap(state_1.default);
     extend && extend(app, state_1.default);
     app.use([
         ...middlewares,
         log_1.htmlLogger,
-        express_1.default.static(publicPath),
+        express_1.default.static(_publicPath),
     ]);
     app.get('*', [
         logServerUpdate(state_1.default),

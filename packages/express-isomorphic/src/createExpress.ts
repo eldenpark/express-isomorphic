@@ -13,8 +13,11 @@ const createExpress: CreateExpress = function ({
   extend,
   makeHtml,
   publicPath,
+  webpackConfig,
 }) {
   log('Creating express, NODE_ENV: %s', process.env.NODE_ENV);
+
+  const _publicPath = webpackConfig && webpackConfig.output.publicPath;
 
   const app = express();
   const middlewares = bootstrap(state);
@@ -23,7 +26,7 @@ const createExpress: CreateExpress = function ({
   app.use([
     ...middlewares,
     htmlLogger,
-    express.static(publicPath),
+    express.static(_publicPath),
   ]);
 
   app.get('*', [
@@ -121,6 +124,7 @@ interface CreateExpress {
     extend?: (app: express.Application, state: State) => void;
     makeHtml: MakeHtml;
     publicPath: string;
+    webpackConfig: any;
   }): ServerCreation;
 }
 

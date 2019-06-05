@@ -9,6 +9,7 @@ interface LocalServer {
         publicPath: string;
         serverDistPath: string;
         universalAppPath: string;
+        webpackConfig: any;
         webpackConfigClientLocalPath: string;
         webpackConfigUniversalLocalPath: string;
         webpackStats: any;

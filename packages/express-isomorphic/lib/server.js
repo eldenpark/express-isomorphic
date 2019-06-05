@@ -15,7 +15,7 @@ const createExpress_1 = __importDefault(require("./createExpress"));
 const serverUtils_1 = require("./utils/serverUtils");
 const log_1 = require("./utils/log");
 const tag = 'server';
-const server = function ({ extend, makeHtml, publicPath, universalAppPath, webpackBuildJsonPath, }) {
+const server = function ({ extend, makeHtml, publicPath, universalAppPath, webpackBuildJsonPath, webpackConfig, }) {
     return createExpress_1.default({
         bootstrap: (state) => {
             const bundleBuildJson = fs.readFileSync(webpackBuildJsonPath, 'utf-8');
@@ -33,6 +33,7 @@ const server = function ({ extend, makeHtml, publicPath, universalAppPath, webpa
         extend,
         makeHtml,
         publicPath,
+        webpackConfig,
     });
 };
 exports.default = server;

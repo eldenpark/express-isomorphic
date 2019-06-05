@@ -14,6 +14,7 @@ const create: Create = function ({
   serverDistPath,
   universalAppPath,
   webpackBuildJsonPath,
+  webpackConfig,
   webpackConfigClientLocalPath,
   webpackConfigUniversalLocalPath,
   webpackStats = defaultWebpackStats,
@@ -28,6 +29,7 @@ const create: Create = function ({
       publicPath,
       serverDistPath,
       universalAppPath,
+      webpackConfig,
       webpackConfigClientLocalPath,
       webpackConfigUniversalLocalPath,
       webpackStats,
@@ -38,6 +40,7 @@ const create: Create = function ({
       publicPath,
       serverDistPath,
       universalAppPath,
+      webpackConfig,
       webpackConfigClientLocalPath,
       webpackConfigUniversalLocalPath,
       webpackStats,
@@ -48,6 +51,7 @@ const create: Create = function ({
       publicPath,
       universalAppPath,
       webpackBuildJsonPath,
+      webpackConfig,
     }),
   };
 };
@@ -106,6 +110,7 @@ interface Create {
      * The path of webpack build object.
      */
     webpackBuildJsonPath: string;
+    webpackConfig: any;
     webpackConfigClientLocalPath: string;
     webpackConfigUniversalLocalPath: string;
     webpackStats?: WebpackStats;
@@ -115,7 +120,7 @@ interface Create {
     }) => void;
     /**
      * Express application. localServer has built-in HMR functionality and dynamically
-     * compiles files. This does not use pre-built bundle. It 
+     * compiles files. This does not use pre-built bundle.
      */
     localServer: () => ServerCreation;
     /**

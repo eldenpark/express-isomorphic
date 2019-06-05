@@ -12,9 +12,11 @@ import ExpressIsomorphic, {
 import makeHtml from './makeHtml';
 import * as paths from '../paths';
 
+import webpackConfig from '../webpack/webpack.config.client.local.web';
+
 const extend: Extend = (app, state) => {
   app.use((req: Request, res, next: NextFunction) => {
-    console.log('middleware: extend()', req.headers);
+    // console.log('middleware: extend()', req.headers);
 
     res.locals.headers = req.headers;
     next();
@@ -28,6 +30,7 @@ const { localServer, server, eject } = ExpressIsomorphic.create({
   serverDistPath: paths.dist,
   universalAppPath: path.resolve(paths.distUniversal, 'universal.rootContainer.js'),
   webpackBuildJsonPath: path.resolve(paths.distPublicBundle, 'build.json'),
+  webpackConfig,
   webpackConfigClientLocalPath: paths.webpackConfigClientLocalWeb,
   webpackConfigUniversalLocalPath: paths.webpackConfigUniversalLocal,
 });

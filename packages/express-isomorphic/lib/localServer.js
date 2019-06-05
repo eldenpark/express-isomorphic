@@ -13,9 +13,9 @@ const eject_1 = __importDefault(require("./eject"));
 const serverUtils_1 = require("./utils/serverUtils");
 const log_1 = require("./utils/log");
 const tag = '[localServer]';
-const localServer = function ({ ejectPath, extend, makeHtml, publicPath, serverDistPath, universalAppPath, webpackConfigClientLocalPath, webpackConfigUniversalLocalPath, webpackStats, }) {
+const localServer = function ({ ejectPath, extend, makeHtml, publicPath, serverDistPath, universalAppPath, webpackConfig, webpackConfigClientLocalPath, webpackConfigUniversalLocalPath, webpackStats, }) {
     const { devMiddleware, hotMiddleware } = createWebpackMiddlewares({
-        webpackConfigClientLocalPath,
+        webpackConfig,
         webpackStats,
     });
     return createExpress_1.default({
@@ -43,11 +43,13 @@ const localServer = function ({ ejectPath, extend, makeHtml, publicPath, serverD
         extend,
         makeHtml,
         publicPath,
+        webpackConfig,
     });
 };
 exports.default = localServer;
-function createWebpackMiddlewares({ webpackConfigClientLocalPath, webpackStats, }) {
-    const webpackConfigClientLocalWeb = require(webpackConfigClientLocalPath);
+function createWebpackMiddlewares({ webpackConfig, webpackStats, }) {
+    // const webpackConfigClientLocalWeb = require(webpackConfigClientLocalPath);
+    const webpackConfigClientLocalWeb = webpackConfig;
     log_1.log('%s webpack-client-local will be compiled with config:\n%o', tag, webpackConfigClientLocalWeb);
     const clientWebpackCompiler = webpack_1.default(webpackConfigClientLocalWeb);
     const devMiddleware = webpack_dev_middleware_1.default(clientWebpackCompiler, {
@@ -64,7 +66,6 @@ function createWebpackMiddlewares({ webpackConfigClientLocalPath, webpackStats, 
 const setLaunchStatus = (state, webpackStats) => (req, res, next) => {
     if (state.buildHash !== res.locals.webpackStats.hash) {
         const info = res.locals.webpackStats.toJson(webpackStats);
-        console.log(444, info);
         const { error, assets } = serverUtils_1.parseWebpackBuildInfo(info);
         state.update(Object.assign({ assets, buildHash: res.locals.webpackStats.hash }, error && {
             error: {

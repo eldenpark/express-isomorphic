@@ -8,8 +8,8 @@ const webpackConfigClientWeb = require('./webpack.config.client.web');
 const config = {
   devtool: 'source-map',
   entry: {
-    client: [ 
-      'webpack-hot-middleware/client', 
+    client: [
+      'webpack-hot-middleware/client',
       path.resolve(paths.src, 'client/client.tsx'),
     ],
   },

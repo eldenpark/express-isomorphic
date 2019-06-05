@@ -28,6 +28,7 @@ interface CreateExpress {
         extend?: (app: express.Application, state: State) => void;
         makeHtml: MakeHtml;
         publicPath: string;
+        webpackConfig: any;
     }): ServerCreation;
 }
 interface ResLocals {
