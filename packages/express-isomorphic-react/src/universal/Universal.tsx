@@ -10,14 +10,14 @@ const Universal: UniversalType = ({
 }) => {
   const [ count, setCount ] = React.useState(0);
 
-  const handleClickButton = useMemo(
-    () => {
-      return () => {
-        setCount(count + 1);
-      };
-    },
-    [count],
-  );
+  // const handleClickButton = useMemo(
+  //   () => {
+  //     return () => {
+  //       setCount(count + 1);
+  //     };
+  //   },
+  //   [count],
+  // );
 
   return (
     <div>
@@ -25,7 +25,7 @@ const Universal: UniversalType = ({
       <div>
         <p>[count]</p>
         <p>{count}</p>
-        <button onClick={handleClickButton}>add</button>
+        {/* <button onClick={handleClickButton}>add</button> */}
       </div>
       <TransferredState />
       {children}

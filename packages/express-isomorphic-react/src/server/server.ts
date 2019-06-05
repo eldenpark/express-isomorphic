@@ -9,8 +9,8 @@ import path from 'path';
 import ExpressIsomorphic, {
   Extend,
 } from '@nodekit/express-isomorphic2';
-import * as paths from '../paths';
 import makeHtml from './makeHtml';
+import * as paths from '../paths';
 
 const extend: Extend = (app, state) => {
   app.use((req: Request, res, next: NextFunction) => {
@@ -19,7 +19,7 @@ const extend: Extend = (app, state) => {
     res.locals.headers = req.headers;
     next();
   });
-}
+};
 
 const { localServer, server, eject } = ExpressIsomorphic.create({
   extend,
@@ -32,7 +32,7 @@ const { localServer, server, eject } = ExpressIsomorphic.create({
   webpackConfigUniversalLocalPath: paths.webpackConfigUniversalLocal,
 });
 
-const port = 6234;
+const port = 6001;
 
 const httpServer = http.createServer(localServer().app);
 // const httpServer = http.createServer(server().app);

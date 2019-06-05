@@ -13,11 +13,6 @@ export const parseWebpackBuildInfo: ParseWebpackBuildInfo = function ({
         assets,
         error: 'entrypoints undefined',
       };
-    } else if (errors.length > 0) {
-      return {
-        assets,
-        error: 'webpack build failed. Original error messages: ' + errors,
-      };
     }
 
     Object.keys(entrypoints)
@@ -26,7 +21,7 @@ export const parseWebpackBuildInfo: ParseWebpackBuildInfo = function ({
           asset.match(/^.*\.(js|css)$/) && assets.push(asset);
         });
       });
-    
+
     return {
       assets,
     };

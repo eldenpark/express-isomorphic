@@ -11,8 +11,14 @@
   "license": "ISC",
   "devDependencies": {
     "@babel/core": "^7.4.4",
+    "@babel/plugin-syntax-dynamic-import": "^7.2.0",
+    "@babel/preset-env": "^7.4.5",
+    "@babel/preset-react": "^7.0.0",
     "@babel/preset-typescript": "^7.3.3",
-    "lerna": "^3.14.1"
+    "babel-plugin-module-resolver": "^3.2.0",
+    "gulp-typescript": "^5.0.1",
+    "lerna": "^3.14.1",
+    "typescript": "^3.5.1"
   },
   "dependencies": {
     "@babel/register": "^7.4.4",

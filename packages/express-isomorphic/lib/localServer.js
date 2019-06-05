@@ -64,6 +64,7 @@ function createWebpackMiddlewares({ webpackConfigClientLocalPath, webpackStats, 
 const setLaunchStatus = (state, webpackStats) => (req, res, next) => {
     if (state.buildHash !== res.locals.webpackStats.hash) {
         const info = res.locals.webpackStats.toJson(webpackStats);
+        console.log(444, info);
         const { error, assets } = serverUtils_1.parseWebpackBuildInfo(info);
         state.update(Object.assign({ assets, buildHash: res.locals.webpackStats.hash }, error && {
             error: {

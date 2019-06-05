@@ -7,6 +7,7 @@ declare const defaultWebpackStats: {
     chunks: boolean;
     color: boolean;
     entrypoints: boolean;
+    errors: boolean;
 };
 export default ExpressIsomorphic;
 export { addPath } from './eject';

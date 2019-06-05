@@ -47,6 +47,7 @@ const defaultWebpackStats = {
     chunks: true,
     color: true,
     entrypoints: true,
+    errors: true,
 };
 exports.webpackStats = defaultWebpackStats;
 exports.default = ExpressIsomorphic;

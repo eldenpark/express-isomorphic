@@ -1,12 +1,12 @@
 import * as React from 'react';
 import { renderToString } from 'react-dom/server';
 
-import { 
-  addPath, 
-  attachAssets, 
+import {
+  addPath,
+  attachAssets,
   MakeHtml,
   requireUniversalComponent,
-} from '../../../lib';
+} from '@nodekit/express-isomorphic2';
 import { Locals } from './server';
 import ServerApp from './ServerApp';
 

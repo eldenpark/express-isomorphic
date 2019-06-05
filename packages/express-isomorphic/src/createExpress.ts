@@ -32,7 +32,7 @@ const createExpress: CreateExpress = function ({
     checkBundleError(state),
     serveHtml(state, makeHtml),
   ]);
-  
+
   return {
     app,
     state,
@@ -41,8 +41,8 @@ const createExpress: CreateExpress = function ({
 
 const logServerUpdate: (state: State) => RequestHandler = (state) => (req, res, next) => {
   log(
-    'server is last updated at: %o, assets: %s, buildHash: %s', 
-    state.updatedAt, 
+    'logServerUpdate(): server last updated at: %o, assets: %s, buildHash: %s',
+    state.updatedAt,
     state.assets,
     state.buildHash,
   );
@@ -59,20 +59,21 @@ const checkLaunch: (state: State) => RequestHandler = (state) => (req, res, next
 
 const checkBundleError: (state: State) => RequestHandler = (state) => (req, res, next) => {
   if (state.error) {
-    const errorMsg = !isProduction 
+    const errorMsg = !isProduction
       ? util.format('Server is not successfully launched: %s', state.error)
       : 'Server is not successfully launched. Check out the log';
 
     res.writeHead(500);
     res.end(errorMsg);
+  } else {
+    next();
   }
-  next();
-}
+};
 
 const serveHtml: (state: State, makeHtml: MakeHtml) => RequestHandler = (state, makeHtml) => (
   async (req, res, next) => {
     res.writeHead(200, { "Content-Type": "text/html" });
-    
+
     try {
       const html = await makeHtml({
         assets: state.assets,

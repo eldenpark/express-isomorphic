@@ -5,7 +5,7 @@ import webpack from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
 
-import createExpress, { 
+import createExpress, {
   Extend,
   MakeHtml,
   ServerCreation,
@@ -13,7 +13,7 @@ import createExpress, {
 } from './createExpress';
 import eject, { Eject } from './eject';
 import ErrorType from './ErrorType';
-import { 
+import {
   getProperRequireCache,
   parseWebpackBuildInfo,
 } from './utils/serverUtils';
@@ -98,6 +98,8 @@ function createWebpackMiddlewares({
 const setLaunchStatus: SetLaunchStatus = (state, webpackStats) => (req, res, next) => {
   if (state.buildHash !== res.locals.webpackStats.hash) {
     const info = res.locals.webpackStats.toJson(webpackStats);
+    console.log(444, info);
+    
     const { error, assets } = parseWebpackBuildInfo(info);
 
     state.update({

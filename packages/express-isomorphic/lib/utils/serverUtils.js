@@ -11,12 +11,6 @@ exports.parseWebpackBuildInfo = function ({ entrypoints, errors, }) {
                 error: 'entrypoints undefined',
             };
         }
-        else if (errors.length > 0) {
-            return {
-                assets,
-                error: 'webpack build failed. Original error messages: ' + errors,
-            };
-        }
         Object.keys(entrypoints)
             .map((entrypoint) => {
             entrypoints[entrypoint].assets.map((asset) => {

@@ -39,7 +39,7 @@ const createExpress = function ({ bootstrap = (state) => [], extend, makeHtml, p
     };
 };
 const logServerUpdate = (state) => (req, res, next) => {
-    log_1.log('server is last updated at: %o, assets: %s, buildHash: %s', state.updatedAt, state.assets, state.buildHash);
+    log_1.log('logServerUpdate(): server last updated at: %o, assets: %s, buildHash: %s', state.updatedAt, state.assets, state.buildHash);
     next();
 };
 const checkLaunch = (state) => (req, res, next) => {
@@ -57,7 +57,9 @@ const checkBundleError = (state) => (req, res, next) => {
         res.writeHead(500);
         res.end(errorMsg);
     }
-    next();
+    else {
+        next();
+    }
 };
 const serveHtml = (state, makeHtml) => ((req, res, next) => __awaiter(this, void 0, void 0, function* () {
     res.writeHead(200, { "Content-Type": "text/html" });
