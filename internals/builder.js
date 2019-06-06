@@ -8,20 +8,29 @@ const cwd = process.cwd();
 (async () => {
   try {
     if (argv.p !== undefined) {
-      const gulpFilePath = path.resolve(cwd, 'packages', argv.p, 'gulpfile.js');
-      console.log('gulpFilePath: %s', gulpFilePath);
+      const buildFilePath = path.resolve(cwd, 'packages', argv.p, 'scripts', 'build.js');
+      console.log('buildFilePath: %s', buildFilePath);
 
-      executeGulpBuild(gulpFilePath);
+      if (fs.existsSync(buildFilePath)) {
+        executeBuild(buildFilePath);
+      } else {
+        console.error('buildFilePath does not exist: %s', buildFilePath);
+      }
     } else {
       const packagesPath = path.resolve(cwd, 'packages');
       const packages = fs.readdirSync(packagesPath);
       for (let i = 0; i < packages.length; i++) {
         const stat = fs.lstatSync(path.resolve(packagesPath, packages[i]));
         if (stat.isDirectory()) {
-          const gulpFilePath = path.resolve(packagesPath, packages[i], 'gulpfile.js');
-          if (fs.existsSync(gulpFilePath)) {
-            console.log('gulpfile found: %s, running "build"', gulpFilePath);
-            await executeGulpBuild(gulpFilePath);
+          const buildFilePath = path.resolve(
+            packagesPath,
+            packages[i],
+            'scripts',
+            'build.js',
+          );
+          if (fs.existsSync(buildFilePath)) {
+            console.log('buildFile found: %s, running "build"', buildFilePath);
+            await executeBuild(buildFilePath);
           }
         }
       }
@@ -31,15 +40,12 @@ const cwd = process.cwd();
   }
 })();
 
-function executeGulpBuild(gulpFilePath) {
+function executeBuild(buildFilePath) {
   return new Promise((resolve, reject) => {
     const child = childProcess.spawn(
       'node',
       [
-        './node_modules/.bin/gulp',
-        '--gulpfile',
-        gulpFilePath,
-        'build'
+        buildFilePath,
       ],
       {
         stdio: 'inherit',

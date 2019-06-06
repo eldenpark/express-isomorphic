@@ -5,11 +5,11 @@ const path = require('path');
 const ts = require('gulp-typescript');
 const util = require('util');
 
-const tsConfig = require('./tsconfig.json');
+const tsConfig = require('../tsconfig.json');
 
 const paths = {
-  lib: path.resolve(__dirname, 'lib'),
-  src: path.resolve(__dirname, 'src'),
+  lib: path.resolve(__dirname, '..', 'lib'),
+  src: path.resolve(__dirname, '..', 'src'),
 };
 
 const buildLog = (tag, ...args) => {
@@ -26,12 +26,13 @@ gulp.task('clean', () => {
 
 gulp.task('tsc', gulp.series('clean', function _tsc(done) {
   buildLog('tsc start');
-  const tsProject = ts.createProject('./tsconfig.json');
-  console.log('tsProject: %o', tsProject);
+  console.log('tsc src: %s', paths.src);
 
   return gulp.src([`${paths.src}/**/*.{ts,tsx}`])
-    .pipe(tsProject())
+    .pipe(ts(tsConfig.compilerOptions))
     .pipe(gulp.dest(paths.lib));
 }));
 
 gulp.task('build', gulp.series('clean', 'tsc'));
+
+module.exports = gulp;
