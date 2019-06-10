@@ -8,7 +8,7 @@ try {
   childProcess.spawn(
     'node',
     [
-      `./src/launch.js`,
+      `./scripts/launch.js`,
     ],
     {
       cwd: `./packages/${argv.p}`,

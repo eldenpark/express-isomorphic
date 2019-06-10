@@ -3,7 +3,7 @@
   "description": "Monorepo for isomorphic web application serving toolchain",
   "scripts": {
     "build": "node ./internals/builder",
-    "launch": "node ./internals/runner",
+    "launch": "node ./internals/launcher",
     "lerna": "node ./node_modules/.bin/lerna",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

@@ -36,4 +36,4 @@ require('@babel/register')({
   extensions: ['.js', '.jsx', '.ts', '.tsx'],
 });
 
-require('./server/server.ts');
+require('../src/server/server.ts');
