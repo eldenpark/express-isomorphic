@@ -4,7 +4,7 @@ import mkdirp from 'mkdirp';
 import path from 'path';
 import { Request } from 'express';
 
-import { 
+import {
   MakeHtml,
 } from './createExpress';
 import { log } from './utils/log';
@@ -33,7 +33,7 @@ const eject: Eject = async function ({
   if (!ejectPath) {
     throw new Error('eject() cannot operate without valid ejectPath');
   }
-  
+
   mkdirp.sync(ejectPath);
 
   log('%s, assets:\n%o', tag, assets);
@@ -43,7 +43,6 @@ const eject: Eject = async function ({
     assets,
     requestUrl: '',
     resLocals: {},
-    universalAppPath: state.universalAppPath,
   });
 
   try {

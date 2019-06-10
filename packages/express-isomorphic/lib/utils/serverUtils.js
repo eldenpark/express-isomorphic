@@ -28,13 +28,6 @@ exports.parseWebpackBuildInfo = function ({ entrypoints, errors, }) {
         };
     }
 };
-function getProperRequireCache() {
-    return Object.keys(require.cache)
-        .filter((key) => {
-        return !key.includes('/node_modules/');
-    });
-}
-exports.getProperRequireCache = getProperRequireCache;
 function attachAssets(assets = []) {
     return assets.map((asset) => {
         if (asset.endsWith('.js')) {
@@ -50,15 +43,3 @@ function attachAssets(assets = []) {
         .join('');
 }
 exports.attachAssets = attachAssets;
-function requireUniversalComponent(universalAppPath) {
-    let Universal;
-    try {
-        Universal = require(universalAppPath).default;
-    }
-    catch (err) {
-        console.error('Error loading UniversalApp at path: %s\nOriginal Error: %o', universalAppPath, err);
-        Universal = 'Universal Component not found';
-    }
-    return Universal;
-}
-exports.requireUniversalComponent = requireUniversalComponent;

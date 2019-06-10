@@ -8,6 +8,7 @@ const babelRc = {
         },
       }
     ],
+    '@babel/plugin-syntax-dynamic-import',
   ],
   "presets": [
     ["@babel/preset-env", {

@@ -10,8 +10,7 @@ export interface MakeHtml {
     (arg: {
         assets: string[] | undefined;
         requestUrl: string;
-        resLocals: ResLocals;
-        universalAppPath: string | undefined;
+        resLocals?: ResLocals;
     }): Promise<string>;
 }
 export interface WebpackStats {
@@ -27,7 +26,6 @@ interface CreateExpress {
         bootstrap: (state: State) => RequestHandler[];
         extend?: (app: express.Application, state: State) => void;
         makeHtml: MakeHtml;
-        publicPath: string;
         webpackConfig: any;
     }): ServerCreation;
 }

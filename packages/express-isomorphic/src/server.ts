@@ -45,7 +45,6 @@ const server: Server = function ({
     },
     extend,
     makeHtml,
-    publicPath,
     webpackConfig,
   });
 };

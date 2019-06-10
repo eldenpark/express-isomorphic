@@ -46,7 +46,6 @@ const eject = function ({ assets, ejectPath, makeHtml, state, }) {
             assets,
             requestUrl: '',
             resLocals: {},
-            universalAppPath: state.universalAppPath,
         });
         try {
             fs.writeFileSync(path_1.default.resolve(ejectPath, 'power.html'), html);

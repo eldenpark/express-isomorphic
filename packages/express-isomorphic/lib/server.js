@@ -32,7 +32,6 @@ const server = function ({ extend, makeHtml, publicPath, universalAppPath, webpa
         },
         extend,
         makeHtml,
-        publicPath,
         webpackConfig,
     });
 };

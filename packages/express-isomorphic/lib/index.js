@@ -5,29 +5,21 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const localServer_1 = __importDefault(require("./localServer"));
 const server_1 = __importDefault(require("./server"));
-const create = function ({ extend, makeHtml, publicPath, serverDistPath, universalAppPath, webpackBuildJsonPath, webpackConfig, webpackConfigClientLocalPath, webpackConfigUniversalLocalPath, webpackStats = defaultWebpackStats, }) {
+const create = function ({ extend, makeHtml, makeHtmlPath, publicPath, universalAppPath, webpackBuildJsonPath, webpackConfig, webpackStats = defaultWebpackStats, }) {
     return {
         eject: ({ ejectPath, }) => localServer_1.default({
             ejectPath,
             extend,
-            makeHtml,
+            makeHtmlPath,
             publicPath,
-            serverDistPath,
-            universalAppPath,
             webpackConfig,
-            webpackConfigClientLocalPath,
-            webpackConfigUniversalLocalPath,
             webpackStats,
         }),
         localServer: () => localServer_1.default({
             extend,
-            makeHtml,
+            makeHtmlPath,
             publicPath,
-            serverDistPath,
-            universalAppPath,
             webpackConfig,
-            webpackConfigClientLocalPath,
-            webpackConfigUniversalLocalPath,
             webpackStats,
         }),
         server: () => server_1.default({
@@ -58,4 +50,3 @@ var eject_1 = require("./eject");
 exports.addPath = eject_1.addPath;
 var serverUtils_1 = require("./utils/serverUtils");
 exports.attachAssets = serverUtils_1.attachAssets;
-exports.requireUniversalComponent = serverUtils_1.requireUniversalComponent;

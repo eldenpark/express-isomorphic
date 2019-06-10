@@ -6,12 +6,12 @@ import Universal from '../universal/Universal';
 const ClientApp = ({
   universalState,
 }) => {
-  const { UniversalContext } = Universal.contexts;
+  // const { UniversalContext } = Universal.contexts;
 
   return (
-    <UniversalContext.Provider value={universalState}>
+    // <UniversalContext.Provider value={universalState}>
       <Universal />
-    </UniversalContext.Provider>
+    // </UniversalContext.Provider>
   );
 };
 

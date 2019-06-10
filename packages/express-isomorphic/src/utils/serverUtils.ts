@@ -33,13 +33,6 @@ export const parseWebpackBuildInfo: ParseWebpackBuildInfo = function ({
   }
 }
 
-export function getProperRequireCache() {
-  return Object.keys(require.cache)
-    .filter((key) => {
-      return !key.includes('/node_modules/');
-    });
-}
-
 export function attachAssets(assets: string[] = []): string {
   return assets.map((asset) => {
     if (asset.endsWith('.js')) {
@@ -51,17 +44,6 @@ export function attachAssets(assets: string[] = []): string {
     }
   })
     .join('');
-}
-
-export function requireUniversalComponent(universalAppPath: string): object {
-  let Universal;
-  try {
-    Universal = require(universalAppPath).default;
-  } catch (err) {
-    console.error('Error loading UniversalApp at path: %s\nOriginal Error: %o', universalAppPath, err);
-    Universal = 'Universal Component not found';
-  }
-  return Universal;
 }
 
 export interface WebpackBuildInfo {

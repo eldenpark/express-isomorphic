@@ -17,7 +17,8 @@ const babelRc = {
     // "@babel/plugin-syntax-dynamic-import",
     // "@babel/plugin-syntax-import-meta",
     // ["@babel/plugin-proposal-class-properties", { "loose": false }],
-    // "@babel/plugin-proposal-json-strings"
+    // "@babel/plugin-proposal-json-strings",
+    'dynamic-import-node',
   ],
   "presets": [
     ["@babel/preset-env", {

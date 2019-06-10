@@ -8,9 +8,10 @@ try {
   childProcess.spawn(
     'node',
     [
-      `./packages/${argv.p}/src/launch.js`,
+      `./src/launch.js`,
     ],
     {
+      cwd: `./packages/${argv.p}`,
       stdio: 'inherit',
     },
   );

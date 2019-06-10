@@ -10,13 +10,11 @@ import _server from './server';
 const create: Create = function ({
   extend,
   makeHtml,
+  makeHtmlPath,
   publicPath,
-  serverDistPath,
   universalAppPath,
   webpackBuildJsonPath,
   webpackConfig,
-  webpackConfigClientLocalPath,
-  webpackConfigUniversalLocalPath,
   webpackStats = defaultWebpackStats,
 }) {
   return {
@@ -25,24 +23,16 @@ const create: Create = function ({
     }) => _localServer({
       ejectPath,
       extend,
-      makeHtml,
+      makeHtmlPath,
       publicPath,
-      serverDistPath,
-      universalAppPath,
       webpackConfig,
-      webpackConfigClientLocalPath,
-      webpackConfigUniversalLocalPath,
       webpackStats,
     }),
     localServer: () => _localServer({
       extend,
-      makeHtml,
+      makeHtmlPath,
       publicPath,
-      serverDistPath,
-      universalAppPath,
       webpackConfig,
-      webpackConfigClientLocalPath,
-      webpackConfigUniversalLocalPath,
       webpackStats,
     }),
     server: () => _server({
@@ -74,7 +64,7 @@ export default ExpressIsomorphic;
 
 export { addPath } from './eject';
 
-export { attachAssets, requireUniversalComponent } from './utils/serverUtils';
+export { attachAssets } from './utils/serverUtils';
 
 export {
   Extend,
@@ -96,6 +86,7 @@ interface Create {
      * On server side rendering, makeHtml() is called to serve static html.
      */
     makeHtml: MakeHtml;
+    makeHtmlPath: any;
     /**
      * express public path
      */

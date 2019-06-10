@@ -26,6 +26,7 @@ const extend: Extend = (app, state) => {
 const { localServer, server, eject } = ExpressIsomorphic.create({
   extend,
   makeHtml,
+  makeHtmlPath: path.resolve(__dirname, './makeHtmlLaunch.js'),
   publicPath: paths.dist,
   serverDistPath: paths.dist,
   universalAppPath: path.resolve(paths.distUniversal, 'universal.rootContainer.js'),
@@ -41,12 +42,8 @@ const httpServer = http.createServer(localServer().app);
 // const httpServer = http.createServer(server().app);
 
 httpServer.listen(port, () => {
-  console.log(`Listening on ${port}`);
+  console.log(`[express-isomorphic-react] Listening on ${port}`);
 });
-
-// eject({
-//   ejectPath: paths.distEject,
-// });
 
 export interface Locals {
   headers: object;

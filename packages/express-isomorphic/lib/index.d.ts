@@ -11,7 +11,7 @@ declare const defaultWebpackStats: {
 };
 export default ExpressIsomorphic;
 export { addPath } from './eject';
-export { attachAssets, requireUniversalComponent } from './utils/serverUtils';
+export { attachAssets } from './utils/serverUtils';
 export { Extend, MakeHtml, defaultWebpackStats as webpackStats, };
 interface ExpressIsomorphicType {
     create: Create;
@@ -26,6 +26,7 @@ interface Create {
          * On server side rendering, makeHtml() is called to serve static html.
          */
         makeHtml: MakeHtml;
+        makeHtmlPath: any;
         /**
          * express public path
          */

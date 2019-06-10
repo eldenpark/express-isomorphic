@@ -1,5 +1,6 @@
-import chalk from 'chalk';
-import del from 'del';
+import axios from 'axios';
+import nodemon from 'nodemon';
+import path from 'path';
 import { RequestHandler } from 'express';
 import webpack from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
@@ -14,24 +15,16 @@ import createExpress, {
 import eject, { Eject } from './eject';
 import ErrorType from './ErrorType';
 import {
-  getProperRequireCache,
   parseWebpackBuildInfo,
 } from './utils/serverUtils';
 import { log } from './utils/log';
 import { State } from './state';
 
-const tag = '[localServer]';
-
 const localServer: LocalServer = function ({
   ejectPath,
   extend,
-  makeHtml,
-  publicPath,
-  serverDistPath,
-  universalAppPath,
+  makeHtmlPath,
   webpackConfig,
-  webpackConfigClientLocalPath,
-  webpackConfigUniversalLocalPath,
   webpackStats,
 }) {
   const { devMiddleware, hotMiddleware } = createWebpackMiddlewares({
@@ -41,20 +34,7 @@ const localServer: LocalServer = function ({
 
   return createExpress({
     bootstrap: (state) => {
-      setupWatchingWebpackUniversalCompiler({
-        serverDistPath,
-        state,
-        universalAppPath,
-        webpackConfigUniversalLocalPath,
-        webpackStats,
-      }).then(() => {
-        ejectPath && eject({
-          assets: state.assets,
-          ejectPath,
-          makeHtml,
-          state,
-        });
-      });
+      setupNodemon(makeHtmlPath);
 
       return [
         devMiddleware,
@@ -63,8 +43,16 @@ const localServer: LocalServer = function ({
       ];
     },
     extend,
-    makeHtml,
-    publicPath,
+    makeHtml: async ({
+      assets,
+      requestUrl,
+    }) => {
+      const { data } = await axios.post('http://localhost:10021/makeHtml', {
+        assets,
+        requestUrl,
+      });
+      return data;
+    },
     webpackConfig,
   });
 };
@@ -75,17 +63,14 @@ function createWebpackMiddlewares({
   webpackConfig,
   webpackStats,
 }) {
-  // const webpackConfigClientLocalWeb = require(webpackConfigClientLocalPath);
-  const webpackConfigClientLocalWeb = webpackConfig;
   log(
-    '%s webpack-client-local will be compiled with config:\n%o',
-    tag,
-    webpackConfigClientLocalWeb,
+    'createWebpackMiddlewares(): webpack-client-local will be compiled with config:\n%j',
+    webpackConfig,
   );
-  const clientWebpackCompiler = webpack(webpackConfigClientLocalWeb);
+  const clientWebpackCompiler = webpack(webpackConfig);
 
   const devMiddleware = webpackDevMiddleware(clientWebpackCompiler, {
-    publicPath: webpackConfigClientLocalWeb.output.publicPath,
+    publicPath: webpackConfig.output.publicPath,
     serverSideRender: true,
     stats: webpackStats,
   });
@@ -118,97 +103,36 @@ const setLaunchStatus: SetLaunchStatus = (state, webpackStats) => (req, res, nex
   next();
 };
 
-function setupWatchingWebpackUniversalCompiler({
-  serverDistPath,
-  state,
-  universalAppPath,
-  webpackConfigUniversalLocalPath,
-  webpackStats,
-}) {
-  state.update({
-    universalAppPath,
-  });
+function setupNodemon(makeHtmlPath) {
+  log('setupNodemon(): parent pid: %s, makeHtmlPath: %s', process.pid, makeHtmlPath);
+  const script = path.resolve(__dirname, 'htmlGeneratingServer.js');
 
-  const webpackConfig = require(webpackConfigUniversalLocalPath);
-
-  log(
-    '%s [watch] webpack-universal-local will be compiled with webpack-universal-config:\n deleting serverDistPath: %s\n%o',
-    tag,
-    webpackConfig,
-    serverDistPath,
-  );
-
-  del.sync([
-    serverDistPath,
-  ]);
-
-  const serverWebpackCompiler = webpack(webpackConfig);
-  const watchOptions = {
-    aggregateTimeout: 2000,
-    poll: undefined,
-  };
-
-  return new Promise((resolve, reject) => {
-    serverWebpackCompiler.watch(watchOptions, (err, stats) => {
-      if (err || stats.hasErrors()) {
-        const error = stats.toString('errors-only');
-        log(
-          `%s [watch] [error] webpack-universal-local watch() ${chalk.red('fails')}:\n%s`,
-          tag,
-          error
-        );
-
-        state.update({
-          error: {
-            type: ErrorType.WATCH_UNIVERSAL_ERROR,
-            errorObj: error,
-          },
-        });
-        reject(error);
-      } else {
-        const info = stats.toJson(webpackStats);
-        log(
-          `%s [watch] webpack-universal-local watch() ${chalk.green('success')}: at: %s,\n%o`,
-          tag,
-          new Date(),
-          info
-        );
-
-        const cacheInMemory = getProperRequireCache();
-        if (cacheInMemory.indexOf(state.universalAppPath) === -1) {
-          log(`[warn] Cache not found: %s`, state.universalAppPath);
-        }
-
-        delete require.cache[state.universalAppPath];
-        const remainingModulesInCache = getProperRequireCache();
-
-        log(
-          '%s [watch] require cache after deleting universalAppPath (at %s):\n%o',
-          tag,
-          state.universalAppPath,
-          remainingModulesInCache,
-        );
-
-        state.update({
-          error: undefined,
-        });
-        resolve();
-      }
+  nodemon({
+    args: [
+      '--port',
+      10021,
+      '--makeHtmlPath',
+      makeHtmlPath,
+    ],
+    ext: 'js json jsx ts tsx',
+    script,
+  })
+    .on('quit', () => {
+      log('setupNodemon(): quit');
+      process.exit();
+    })
+    .on('restart', (files: string[]) => {
+      log('setupNodemon(): restarted by', files);
     });
-  });
 }
 
 interface LocalServer {
   (arg: {
     ejectPath?: string;
     extend?: Extend;
-    makeHtml: MakeHtml;
+    makeHtmlPath: any;
     publicPath: string;
-    serverDistPath: string;
-    universalAppPath: string;
     webpackConfig: any;
-    webpackConfigClientLocalPath: string;
-    webpackConfigUniversalLocalPath: string;
     webpackStats: any;
   }): ServerCreation;
 }
