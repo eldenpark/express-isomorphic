@@ -8,23 +8,30 @@ import webpackHotMiddleware from 'webpack-hot-middleware';
 
 import createExpress, {
   Extend,
-  MakeHtml,
   ServerCreation,
   WebpackStats,
 } from './createExpress';
-import eject, { Eject } from './eject';
-import {
-  parseWebpackBuildInfo,
-} from './utils/serverUtils';
 import { log } from './utils/log';
+import {
+  parseWebpackBuild,
+} from './utils/serverUtils';
 import { State } from './ServerState';
 
+const defaultWebpackStats = {
+  all: false,
+  assets: true,
+  builtAt: true,
+  chunks: true,
+  color: true,
+  entrypoints: true,
+  errors: true,
+};
+
 const localServer: LocalServer = function ({
-  ejectPath,
   extend,
   makeHtmlPath,
   webpackConfig,
-  webpackStats,
+  webpackStats = defaultWebpackStats,
 }) {
   const { devMiddleware, hotMiddleware } = createWebpackMiddlewares({
     webpackConfig,
@@ -84,8 +91,8 @@ function createWebpackMiddlewares({
 
 const setLaunchStatus: SetLaunchStatus = (serverState, webpackStats) => (req, res, next) => {
   if (serverState.buildHash !== res.locals.webpackStats.hash) {
-    const info = res.locals.webpackStats.toJson(webpackStats);
-    const { error, assets } = parseWebpackBuildInfo(info);
+    const webpackBuild = res.locals.webpackStats.toJson(webpackStats);
+    const { error, assets } = parseWebpackBuild(webpackBuild);
 
     serverState.update({
       assets,
@@ -131,7 +138,7 @@ interface LocalServer {
     extend?: Extend;
     makeHtmlPath: any;
     webpackConfig: any;
-    webpackStats: any;
+    webpackStats?: any;
   }): ServerCreation;
 }
 

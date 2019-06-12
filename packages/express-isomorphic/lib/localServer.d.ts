@@ -7,6 +7,6 @@ interface LocalServer {
         extend?: Extend;
         makeHtmlPath: any;
         webpackConfig: any;
-        webpackStats: any;
+        webpackStats?: any;
     }): ServerCreation;
 }

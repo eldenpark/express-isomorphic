@@ -18,9 +18,8 @@ const log_1 = require("./utils/log");
 const productionServer = function ({ extend, makeHtmlPath, webpackBuild, webpackConfig, }) {
     return createExpress_1.default({
         bootstrap: (app, serverState, webpackConfig) => {
-            const buildInfo = webpackBuild;
-            log_1.log(`bootstrap(): build.json:\n%j`, buildInfo);
-            const { error, assets } = serverUtils_1.parseWebpackBuildInfo(buildInfo);
+            log_1.log(`bootstrap(): webpackBuild:\n%j`, webpackBuild);
+            const { error, assets } = serverUtils_1.parseWebpackBuild(webpackBuild);
             const makeHtml = require(makeHtmlPath).default || require(makeHtmlPath);
             const { path, publicPath } = webpackConfig.output;
             app.use(publicPath, express_1.default.static(path));

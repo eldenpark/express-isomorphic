@@ -18,9 +18,18 @@ const webpack_1 = __importDefault(require("webpack"));
 const webpack_dev_middleware_1 = __importDefault(require("webpack-dev-middleware"));
 const webpack_hot_middleware_1 = __importDefault(require("webpack-hot-middleware"));
 const createExpress_1 = __importDefault(require("./createExpress"));
-const serverUtils_1 = require("./utils/serverUtils");
 const log_1 = require("./utils/log");
-const localServer = function ({ ejectPath, extend, makeHtmlPath, webpackConfig, webpackStats, }) {
+const serverUtils_1 = require("./utils/serverUtils");
+const defaultWebpackStats = {
+    all: false,
+    assets: true,
+    builtAt: true,
+    chunks: true,
+    color: true,
+    entrypoints: true,
+    errors: true,
+};
+const localServer = function ({ extend, makeHtmlPath, webpackConfig, webpackStats = defaultWebpackStats, }) {
     const { devMiddleware, hotMiddleware } = createWebpackMiddlewares({
         webpackConfig,
         webpackStats,
@@ -62,8 +71,8 @@ function createWebpackMiddlewares({ webpackConfig, webpackStats, }) {
 }
 const setLaunchStatus = (serverState, webpackStats) => (req, res, next) => {
     if (serverState.buildHash !== res.locals.webpackStats.hash) {
-        const info = res.locals.webpackStats.toJson(webpackStats);
-        const { error, assets } = serverUtils_1.parseWebpackBuildInfo(info);
+        const webpackBuild = res.locals.webpackStats.toJson(webpackStats);
+        const { error, assets } = serverUtils_1.parseWebpackBuild(webpackBuild);
         serverState.update(Object.assign({ assets, buildHash: res.locals.webpackStats.hash }, error && {
             error: {
                 errorObj: error,

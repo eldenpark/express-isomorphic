@@ -9,14 +9,14 @@ const path_1 = __importDefault(require("path"));
 const extend_1 = __importDefault(require("./extend"));
 const webpack_config_client_prod_web_1 = __importDefault(require("../webpack/webpack.config.client.prod.web"));
 const webpackBuild = require('../../dist/build.json');
-const { server } = express_isomorphic2_1.default.create({
+const { app } = express_isomorphic2_1.default.production({
     extend: extend_1.default,
     makeHtmlPath: path_1.default.resolve(__dirname, './makeHtml.js'),
     webpackBuild,
     webpackConfig: webpack_config_client_prod_web_1.default,
 });
 const port = 6001;
-const httpServer = http_1.default.createServer(server().app);
+const httpServer = http_1.default.createServer(app);
 httpServer.listen(port, () => {
     const time = new Date().toISOString();
     console.log(`${time} [express-isomorphic-react] ProductionServer listening on ${port}`);

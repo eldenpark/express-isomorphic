@@ -7,7 +7,7 @@ import webpackConfig from '../webpack/webpack.config.client.prod.web';
 
 const webpackBuild = require('../../dist/build.json');
 
-const { server } = ExpressIsomorphic.create({
+const { app } = ExpressIsomorphic.production({
   extend,
   makeHtmlPath: path.resolve(__dirname, './makeHtml.js'),
   webpackBuild,
@@ -16,7 +16,7 @@ const { server } = ExpressIsomorphic.create({
 
 const port = 6001;
 
-const httpServer = http.createServer(server().app);
+const httpServer = http.createServer(app);
 
 httpServer.listen(port, () => {
   const time = new Date().toISOString();

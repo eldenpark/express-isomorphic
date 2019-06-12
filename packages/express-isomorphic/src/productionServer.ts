@@ -2,11 +2,11 @@ import express from 'express';
 
 import createExpress, {
   Extend,
-  MakeHtml,
   ServerCreation,
+  WebpackConfig,
 } from './createExpress';
 import {
-  parseWebpackBuildInfo,
+  parseWebpackBuild,
 } from './utils/serverUtils';
 import { log } from './utils/log';
 
@@ -18,10 +18,9 @@ const productionServer: ProductionServer = function ({
 }) {
   return createExpress({
     bootstrap: (app, serverState, webpackConfig) => {
-      const buildInfo = webpackBuild;
-      log(`bootstrap(): build.json:\n%j`, buildInfo);
+      log(`bootstrap(): webpackBuild:\n%j`, webpackBuild);
 
-      const { error, assets } = parseWebpackBuildInfo(buildInfo);
+      const { error, assets } = parseWebpackBuild(webpackBuild);
       const makeHtml = require(makeHtmlPath).default || require(makeHtmlPath);
       const { path, publicPath } = webpackConfig.output;
       app.use(publicPath, express.static(path));
@@ -59,12 +58,23 @@ const productionServer: ProductionServer = function ({
   });
 };
 
+export interface WebpackBuild {
+  assets: any[];
+  builtAt: number;
+  entrypoints: {
+    [key: string]: {
+      assets: string[];
+    };
+  };
+  errors: any[];
+}
+
 interface ProductionServer {
   (arg: {
     extend?: Extend;
     makeHtmlPath: string;
-    webpackBuild: any;
-    webpackConfig: any;
+    webpackBuild: WebpackBuild;
+    webpackConfig: WebpackConfig;
   }): ServerCreation;
 }
 

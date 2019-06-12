@@ -1,6 +1,7 @@
 import { log } from './log';
+import { WebpackBuild } from '../productionServer';
 
-export const parseWebpackBuildInfo: ParseWebpackBuildInfo = function ({
+export const parseWebpackBuild: ParseWebpackBuild = function ({
   entrypoints,
   errors,
 }) {
@@ -56,18 +57,8 @@ export function requireNonNull(obj: any, msg: string) {
   }
 }
 
-export interface WebpackBuildInfo {
-  chunks: any[];
-  entrypoints: {
-    [entryPoint: string]: {
-      assets: string[];
-    }
-  };
-  errors: string[];
-}
-
-interface ParseWebpackBuildInfo {
-  (buildInfo: WebpackBuildInfo): {
+interface ParseWebpackBuild {
+  (buildInfo: WebpackBuild): {
     assets: string[];
     error?: string;
   };

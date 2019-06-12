@@ -1,56 +1,32 @@
-import { Extend, MakeHtml, ServerCreation, WebpackStats } from './createExpress';
-declare const ExpressIsomorphic: ExpressIsomorphicType;
-declare const defaultWebpackStats: {
-    all: boolean;
-    assets: boolean;
-    builtAt: boolean;
-    chunks: boolean;
-    color: boolean;
-    entrypoints: boolean;
-    errors: boolean;
+import { Extend, MakeHtml, ServerCreation, WebpackConfig, WebpackStats } from './createExpress';
+import { WebpackBuild } from './productionServer';
+declare const _default: {
+    local: Local;
+    production: Production;
 };
-export default ExpressIsomorphic;
+export default _default;
 export { addPath } from './eject';
 export { attachAssets } from './utils/serverUtils';
-export { Extend, MakeHtml, defaultWebpackStats as webpackStats, };
-interface ExpressIsomorphicType {
-    create: Create;
-}
-interface Create {
+export { Extend, Local, MakeHtml, Production, };
+interface Local {
     (arg: {
-        /**
-         * Function to use if you want to extend Express application.
-         */
-        extend?: Extend;
-        /**
-         * On server side rendering, makeHtml() is called to serve static html.
-         */
-        makeHtmlPath: any;
-        /**
-         * express public path
-         */
-        /**
-         * The path to universal app entry. It is dynamically generated with localServer.
-         * If you use server, then it should be predetermined.
-         */
-        /**
-         * The path of webpack build object.
-         */
-        webpackBuild: any;
-        webpackConfig: any;
+        extend: Extend;
+        makeHtmlPath: MakeHtmlPath;
+        webpackConfig: WebpackConfig;
         webpackStats?: WebpackStats;
-    }): {
-        eject: (arg: {
-            ejectPath: string;
-        }) => void;
-        /**
-         * Express application. localServer has built-in HMR functionality and dynamically
-         * compiles files. This does not use pre-built bundle.
-         */
-        localServer: () => ServerCreation;
-        /**
-         * Express application. server uses pre-built bundle.
-         */
-        server: () => ServerCreation;
-    };
+    }): ServerCreation;
 }
+interface Production {
+    (arg: {
+        extend: Extend;
+        makeHtmlPath: MakeHtmlPath;
+        webpackBuild: WebpackBuild;
+        webpackConfig: WebpackConfig;
+    }): ServerCreation;
+}
+/**
+ * makeHtmlPath should be given as the full path to the makeHtml file.
+ * express-isomorphic does take the path to the file, not the module, in order that
+ * in local devlelopment, relevant files are to be watched.
+ */
+declare type MakeHtmlPath = string;

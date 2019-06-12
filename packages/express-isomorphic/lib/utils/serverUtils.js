@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const log_1 = require("./log");
-exports.parseWebpackBuildInfo = function ({ entrypoints, errors, }) {
+exports.parseWebpackBuild = function ({ entrypoints, errors, }) {
     log_1.log('parseWebpackBuildInfo(): entrypoints:\n%j', entrypoints);
     const assets = [];
     try {

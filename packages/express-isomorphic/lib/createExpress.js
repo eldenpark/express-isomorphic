@@ -20,16 +20,12 @@ const createExpress = function ({ bootstrap, extend, htmlGenerator, webpackConfi
     log_1.log('createExpress(): NODE_ENV: %s', process.env.NODE_ENV);
     serverUtils_1.requireNonNull(webpackConfig, 'createExpress(): webpack config should be present');
     const serverState = new ServerState_1.ServerState();
-    // const { publicPath } = webpackConfig.output;
     const app = express_1.default();
     if (extend) {
         log_1.log('createExpress(): extend is defined thus registered');
         extend(app, serverState);
     }
     bootstrap(app, serverState, webpackConfig);
-    // app.use([
-    //   express.static(publicPath),
-    // ]);
     app.get('*', [
         serveHtml(serverState, htmlGenerator),
     ]);
