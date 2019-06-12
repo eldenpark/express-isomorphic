@@ -5,15 +5,12 @@ import {
   ServerCreation,
   WebpackStats,
 } from './createExpress';
-import _server from './server';
+import _server from './productionServer';
 
 const create: Create = function ({
   extend,
-  makeHtml,
   makeHtmlPath,
-  publicPath,
-  universalAppPath,
-  webpackBuildJsonPath,
+  webpackBuild,
   webpackConfig,
   webpackStats = defaultWebpackStats,
 }) {
@@ -24,23 +21,19 @@ const create: Create = function ({
       ejectPath,
       extend,
       makeHtmlPath,
-      publicPath,
       webpackConfig,
       webpackStats,
     }),
     localServer: () => _localServer({
       extend,
       makeHtmlPath,
-      publicPath,
       webpackConfig,
       webpackStats,
     }),
     server: () => _server({
       extend,
-      makeHtml,
-      publicPath,
-      universalAppPath,
-      webpackBuildJsonPath,
+      makeHtmlPath,
+      webpackBuild,
       webpackConfig,
     }),
   };
@@ -85,25 +78,26 @@ interface Create {
     /**
      * On server side rendering, makeHtml() is called to serve static html.
      */
-    makeHtml: MakeHtml;
+    // makeHtml: MakeHtml;
     makeHtmlPath: any;
     /**
      * express public path
      */
-    publicPath: string;
-    serverDistPath: string;
+    // publicPath: string;
+    // serverDistPath: string;
     /**
      * The path to universal app entry. It is dynamically generated with localServer.
      * If you use server, then it should be predetermined.
      */
-    universalAppPath: string;
+    // universalAppPath: string;
     /**
      * The path of webpack build object.
      */
-    webpackBuildJsonPath: string;
+    // webpackBuildJsonPath: string;
+    webpackBuild: any;
     webpackConfig: any;
-    webpackConfigClientLocalPath: string;
-    webpackConfigUniversalLocalPath: string;
+    // webpackConfigClientLocalPath: string;
+    // webpackConfigUniversalLocalPath: string;
     webpackStats?: WebpackStats;
   }): {
     eject: (arg: {

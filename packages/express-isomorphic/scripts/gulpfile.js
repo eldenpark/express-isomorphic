@@ -12,26 +12,28 @@ const paths = {
   src: path.resolve(__dirname, '..', 'src'),
 };
 
-const buildLog = (tag, ...args) => {
-  console.info(chalk.cyan(`[gulp>${tag}]`), util.format(...args));
+const log = (tag, ...args) => {
+  const time = new Date().toISOString();
+  const name = chalk.cyan('[express-isomorphic]');
+  const _tag = chalk.magenta(`[gulp>${tag}]`);
+  console.log(`${time} ${name} ${_tag} ${util.format(...args)}`);
 };
 
 gulp.task('clean', () => {
-  buildLog('clean', 'LIB_PATH: %s', paths.lib);
+  log('clean', 'LIB_PATH: %s', paths.lib);
 
   return del([
     `${paths.lib}/**/*`,
   ]);
 });
 
-gulp.task('tsc', gulp.series('clean', function _tsc(done) {
-  buildLog('tsc start');
-  console.log('tsc src: %s', paths.src);
+gulp.task('tsc', () => {
+  log('tsc', 'config: %j, src: %s', tsConfig.compilerOptions, paths.src);
 
   return gulp.src([`${paths.src}/**/*.{ts,tsx}`])
     .pipe(ts(tsConfig.compilerOptions))
     .pipe(gulp.dest(paths.lib));
-}));
+});
 
 gulp.task('build', gulp.series('clean', 'tsc'));
 

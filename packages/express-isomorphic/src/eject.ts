@@ -8,7 +8,7 @@ import {
   MakeHtml,
 } from './createExpress';
 import { log } from './utils/log';
-import { State } from './state';
+import { State } from './ServerState';
 
 const tag = 'eject';
 
@@ -42,7 +42,7 @@ const eject: Eject = async function ({
   const html = await makeHtml({
     assets,
     requestUrl: '',
-    resLocals: {},
+    state: state.public,
   });
 
   try {

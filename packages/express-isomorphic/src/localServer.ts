@@ -13,12 +13,11 @@ import createExpress, {
   WebpackStats,
 } from './createExpress';
 import eject, { Eject } from './eject';
-import ErrorType from './ErrorType';
 import {
   parseWebpackBuildInfo,
 } from './utils/serverUtils';
 import { log } from './utils/log';
-import { State } from './state';
+import { State } from './ServerState';
 
 const localServer: LocalServer = function ({
   ejectPath,
@@ -33,22 +32,22 @@ const localServer: LocalServer = function ({
   });
 
   return createExpress({
-    bootstrap: (state) => {
+    bootstrap: (app, serverState) => {
       setupNodemon(makeHtmlPath);
 
-      return [
+      app.use([
         devMiddleware,
         hotMiddleware,
-        setLaunchStatus(state, webpackStats),
-      ];
+        setLaunchStatus(serverState, webpackStats),
+      ]);
     },
     extend,
-    makeHtml: async ({
-      assets,
+    htmlGenerator: async ({
       requestUrl,
+      serverState,
     }) => {
       const { data } = await axios.post('http://localhost:10021/makeHtml', {
-        assets,
+        assets: serverState.assets,
         requestUrl,
       });
       return data;
@@ -83,18 +82,18 @@ function createWebpackMiddlewares({
   return { devMiddleware, hotMiddleware };
 }
 
-const setLaunchStatus: SetLaunchStatus = (state, webpackStats) => (req, res, next) => {
-  if (state.buildHash !== res.locals.webpackStats.hash) {
+const setLaunchStatus: SetLaunchStatus = (serverState, webpackStats) => (req, res, next) => {
+  if (serverState.buildHash !== res.locals.webpackStats.hash) {
     const info = res.locals.webpackStats.toJson(webpackStats);
     const { error, assets } = parseWebpackBuildInfo(info);
 
-    state.update({
+    serverState.update({
       assets,
       buildHash: res.locals.webpackStats.hash,
       ...error && {
         error: {
           errorObj: error,
-          type: ErrorType.WATCH_UNIVERSAL_ERROR,
+          type: 'LOCAL_WEBPACK_BUILD_ERROR',
         },
       },
       isLaunched: true,
@@ -131,12 +130,11 @@ interface LocalServer {
     ejectPath?: string;
     extend?: Extend;
     makeHtmlPath: any;
-    publicPath: string;
     webpackConfig: any;
     webpackStats: any;
   }): ServerCreation;
 }
 
 interface SetLaunchStatus {
-  (state: State, webpackStats: WebpackStats): RequestHandler;
+  (serverState: State, webpackStats: WebpackStats): RequestHandler;
 }

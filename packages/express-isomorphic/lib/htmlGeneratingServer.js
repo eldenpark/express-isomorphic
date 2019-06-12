@@ -15,16 +15,18 @@ const yargs_1 = require("yargs");
 const body_parser_1 = __importDefault(require("body-parser"));
 const express_1 = __importDefault(require("express"));
 const log_1 = require("./utils/log");
-log_1.log('htmlGeneratingServer(): command line arguments: %o', yargs_1.argv);
+log_1.log('htmlGeneratingServer(): command line arguments: %j', yargs_1.argv);
 const app = express_1.default();
 const port = yargs_1.argv.port || 10021;
 const makeHtmlPath = requireNonEmpty(yargs_1.argv.makeHtmlPath, 'makeHtmlPath should be provided');
 const makeHtml = require(makeHtmlPath).default || require(makeHtmlPath);
 app.use(body_parser_1.default.json());
 app.post('/makeHtml', (req, res, next) => __awaiter(this, void 0, void 0, function* () {
-    const { assets } = req.body;
+    const { assets, requestUrl, } = req.body;
     const html = yield makeHtml({
         assets,
+        requestUrl,
+        state: {},
     });
     res.send(html);
 }));

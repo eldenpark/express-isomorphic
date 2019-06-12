@@ -6,7 +6,6 @@ interface LocalServer {
         ejectPath?: string;
         extend?: Extend;
         makeHtmlPath: any;
-        publicPath: string;
         webpackConfig: any;
         webpackStats: any;
     }): ServerCreation;

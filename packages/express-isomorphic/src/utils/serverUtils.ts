@@ -4,7 +4,7 @@ export const parseWebpackBuildInfo: ParseWebpackBuildInfo = function ({
   entrypoints,
   errors,
 }) {
-  log('parseWebpackBuildInfo() with entrypoints:\n%o', entrypoints);
+  log('parseWebpackBuildInfo(): entrypoints:\n%j', entrypoints);
 
   const assets: string[] = [];
   try {
@@ -15,15 +15,17 @@ export const parseWebpackBuildInfo: ParseWebpackBuildInfo = function ({
       };
     }
 
-    Object.keys(entrypoints)
+    Object.values(entrypoints)
       .map((entrypoint) => {
-        entrypoints[entrypoint].assets.map((asset: string) => {
-          asset.match(/^.*\.(js|css)$/) && assets.push(asset);
+        entrypoint.assets.map((asset) => {
+          if (asset.match(/^.*\.(js|css)$/)) {
+            assets[asset] = true;
+          }
         });
       });
 
     return {
-      assets,
+      assets: Object.keys(assets),
     };
   } catch (err) {
     return {
@@ -46,9 +48,21 @@ export function attachAssets(assets: string[] = []): string {
     .join('');
 }
 
+export function requireNonNull(obj: any, msg: string) {
+  if (!obj) {
+    throw new Error(msg);
+  } else {
+    return obj;
+  }
+}
+
 export interface WebpackBuildInfo {
   chunks: any[];
-  entrypoints: any;
+  entrypoints: {
+    [entryPoint: string]: {
+      assets: string[];
+    }
+  };
   errors: string[];
 }
 

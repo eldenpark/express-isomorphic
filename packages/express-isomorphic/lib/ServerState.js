@@ -5,18 +5,19 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const chalk_1 = __importDefault(require("chalk"));
 const log_1 = require("./utils/log");
-class State {
+class ServerState {
     constructor() {
         this.assets = [];
         this.buildHash = undefined;
         this.error = undefined;
         this.isLaunched = false;
-        this.universalAppPath = undefined;
+        this.makeHtml = undefined;
+        this.state = {};
         this.updatedAt = undefined;
     }
     update(obj = {}) {
         const time = new Date();
-        log_1.log(`[state] state will ${chalk_1.default.green('update')} at %s with:\n%o`, time, obj);
+        log_1.log(`[state] state will ${chalk_1.default.green('update')} at %s with:\n%j`, time, obj);
         for (let key in obj) {
             if (this.hasOwnProperty(key)) {
                 this[key] = obj[key];
@@ -25,5 +26,5 @@ class State {
         this.updatedAt = time;
     }
 }
-exports.State = State;
-exports.default = new State();
+exports.ServerState = ServerState;
+exports.default = ServerState;

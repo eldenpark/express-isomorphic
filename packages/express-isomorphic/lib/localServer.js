@@ -26,18 +26,18 @@ const localServer = function ({ ejectPath, extend, makeHtmlPath, webpackConfig, 
         webpackStats,
     });
     return createExpress_1.default({
-        bootstrap: (state) => {
+        bootstrap: (app, serverState) => {
             setupNodemon(makeHtmlPath);
-            return [
+            app.use([
                 devMiddleware,
                 hotMiddleware,
-                setLaunchStatus(state, webpackStats),
-            ];
+                setLaunchStatus(serverState, webpackStats),
+            ]);
         },
         extend,
-        makeHtml: ({ assets, requestUrl, }) => __awaiter(this, void 0, void 0, function* () {
+        htmlGenerator: ({ requestUrl, serverState, }) => __awaiter(this, void 0, void 0, function* () {
             const { data } = yield axios_1.default.post('http://localhost:10021/makeHtml', {
-                assets,
+                assets: serverState.assets,
                 requestUrl,
             });
             return data;
@@ -60,14 +60,14 @@ function createWebpackMiddlewares({ webpackConfig, webpackStats, }) {
     });
     return { devMiddleware, hotMiddleware };
 }
-const setLaunchStatus = (state, webpackStats) => (req, res, next) => {
-    if (state.buildHash !== res.locals.webpackStats.hash) {
+const setLaunchStatus = (serverState, webpackStats) => (req, res, next) => {
+    if (serverState.buildHash !== res.locals.webpackStats.hash) {
         const info = res.locals.webpackStats.toJson(webpackStats);
         const { error, assets } = serverUtils_1.parseWebpackBuildInfo(info);
-        state.update(Object.assign({ assets, buildHash: res.locals.webpackStats.hash }, error && {
+        serverState.update(Object.assign({ assets, buildHash: res.locals.webpackStats.hash }, error && {
             error: {
                 errorObj: error,
-                type: "WATCH_UNIVERSAL_ERROR" /* WATCH_UNIVERSAL_ERROR */,
+                type: 'LOCAL_WEBPACK_BUILD_ERROR',
             },
         }, { isLaunched: true }));
     }

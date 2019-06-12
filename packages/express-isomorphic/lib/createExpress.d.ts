@@ -1,34 +1,43 @@
-import express, { RequestHandler } from "express";
-import { State } from './state';
+import express from "express";
+import { ServerState, State } from './ServerState';
 declare const createExpress: CreateExpress;
 export default createExpress;
 export interface ServerCreation {
     app: express.Application;
-    state: State;
+    serverState: ServerState;
 }
 export interface MakeHtml {
     (arg: {
         assets: string[] | undefined;
         requestUrl: string;
-        resLocals?: ResLocals;
+        state: State;
     }): Promise<string>;
 }
 export interface WebpackStats {
     chunks: boolean;
     entrypoints: boolean;
-    [x: string]: boolean;
+    [key: string]: boolean;
 }
 export interface Extend {
-    (app: any, state: any): any;
+    (app: express.Application, serverState: ServerState): void;
+}
+export interface WebpackConfig {
+    output: {
+        [key: string]: any;
+    };
+    [key: string]: any;
 }
 interface CreateExpress {
     (arg: {
-        bootstrap: (state: State) => RequestHandler[];
-        extend?: (app: express.Application, state: State) => void;
-        makeHtml: MakeHtml;
+        bootstrap: (app: express.Application, serverState: ServerState, webpackConfig: WebpackConfig) => void;
+        extend?: Extend;
+        htmlGenerator: HtmlGenerator;
         webpackConfig: any;
     }): ServerCreation;
 }
-interface ResLocals {
-    [key: string]: any;
+interface HtmlGenerator {
+    (arg: {
+        requestUrl: string;
+        serverState: ServerState;
+    }): Promise<string>;
 }

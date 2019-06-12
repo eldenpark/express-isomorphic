@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const log_1 = require("./log");
 exports.parseWebpackBuildInfo = function ({ entrypoints, errors, }) {
-    log_1.log('parseWebpackBuildInfo() with entrypoints:\n%o', entrypoints);
+    log_1.log('parseWebpackBuildInfo(): entrypoints:\n%j', entrypoints);
     const assets = [];
     try {
         if (!entrypoints) {
@@ -11,14 +11,16 @@ exports.parseWebpackBuildInfo = function ({ entrypoints, errors, }) {
                 error: 'entrypoints undefined',
             };
         }
-        Object.keys(entrypoints)
+        Object.values(entrypoints)
             .map((entrypoint) => {
-            entrypoints[entrypoint].assets.map((asset) => {
-                asset.match(/^.*\.(js|css)$/) && assets.push(asset);
+            entrypoint.assets.map((asset) => {
+                if (asset.match(/^.*\.(js|css)$/)) {
+                    assets[asset] = true;
+                }
             });
         });
         return {
-            assets,
+            assets: Object.keys(assets),
         };
     }
     catch (err) {
@@ -43,3 +45,12 @@ function attachAssets(assets = []) {
         .join('');
 }
 exports.attachAssets = attachAssets;
+function requireNonNull(obj, msg) {
+    if (!obj) {
+        throw new Error(msg);
+    }
+    else {
+        return obj;
+    }
+}
+exports.requireNonNull = requireNonNull;

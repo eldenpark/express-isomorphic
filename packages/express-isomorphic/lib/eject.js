@@ -45,7 +45,7 @@ const eject = function ({ assets, ejectPath, makeHtml, state, }) {
         const html = yield makeHtml({
             assets,
             requestUrl: '',
-            resLocals: {},
+            state: state.public,
         });
         try {
             fs.writeFileSync(path_1.default.resolve(ejectPath, 'power.html'), html);

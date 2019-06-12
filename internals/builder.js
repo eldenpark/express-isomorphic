@@ -3,18 +3,20 @@ const childProcess = require('child_process');
 const fs = require('fs');
 const path = require('path');
 
+const { log } = require('./internalUtils');
+
 const cwd = process.cwd();
 
-(async () => {
+(async function builder() {
   try {
     if (argv.p !== undefined) {
       const buildFilePath = path.resolve(cwd, 'packages', argv.p, 'scripts', 'build.js');
-      console.log('buildFilePath: %s', buildFilePath);
+      log('builder(): buildFilePath: %s', buildFilePath);
 
       if (fs.existsSync(buildFilePath)) {
         executeBuild(buildFilePath);
       } else {
-        console.error('buildFilePath does not exist: %s', buildFilePath);
+        log('builder(): buildFilePath does not exist: %s', buildFilePath);
       }
     } else {
       const packagesPath = path.resolve(cwd, 'packages');
@@ -29,14 +31,14 @@ const cwd = process.cwd();
             'build.js',
           );
           if (fs.existsSync(buildFilePath)) {
-            console.log('buildFile found: %s, running "build"', buildFilePath);
+            log('builder(): buildFile found: %s, running "build"', buildFilePath);
             await executeBuild(buildFilePath);
           }
         }
       }
     }
   } catch (err) {
-    console.log(err);
+    log('builder(): error', err);
   }
 })();
 

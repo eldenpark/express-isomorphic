@@ -6,14 +6,19 @@ import {
   attachAssets,
   MakeHtml,
 } from '@nodekit/express-isomorphic2';
-import { Locals } from './server';
 import ServerApp from './ServerApp';
 
 const makeHtml: MakeHtml = async function ({
   assets,
   requestUrl,
+  state,
 }) {
-  console.log('[express-isomorphic-react] makeHtml(): assets: %s, url: %s', assets, requestUrl);
+  const time = new Date().toISOString();
+  console.log(
+    `${time} [express-isomorphic-react] makeHtml(): assets: %s, requestUrl: %s`,
+    assets,
+    requestUrl,
+  );
 
   const universalState = {
     foo: '13131',
