@@ -2,7 +2,7 @@
   "author": "Elden S. Park",
   "dependencies": {
     "@babel/plugin-syntax-dynamic-import": "^7.2.0",
-    "@nodekit/express-isomorphic2": "^0.6.1",
+    "@nodekit/express-isomorphic2": "^0.6.2",
     "babel-loader": "^8.0.6",
     "babel-plugin-dynamic-import-node": "^2.2.0",
     "babel-polyfill": "^6.26.0",
@@ -31,5 +31,5 @@
     "dev": "node ./src/launch.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "version": "0.6.1"
+  "version": "0.6.2"
 }
