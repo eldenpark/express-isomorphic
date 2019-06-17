@@ -63,7 +63,7 @@ export interface MakeHtml {
     assets: string[] | undefined;
     requestUrl: string;
     state: State;
-  }): Promise<string>;
+  }): Promise<string> | string;
 }
 
 export interface WebpackStats {
@@ -98,7 +98,7 @@ interface HtmlGenerator {
   (arg: {
     requestUrl: string;
     serverState: ServerState;
-  }): Promise<string> | string;
+  }): Promise<string>;
 }
 
 interface ServeHtml {
