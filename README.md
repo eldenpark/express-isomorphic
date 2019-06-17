@@ -1,5 +1,5 @@
-# express-isomorphic2
-Server for isomorphic application, built on top of express.js
+# express-isomorphic
+A markup rendering erver for isomorphic application, built on top of express.js
 
 ## Inspiration
 Description will be given later
