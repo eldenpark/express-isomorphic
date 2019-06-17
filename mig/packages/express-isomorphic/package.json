@@ -1,0 +1,41 @@
+{
+  "author": "Elden S. Park",
+  "dependencies": {
+    "axios": "^0.19.0",
+    "body-parser": "^1.19.0",
+    "del": "^3.0.0",
+    "express": "^4.16.4",
+    "mkdirp": "^0.5.1",
+    "nodemon": "^1.19.1",
+    "url-loader": "^1.1.2",
+    "webpack": "^4.26.0",
+    "webpack-dev-middleware": "^3.4.0",
+    "webpack-hot-middleware": "^2.24.3",
+    "webpack-merge": "^4.1.4",
+    "webpack-node-externals": "^1.7.2",
+    "yargs": "^13.2.4"
+  },
+  "description": "Description will be given soon.",
+  "devDependencies": {
+    "@types/express": "^4.16.0"
+  },
+  "directories": {
+    "example": "example",
+    "lib": "lib"
+  },
+  "gitHead": "1ed87cecae3082c0d2b6700ca4fb6799ba7c3490",
+  "keywords": [],
+  "license": "ISC",
+  "main": "lib/index.js",
+  "name": "@nodekit/express-isomorphic2",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "yarn run gulp build",
+    "example": "yarn run gulp build && yarn run gulp build:example && node example/launch.js",
+    "gulp": "gulp --gulpfile ./internals/gulp/gulpfile.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "version": "0.7.1"
+}

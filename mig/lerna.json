@@ -1,0 +1,10 @@
+{
+  "npmClient": "yarn",
+  "packages": [
+    "packages/*"
+  ],
+  "publishConfig": {
+    "gitRemote": "upstream"
+  },
+  "version": "0.7.1"
+}
