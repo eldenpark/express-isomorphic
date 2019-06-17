@@ -60,7 +60,6 @@ const localServer: LocalServer = function ({
       });
       return data;
     },
-    webpackConfig,
   });
 };
 
@@ -135,7 +134,6 @@ function setupNodemon(makeHtmlPath) {
 
 interface LocalServer {
   (arg: {
-    ejectPath?: string;
     extend?: Extend;
     makeHtmlPath: any;
     webpackConfig: any;

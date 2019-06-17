@@ -1,5 +1,4 @@
 const path = require('path');
-const webpack = require('webpack');
 
 const paths = require('../paths');
 const webpackConfigClientWeb  = require('./webpack.config.client.web');

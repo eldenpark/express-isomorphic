@@ -11,18 +11,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = __importDefault(require("express"));
 const createExpress_1 = __importDefault(require("./createExpress"));
 const serverUtils_1 = require("./utils/serverUtils");
 const log_1 = require("./utils/log");
-const productionServer = function ({ extend, makeHtmlPath, webpackBuild, webpackConfig, }) {
+const productionServer = function ({ extend, makeHtmlPath, webpackBuild, }) {
     return createExpress_1.default({
-        bootstrap: (app, serverState, webpackConfig) => {
+        bootstrap: (app, serverState) => {
             log_1.log(`bootstrap(): webpackBuild:\n%j`, webpackBuild);
             const { error, assets } = serverUtils_1.parseWebpackBuild(webpackBuild);
             const makeHtml = require(makeHtmlPath).default || require(makeHtmlPath);
-            const { path, publicPath } = webpackConfig.output;
-            app.use(publicPath, express_1.default.static(path));
             serverState.update(Object.assign({ assets }, error && {
                 error: {
                     type: 'WEBPACK_BUILD_ERROR',
@@ -39,7 +36,6 @@ const productionServer = function ({ extend, makeHtmlPath, webpackBuild, webpack
                 state,
             });
         }),
-        webpackConfig,
     });
 };
 exports.default = productionServer;

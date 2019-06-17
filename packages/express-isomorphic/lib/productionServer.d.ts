@@ -1,4 +1,4 @@
-import { Extend, ServerCreation, WebpackConfig } from './createExpress';
+import { Extend, ServerCreation } from './createExpress';
 declare const productionServer: ProductionServer;
 export interface WebpackBuild {
     assets: any[];
@@ -15,7 +15,6 @@ interface ProductionServer {
         extend?: Extend;
         makeHtmlPath: string;
         webpackBuild: WebpackBuild;
-        webpackConfig: WebpackConfig;
     }): ServerCreation;
 }
 export default productionServer;

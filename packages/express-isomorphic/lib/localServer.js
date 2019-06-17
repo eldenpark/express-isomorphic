@@ -52,7 +52,6 @@ const localServer = function ({ extend, makeHtmlPath, webpackConfig, webpackStat
             });
             return data;
         }),
-        webpackConfig,
     });
 };
 exports.default = localServer;

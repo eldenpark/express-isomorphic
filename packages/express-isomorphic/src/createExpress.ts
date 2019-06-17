@@ -11,11 +11,8 @@ const createExpress: CreateExpress = function ({
   bootstrap,
   extend,
   htmlGenerator,
-  webpackConfig,
 }) {
   log('createExpress(): NODE_ENV: %s', process.env.NODE_ENV);
-
-  requireNonNull(webpackConfig, 'createExpress(): webpack config should be present');
 
   const serverState = new ServerState();
   const app = express();
@@ -24,7 +21,7 @@ const createExpress: CreateExpress = function ({
     log('createExpress(): extend is defined thus registered');
     extend(app, serverState);
   }
-  bootstrap(app, serverState, webpackConfig);
+  bootstrap(app, serverState);
 
   app.get('*', [
     serveHtml(serverState, htmlGenerator),
@@ -91,11 +88,9 @@ interface CreateExpress {
     bootstrap: (
       app: express.Application,
       serverState: ServerState,
-      webpackConfig: WebpackConfig,
     ) => void;
     extend?: Extend;
     htmlGenerator: HtmlGenerator;
-    webpackConfig: any;
   }): ServerCreation;
 }
 

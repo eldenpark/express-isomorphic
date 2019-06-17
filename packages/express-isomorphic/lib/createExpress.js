@@ -13,19 +13,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const chalk_1 = __importDefault(require("chalk"));
 const express_1 = __importDefault(require("express"));
-const serverUtils_1 = require("./utils/serverUtils");
 const log_1 = require("./utils/log");
 const ServerState_1 = require("./ServerState");
-const createExpress = function ({ bootstrap, extend, htmlGenerator, webpackConfig, }) {
+const createExpress = function ({ bootstrap, extend, htmlGenerator, }) {
     log_1.log('createExpress(): NODE_ENV: %s', process.env.NODE_ENV);
-    serverUtils_1.requireNonNull(webpackConfig, 'createExpress(): webpack config should be present');
     const serverState = new ServerState_1.ServerState();
     const app = express_1.default();
     if (extend) {
         log_1.log('createExpress(): extend is defined thus registered');
         extend(app, serverState);
     }
-    bootstrap(app, serverState, webpackConfig);
+    bootstrap(app, serverState);
     app.get('*', [
         serveHtml(serverState, htmlGenerator),
     ]);

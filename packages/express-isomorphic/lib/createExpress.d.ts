@@ -29,10 +29,9 @@ export interface WebpackConfig {
 }
 interface CreateExpress {
     (arg: {
-        bootstrap: (app: express.Application, serverState: ServerState, webpackConfig: WebpackConfig) => void;
+        bootstrap: (app: express.Application, serverState: ServerState) => void;
         extend?: Extend;
         htmlGenerator: HtmlGenerator;
-        webpackConfig: any;
     }): ServerCreation;
 }
 interface HtmlGenerator {

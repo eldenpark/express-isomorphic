@@ -3,7 +3,6 @@ declare const localServer: LocalServer;
 export default localServer;
 interface LocalServer {
     (arg: {
-        ejectPath?: string;
         extend?: Extend;
         makeHtmlPath: any;
         webpackConfig: any;

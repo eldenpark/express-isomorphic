@@ -2,7 +2,6 @@ import * as React from 'react';
 import { renderToString } from 'react-dom/server';
 
 import {
-  addPath,
   attachAssets,
   MakeHtml,
 } from '@nodekit/express-isomorphic2';
