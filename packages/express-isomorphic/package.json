@@ -37,5 +37,5 @@
     "gulp": "gulp --gulpfile ./internals/gulp/gulpfile.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "version": "0.6.2"
+  "version": "0.6.3"
 }
