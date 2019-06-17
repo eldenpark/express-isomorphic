@@ -2,8 +2,8 @@
   "name": "express-isomorphic",
   "description": "Monorepo for isomorphic web application serving toolchain",
   "scripts": {
-    "build": "node ./internals/builder",
-    "launch": "node ./internals/launcher",
+    "build": "node ./scripts/builder",
+    "launch": "node ./scripts/launcher",
     "lerna": "node ./node_modules/.bin/lerna",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
