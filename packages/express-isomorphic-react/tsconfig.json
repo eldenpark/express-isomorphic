@@ -1,7 +1,6 @@
 {
   "compilerOptions": {
     "allowJs": true,
-    "baseUrl": "./",
     "emitDecoratorMetadata": true,
     "esModuleInterop": true,
     "experimentalDecorators": true,
@@ -13,6 +12,7 @@
     ],
     "module": "commonjs",
     "moduleResolution": "node",
+    "outDir": "./",
     "strictNullChecks": true,
     "target": "es6"
   },
@@ -21,6 +21,6 @@
   ],
   "exclude": [
     "node_modules",
-    "**/*/__temp"
+    "**/*/__temp",
   ]
 }

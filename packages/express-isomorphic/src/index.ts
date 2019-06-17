@@ -1,4 +1,3 @@
-import localServer from './localServer';
 import {
   Extend,
   MakeHtml,
@@ -6,6 +5,7 @@ import {
   WebpackConfig,
   WebpackStats,
 } from './createExpress';
+import localServer from './localServer';
 import productionServer, {
   WebpackBuild,
 } from './productionServer';
