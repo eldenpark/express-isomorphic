@@ -1,4 +1,5 @@
 import axios from 'axios';
+import chalk from 'chalk';
 import nodemon from 'nodemon';
 import path from 'path';
 import { RequestHandler } from 'express';
@@ -128,7 +129,7 @@ function setupNodemon(makeHtmlPath) {
       process.exit();
     })
     .on('restart', (files: string[]) => {
-      log('setupNodemon(): restarted by', files);
+      log(`setupNodemon(): ${chalk.green('restarted')} by: %s`, files);
     });
 }
 

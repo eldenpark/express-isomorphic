@@ -12,6 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const axios_1 = __importDefault(require("axios"));
+const chalk_1 = __importDefault(require("chalk"));
 const nodemon_1 = __importDefault(require("nodemon"));
 const path_1 = __importDefault(require("path"));
 const webpack_1 = __importDefault(require("webpack"));
@@ -100,6 +101,6 @@ function setupNodemon(makeHtmlPath) {
         process.exit();
     })
         .on('restart', (files) => {
-        log_1.log('setupNodemon(): restarted by', files);
+        log_1.log(`setupNodemon(): ${chalk_1.default.green('restarted')} by: %s`, files);
     });
 }

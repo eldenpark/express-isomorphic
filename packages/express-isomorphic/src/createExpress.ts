@@ -46,7 +46,7 @@ const serveHtml: ServeHtml = (serverState, htmlGenerator) => (
         serverState,
       });
 
-      res.end(html);
+      res.end(html.toString());
     } catch (err) {
       log(`serveHtml(): ${chalk.red('failed')} to create html: %o`, err);
       res.end('Failed to create html');
@@ -103,7 +103,7 @@ interface HtmlGenerator {
   (arg: {
     requestUrl: string;
     serverState: ServerState;
-  }): Promise<string>;
+  }): Promise<string> | string;
 }
 
 interface ServeHtml {

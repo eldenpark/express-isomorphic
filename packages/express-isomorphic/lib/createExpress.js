@@ -41,7 +41,7 @@ const serveHtml = (serverState, htmlGenerator) => ((req, res, next) => __awaiter
             requestUrl: req.url,
             serverState,
         });
-        res.end(html);
+        res.end(html.toString());
     }
     catch (err) {
         log_1.log(`serveHtml(): ${chalk_1.default.red('failed')} to create html: %o`, err);

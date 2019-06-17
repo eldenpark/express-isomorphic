@@ -39,5 +39,5 @@ interface HtmlGenerator {
     (arg: {
         requestUrl: string;
         serverState: ServerState;
-    }): Promise<string>;
+    }): Promise<string> | string;
 }

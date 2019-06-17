@@ -28,7 +28,7 @@ app.post('/makeHtml', (req, res, next) => __awaiter(this, void 0, void 0, functi
         requestUrl,
         state: {},
     });
-    res.send(html);
+    res.send(html.toString());
 }));
 app.listen(port, () => {
     log_1.log('htmlGeneratingServer(): listening on port: %s', port);

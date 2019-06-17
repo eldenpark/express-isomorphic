@@ -26,7 +26,7 @@ app.post('/makeHtml', async (req, res, next) => {
     state: {},
   });
 
-  res.send(html);
+  res.send(html.toString());
 });
 
 app.listen(port, () => {
