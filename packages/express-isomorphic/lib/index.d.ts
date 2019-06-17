@@ -10,7 +10,7 @@ export { attachAssets } from './utils/serverUtils';
 export { Extend, Local, MakeHtml, Production, };
 interface Local {
     (arg: {
-        extend: Extend;
+        extend?: Extend;
         makeHtmlPath: MakeHtmlPath;
         webpackConfig: WebpackConfig;
         webpackStats?: WebpackStats;
@@ -18,7 +18,7 @@ interface Local {
 }
 interface Production {
     (arg: {
-        extend: Extend;
+        extend?: Extend;
         makeHtmlPath: MakeHtmlPath;
         webpackBuild: WebpackBuild;
         webpackConfig: WebpackConfig;
