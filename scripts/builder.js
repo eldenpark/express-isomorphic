@@ -3,11 +3,11 @@ const childProcess = require('child_process');
 const fs = require('fs');
 const path = require('path');
 
-const { log } = require('./internalUtils');
+const { log } = require('./scriptUtils');
 
 const cwd = process.cwd();
 
-(async function builder() {
+async function builder() {
   try {
     if (argv.p !== undefined) {
       const buildFilePath = path.resolve(cwd, 'packages', argv.p, 'scripts', 'build.js');
@@ -40,7 +40,7 @@ const cwd = process.cwd();
   } catch (err) {
     log('builder(): error', err);
   }
-})();
+}
 
 function executeBuild(buildFilePath) {
   return new Promise((resolve, reject) => {
@@ -62,4 +62,10 @@ function executeBuild(buildFilePath) {
       resolve(true);
     });
   });
+}
+
+module.exports = builder;
+
+if (require.main === module) {
+  builder();
 }
