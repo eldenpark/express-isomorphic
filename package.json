@@ -3,6 +3,7 @@
   "description": "Monorepo for isomorphic web application serving toolchain",
   "scripts": {
     "build": "node ./scripts/builder",
+    "eslint": "npx eslint . --ext .ts,.tsx,.js,.jsx",
     "launch": "node ./scripts/launcher",
     "lerna": "node ./node_modules/.bin/lerna",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -15,8 +16,17 @@
     "@babel/preset-env": "^7.4.5",
     "@babel/preset-react": "^7.0.0",
     "@babel/preset-typescript": "^7.3.3",
+    "@types/node": "^12.0.10",
+    "@typescript-eslint/eslint-plugin": "^1.10.2",
+    "@typescript-eslint/parser": "^1.10.2",
     "babel-plugin-module-resolver": "^3.2.0",
     "chalk": "^2.4.2",
+    "eslint": "^5.16.0",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-config-airbnb-typescript": "^4.0.0",
+    "eslint-plugin-import": "^2.17.3",
+    "eslint-plugin-jsx-a11y": "^6.2.1",
+    "eslint-plugin-react": "^7.13.0",
     "gulp-typescript": "^5.0.1",
     "lerna": "^3.14.1",
     "typescript": "^3.5.1"

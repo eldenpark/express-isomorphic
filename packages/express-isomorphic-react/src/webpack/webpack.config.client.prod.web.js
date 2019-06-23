@@ -1,12 +1,12 @@
 const path = require('path');
 
 const paths = require('../paths');
-const webpackConfigClientWeb  = require('./webpack.config.client.web');
+const webpackConfigClientWeb = require('./webpack.config.client.web');
 
 const config = {
   entry: {
     client: path.resolve(paths.src, 'client/client.tsx'),
-    react: [ 'react', 'react-dom' ],
+    react: ['react', 'react-dom'],
   },
   mode: 'production',
   optimization: {
@@ -17,9 +17,9 @@ const config = {
     },
   },
   output: {
-    path: paths.distPublicBundle,
-    filename: '[name].[chunkhash].js',
     chunkFilename: 'chunk.[chunkhash].js',
+    filename: '[name].[chunkhash].js',
+    path: paths.distPublicBundle,
     publicPath: '/bundle/',
   },
 };

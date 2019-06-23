@@ -4,7 +4,7 @@ import express, {
 } from 'express';
 import ExpressIsomorphic, {
   Extend,
-} from '@nodekit/express-isomorphic2';
+} from '@nodekit/express-isomorphic';
 import http from 'http';
 import path from 'path';
 
@@ -12,16 +12,16 @@ import webpackConfig from '../webpack/webpack.config.client.prod.web';
 
 const webpackBuild = require('../../dist/build.json');
 
-const extend: Extend = (app, serverState) => {
+const extend: Extend = (app) => {
   app.use((req: Request, res, next: NextFunction) => {
     const time = new Date().toISOString();
-    console.log(`${time} [express-isomorphic-react] extend(): requestUrl: ${req.url}`);
+    console.log(`${time} [express-isomorphic-react] extend(): requestUrl: ${req.url}`); // eslint-disable-line
 
     next();
   });
 
-  const { path, publicPath } = webpackConfig.output;
-  app.use(publicPath, express.static(path));
+  const { path: outputPath, publicPath } = webpackConfig.output;
+  app.use(publicPath, express.static(outputPath));
 };
 
 const { app } = ExpressIsomorphic.production({
@@ -37,5 +37,5 @@ const httpServer = http.createServer(app);
 
 httpServer.listen(port, () => {
   const time = new Date().toISOString();
-  console.log(`${time} [express-isomorphic-react] ProductionServer listening on ${port}`);
+  console.log(`${time} [express-isomorphic-react] ProductionServer listening on ${port}`); // eslint-disable-line
 });

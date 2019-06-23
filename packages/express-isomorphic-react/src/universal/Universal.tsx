@@ -1,17 +1,16 @@
-import React, { useState, useMemo } from 'react';
+import React from 'react';
 
 import Header from './components/Header';
 import TransferredState from './components/TransferredState';
 import UniversalContext from './contexts/UniversalContext';
 
 import('./components/Later')
-  .then((Later) => {
-    console.log('[express-isomorphic-react] Later is loaded');
+  .then(() => {
+    console.log('[express-isomorphic-react] Later is loaded'); // eslint-disable-line
   })
-  .catch((err) => console.error('error loading <Later />', err));
+  .catch((err) => console.error('error loading <Later />', err)); // eslint-disable-line
 
 const Universal: UniversalType = ({
-  addPath,
   children,
 }) => {
   // const [ count, setCount ] = React.useState(0);
@@ -28,7 +27,7 @@ const Universal: UniversalType = ({
   return (
     <div>
       <Header />
-      <div>1
+      <div>
         <p>[count]</p>
         {/* <p>{count}</p> */}
         {/* <button onClick={handleClickButton}>add</button> */}

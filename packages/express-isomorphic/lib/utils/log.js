@@ -5,7 +5,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const chalk_1 = __importDefault(require("chalk"));
 const tag = chalk_1.default.cyan('[express-isomorphic]');
-exports.log = function (msg, ...args) {
+function log(msg, ...args) {
     const time = new Date().toISOString();
-    console.log(`${time} ${tag} ${msg}`, ...args);
-};
+    console.log(`${time} ${tag} ${msg}`, ...args); // eslint-disable-line
+}
+exports.log = log;

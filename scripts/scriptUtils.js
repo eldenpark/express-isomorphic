@@ -1,16 +1,10 @@
-const chalk = require('chalk');
-const { format } = require('util');
+const { logger } = require('./log');
+
+const log = logger('[express-isomorphic]');
 
 exports.requireNonNull = (obj, message) => {
   if (obj === undefined || obj === null) {
-    console.log(message);
+    log(message);
     process.exit(0);
   }
-};
-
-const tag = chalk.cyan('[express-isomorphic2]');
-exports.log = (first, ...rest) => {
-  const time = new Date().toISOString();
-  const msg = format(first, ...rest);
-  console.log(`${time} ${tag} ${msg}`);
 };

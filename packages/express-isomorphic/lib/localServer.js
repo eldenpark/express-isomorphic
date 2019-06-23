@@ -30,7 +30,7 @@ const defaultWebpackStats = {
     entrypoints: true,
     errors: true,
 };
-const localServer = function ({ extend, makeHtmlPath, webpackConfig, webpackStats = defaultWebpackStats, }) {
+const localServer = function localServer({ extend, makeHtmlPath, webpackConfig, webpackStats = defaultWebpackStats, }) {
     const { devMiddleware, hotMiddleware } = createWebpackMiddlewares({
         webpackConfig,
         webpackStats,
@@ -69,19 +69,21 @@ function createWebpackMiddlewares({ webpackConfig, webpackStats, }) {
     });
     return { devMiddleware, hotMiddleware };
 }
-const setLaunchStatus = (serverState, webpackStats) => (req, res, next) => {
-    if (serverState.buildHash !== res.locals.webpackStats.hash) {
-        const webpackBuild = res.locals.webpackStats.toJson(webpackStats);
-        const { error, assets } = serverUtils_1.parseWebpackBuild(webpackBuild);
-        serverState.update(Object.assign({ assets, buildHash: res.locals.webpackStats.hash }, error && {
-            error: {
-                errorObj: error,
-                type: 'LOCAL_WEBPACK_BUILD_ERROR',
-            },
-        }, { isLaunched: true }));
-    }
-    next();
-};
+function setLaunchStatus(serverState, webpackStats) {
+    return (req, res, next) => {
+        if (serverState.buildHash !== res.locals.webpackStats.hash) {
+            const webpackBuild = res.locals.webpackStats.toJson(webpackStats);
+            const { error, assets } = serverUtils_1.parseWebpackBuild(webpackBuild);
+            serverState.update(Object.assign({ assets, buildHash: res.locals.webpackStats.hash }, error && {
+                error: {
+                    errorObj: error,
+                    type: 'LOCAL_WEBPACK_BUILD_ERROR',
+                },
+            }, { isLaunched: true }));
+        }
+        next();
+    };
+}
 function setupNodemon(makeHtmlPath) {
     log_1.log('setupNodemon(): parent pid: %s, makeHtmlPath: %s', process.pid, makeHtmlPath);
     const script = path_1.default.resolve(__dirname, 'htmlGeneratingServer.js');

@@ -14,7 +14,7 @@ const makeHtml: MakeHtml = require(makeHtmlPath).default || require(makeHtmlPath
 
 app.use(bodyParser.json());
 
-app.post('/makeHtml', async (req, res, next) => {
+app.post('/makeHtml', async (req, res) => {
   const {
     assets,
     requestUrl,
@@ -34,7 +34,7 @@ app.listen(port, () => {
 });
 
 function requireNonEmpty(obj, msg) {
-  if (!obj|| obj === '') {
+  if (!obj || obj === '') {
     throw new Error(`requireNonEmpty(): ${msg}`);
   } else {
     return obj;

@@ -15,20 +15,20 @@ const tag = 'eject';
 class EjectServer {
   paths: string[] = [];
 
-  addPath(path: string) {
-    this.paths.push(path);
+  addPath(_path: string) {
+    this.paths.push(_path);
   }
 }
 
 const ejectServerInstance = new EjectServer();
 
-const eject: Eject = async function ({
+const eject: Eject = async function eject({
   assets,
   ejectPath,
   makeHtml,
   state,
 }) {
-  log('eject():\n%o', arguments[0]);
+  log('eject():\n%o', arguments[0]); // eslint-disable-line
 
   if (!ejectPath) {
     throw new Error('eject() cannot operate without valid ejectPath');

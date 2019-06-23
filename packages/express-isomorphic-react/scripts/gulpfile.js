@@ -20,8 +20,14 @@ const log = (tag, ...args) => {
   const name = chalk.cyan('[express-isomorphic-react]');
   const _tag = chalk.magenta(`[gulp>${tag}]`);
   const msg = util.format(...args);
-  console.log(`${time} ${name} ${_tag} ${msg}`);
+  console.log(`${time} ${name} ${_tag} ${msg}`); // eslint-disable-line
 };
+
+function writeWebpackBuildJson(build) {
+  const buildJsonPath = path.resolve(paths.dist, 'build.json');
+  log('webpack', 'writeWebpackBuildJson(): buildJsonPath: %s, build: %j', buildJsonPath, build);
+  fs.writeFileSync(buildJsonPath, JSON.stringify(build, null, 2));
+}
 
 gulp.task('clean', () => {
   const targetPaths = [
@@ -37,7 +43,7 @@ gulp.task('tsc', () => {
   const srcPath = `${paths.src}/**/*.{js,jsx,ts,tsx}`;
   log('tsc', 'src: %s', srcPath);
 
-  return gulp.src([ srcPath ])
+  return gulp.src([srcPath])
     .pipe(ts(tsConfig.compilerOptions))
     .pipe(gulp.dest(paths.lib));
 });
@@ -45,7 +51,7 @@ gulp.task('tsc', () => {
 gulp.task('webpack', (done) => {
   log('webpack');
 
-  const webpackConfig = require(path.resolve(paths.src, 'webpack/webpack.config.client.prod.web.js'));
+  const webpackConfig = require(path.resolve(paths.src, 'webpack/webpack.config.client.prod.web.js')); // eslint-disable-line
   const webpackStats = {
     all: false,
     assets: true,
@@ -72,9 +78,3 @@ gulp.task('webpack', (done) => {
 gulp.task('build', gulp.series('clean', gulp.parallel('webpack', 'tsc')));
 
 module.exports = gulp;
-
-function writeWebpackBuildJson(build) {
-  const buildJsonPath = path.resolve(paths.dist, 'build.json');
-  log('webpack', 'writeWebpackBuildJson(): buildJsonPath: %s, build: %j', buildJsonPath, build);
-  fs.writeFileSync(buildJsonPath, JSON.stringify(build, null, 2));
-}

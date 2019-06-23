@@ -4,16 +4,15 @@ import { renderToString } from 'react-dom/server';
 import {
   attachAssets,
   MakeHtml,
-} from '@nodekit/express-isomorphic2';
+} from '@nodekit/express-isomorphic';
 import ServerApp from './ServerApp';
 
-const makeHtml: MakeHtml = async function ({
+const makeHtml: MakeHtml = async function makeHtml({
   assets,
   requestUrl,
-  state,
 }) {
   const time = new Date().toISOString();
-  console.log(
+  console.log( // eslint-disable-line
     `${time} [express-isomorphic-react] makeHtml(): assets: %s, requestUrl: %s`,
     assets,
     requestUrl,

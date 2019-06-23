@@ -1,7 +1,6 @@
 import createExpress, {
   Extend,
   ServerCreation,
-  WebpackConfig,
 } from './createExpress';
 import {
   parseWebpackBuild,
@@ -9,7 +8,7 @@ import {
 
 import { log } from './utils/log';
 
-const productionServer: ProductionServer = function ({
+const productionServer: ProductionServer = function productionServer({
   extend,
   makeHtmlPath,
   webpackBuild,
@@ -25,8 +24,8 @@ const productionServer: ProductionServer = function ({
         assets,
         ...error && {
           error: {
-            type: 'WEBPACK_BUILD_ERROR',
             errorObj: error,
+            type: 'WEBPACK_BUILD_ERROR',
           },
         },
         isLaunched: true,
@@ -41,10 +40,10 @@ const productionServer: ProductionServer = function ({
       const {
         assets,
         makeHtml = () => 'makeHtml not loaded',
-        state
+        state,
       } = serverState;
 
-      return await makeHtml({
+      return makeHtml({
         assets,
         requestUrl,
         state,

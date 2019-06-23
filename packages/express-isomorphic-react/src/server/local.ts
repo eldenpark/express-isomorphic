@@ -1,16 +1,19 @@
 import { Request, NextFunction } from 'express';
 import ExpressIsomorphic, {
   Extend,
-} from '@nodekit/express-isomorphic2';
+} from '@nodekit/express-isomorphic';
 import http from 'http';
 import path from 'path';
 
+import { logger } from './log';
 import webpackConfig from '../webpack/webpack.config.client.local.web';
 
-const extend: Extend = (app, serverState) => {
+const log = logger('[express-isomorphic-react]');
+
+const extend: Extend = (app) => {
   app.use((req: Request, res, next: NextFunction) => {
     const time = new Date().toISOString();
-    console.log(`${time} [express-isomorphic-react] extend(): requestUrl: ${req.url}`);
+    log(`${time} [express-isomorphic-react] extend(): requestUrl: ${req.url}`);
 
     next();
   });
@@ -26,6 +29,5 @@ const port = 6001;
 
 const httpServer = http.createServer(app);
 httpServer.listen(port, () => {
-  const time = new Date().toISOString();
-  console.log(`${time} [express-isomorphic-react] LocalServer listening on ${port}`);
+  log('LocalServer listening on: %s', port);
 });

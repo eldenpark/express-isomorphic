@@ -28,14 +28,14 @@ class EjectServer {
     constructor() {
         this.paths = [];
     }
-    addPath(path) {
-        this.paths.push(path);
+    addPath(_path) {
+        this.paths.push(_path);
     }
 }
 const ejectServerInstance = new EjectServer();
-const eject = function ({ assets, ejectPath, makeHtml, state, }) {
+const eject = function eject({ assets, ejectPath, makeHtml, state, }) {
     return __awaiter(this, arguments, void 0, function* () {
-        log_1.log('eject():\n%o', arguments[0]);
+        log_1.log('eject():\n%o', arguments[0]); // eslint-disable-line
         if (!ejectPath) {
             throw new Error('eject() cannot operate without valid ejectPath');
         }

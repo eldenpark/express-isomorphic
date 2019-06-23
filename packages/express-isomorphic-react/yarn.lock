@@ -14,10 +14,10 @@
   dependencies:
     "@babel/helper-plugin-utils" "^7.0.0"
 
-"@nodekit/express-isomorphic2@^0.7.1":
-  version "0.7.1"
-  resolved "https://registry.yarnpkg.com/@nodekit/express-isomorphic2/-/express-isomorphic2-0.7.1.tgz#0ff3eed516c577d8f33f48853224b710f13cb23e"
-  integrity sha512-5aeqS9dOZV8vlWAcwk8RLS9TQixWIDA3Kf8bGeNly5/5OLGXEEOPi4bPK8ujYfkbu+IAnCFLgJ0EYV3bRrDz3g==
+"@nodekit/express-isomorphic@^0.8.1":
+  version "0.8.1"
+  resolved "https://registry.yarnpkg.com/@nodekit/express-isomorphic/-/express-isomorphic-0.8.1.tgz#29711c66252be1202d3fea55720ea6e089c3a4c6"
+  integrity sha512-dCZXUpHO9MiPii+nhsl+ESUxbzNz8ZfzZqneZ0rHmTQQnMOignVE0c61oP+CHhgWGC+EnIsupf0bR6mLA+/acQ==
   dependencies:
     axios "^0.19.0"
     body-parser "^1.19.0"
@@ -3934,7 +3934,7 @@ webpack-log@^2.0.0:
     ansi-colors "^3.0.0"
     uuid "^3.3.2"
 
-webpack-merge@^4.1.4:
+webpack-merge@^4.1.4, webpack-merge@^4.2.1:
   version "4.2.1"
   resolved "https://registry.yarnpkg.com/webpack-merge/-/webpack-merge-4.2.1.tgz#5e923cf802ea2ace4fd5af1d3247368a633489b4"
   integrity sha512-4p8WQyS98bUJcCvFMbdGZyZmsKuWjWVnVHnAS3FFg0HDaRVrPbkivx2RYCre8UiemD67RsiFFLfn4JhLAin8Vw==

@@ -7,13 +7,13 @@ const TransferredState = () => {
     <div>
       <p>[Transferred State]</p>
       <UniversalContext.Consumer>
-        {(value) => {
-          console.log('[universal] predefinedState: %o', value);
+        {(value: any) => {
+          console.log('[universal] predefinedState: %o', value); // eslint-disable-line
 
           return (
             <div>
               <span>predefinedState value</span>
-              <span>{value['foo']}</span>
+              <span>{value.foo}</span>
             </div>
           );
         }}

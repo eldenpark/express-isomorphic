@@ -14,7 +14,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const createExpress_1 = __importDefault(require("./createExpress"));
 const serverUtils_1 = require("./utils/serverUtils");
 const log_1 = require("./utils/log");
-const productionServer = function ({ extend, makeHtmlPath, webpackBuild, }) {
+const productionServer = function productionServer({ extend, makeHtmlPath, webpackBuild, }) {
     return createExpress_1.default({
         bootstrap: (app, serverState) => {
             log_1.log(`bootstrap(): webpackBuild:\n%j`, webpackBuild);
@@ -22,15 +22,15 @@ const productionServer = function ({ extend, makeHtmlPath, webpackBuild, }) {
             const makeHtml = require(makeHtmlPath).default || require(makeHtmlPath);
             serverState.update(Object.assign({ assets }, error && {
                 error: {
-                    type: 'WEBPACK_BUILD_ERROR',
                     errorObj: error,
+                    type: 'WEBPACK_BUILD_ERROR',
                 },
             }, { isLaunched: true, makeHtml }));
         },
         extend,
         htmlGenerator: ({ requestUrl, serverState, }) => __awaiter(this, void 0, void 0, function* () {
-            const { assets, makeHtml = () => 'makeHtml not loaded', state } = serverState;
-            return yield makeHtml({
+            const { assets, makeHtml = () => 'makeHtml not loaded', state, } = serverState;
+            return makeHtml({
                 assets,
                 requestUrl,
                 state,

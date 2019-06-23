@@ -15,11 +15,12 @@ export class ServerState {
     const time = new Date();
     log(`[state] state will ${chalk.green('update')} at %s with:\n%j`, time, obj);
 
-    for (let key in obj) {
-      if (this.hasOwnProperty(key)) {
-        this[key] = obj[key];
-      }
-    }
+    Object.keys(obj)
+      .forEach((key) => {
+        if (Object.prototype.hasOwnProperty.call(this, key)) {
+          this[key] = obj[key];
+        }
+      });
     this.updatedAt = time;
   }
 }

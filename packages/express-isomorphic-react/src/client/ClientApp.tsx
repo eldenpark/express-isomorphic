@@ -3,15 +3,9 @@ import * as React from 'react';
 
 import Universal from '../universal/Universal';
 
-const ClientApp = ({
-  universalState,
-}) => {
-  // const { UniversalContext } = Universal.contexts;
-
+const ClientApp = () => {
   return (
-    // <UniversalContext.Provider value={universalState}>
-      <Universal />
-    // </UniversalContext.Provider>
+    <Universal />
   );
 };
 

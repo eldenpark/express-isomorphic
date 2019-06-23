@@ -1,15 +1,15 @@
 const babelRc = {
-  "plugins": [
+  plugins: [
     'dynamic-import-node',
   ],
-  "presets": [
-    ["@babel/preset-env", {
+  presets: [
+    ['@babel/preset-env', {
       targets: {
         node: '8.11',
       },
     }],
-    "@babel/preset-react",
-    "@babel/preset-typescript",
+    '@babel/preset-react',
+    '@babel/preset-typescript',
   ],
 };
 

@@ -1,7 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const log_1 = require("./log");
-exports.parseWebpackBuild = function ({ entrypoints, errors, }) {
+// import { WebpackBuild } from '../productionServer';
+exports.parseWebpackBuild = function parseWebpackBuild({ entrypoints, }) {
     log_1.log('parseWebpackBuildInfo(): entrypoints:\n%j', entrypoints);
     const assets = [];
     try {
@@ -12,15 +13,15 @@ exports.parseWebpackBuild = function ({ entrypoints, errors, }) {
             };
         }
         Object.values(entrypoints)
-            .map((entrypoint) => {
-            entrypoint.assets.map((asset) => {
+            .forEach((entrypoint) => {
+            entrypoint.assets.forEach((asset) => {
                 if (asset.match(/^.*\.(js|css)$/)) {
-                    assets[asset] = true;
+                    assets.push(asset);
                 }
             });
         });
         return {
-            assets: Object.keys(assets),
+            assets,
         };
     }
     catch (err) {
@@ -35,12 +36,11 @@ function attachAssets(assets = []) {
         if (asset.endsWith('.js')) {
             return `<script src="/bundle/${asset}"></script>`;
         }
-        else if (asset.endsWith('.css')) {
+        if (asset.endsWith('.css')) {
             return `<link rel="stylesheet" type="text/css" href="/bundle/${asset}">`;
         }
-        else {
-            console.warn('The type of asset is not handled: %s', asset);
-        }
+        console.warn('The type of asset is not handled: %s', asset); // eslint-disable-line
+        return undefined;
     })
         .join('');
 }

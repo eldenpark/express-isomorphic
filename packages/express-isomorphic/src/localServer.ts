@@ -16,7 +16,7 @@ import { log } from './utils/log';
 import {
   parseWebpackBuild,
 } from './utils/serverUtils';
-import { State } from './ServerState';
+import { ServerState } from './ServerState';
 
 const defaultWebpackStats = {
   all: false,
@@ -28,7 +28,7 @@ const defaultWebpackStats = {
   errors: true,
 };
 
-const localServer: LocalServer = function ({
+const localServer: LocalServer = function localServer({
   extend,
   makeHtmlPath,
   webpackConfig,
@@ -89,25 +89,27 @@ function createWebpackMiddlewares({
   return { devMiddleware, hotMiddleware };
 }
 
-const setLaunchStatus: SetLaunchStatus = (serverState, webpackStats) => (req, res, next) => {
-  if (serverState.buildHash !== res.locals.webpackStats.hash) {
-    const webpackBuild = res.locals.webpackStats.toJson(webpackStats);
-    const { error, assets } = parseWebpackBuild(webpackBuild);
+function setLaunchStatus(serverState: ServerState, webpackStats: WebpackStats): RequestHandler {
+  return (req, res, next) => {
+    if (serverState.buildHash !== res.locals.webpackStats.hash) {
+      const webpackBuild = res.locals.webpackStats.toJson(webpackStats);
+      const { error, assets } = parseWebpackBuild(webpackBuild);
 
-    serverState.update({
-      assets,
-      buildHash: res.locals.webpackStats.hash,
-      ...error && {
-        error: {
-          errorObj: error,
-          type: 'LOCAL_WEBPACK_BUILD_ERROR',
+      serverState.update({
+        assets,
+        buildHash: res.locals.webpackStats.hash,
+        ...error && {
+          error: {
+            errorObj: error,
+            type: 'LOCAL_WEBPACK_BUILD_ERROR',
+          },
         },
-      },
-      isLaunched: true,
-    });
-  }
-  next();
-};
+        isLaunched: true,
+      });
+    }
+    next();
+  };
+}
 
 function setupNodemon(makeHtmlPath) {
   log('setupNodemon(): parent pid: %s, makeHtmlPath: %s', process.pid, makeHtmlPath);
@@ -139,8 +141,4 @@ interface LocalServer {
     webpackConfig: any;
     webpackStats?: any;
   }): ServerCreation;
-}
-
-interface SetLaunchStatus {
-  (serverState: State, webpackStats: WebpackStats): RequestHandler;
 }

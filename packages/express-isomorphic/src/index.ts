@@ -16,18 +16,16 @@ const production: Production = (arg) => productionServer(arg);
 export default {
   local,
   production,
-}
+};
 
 export { addPath } from './eject';
-
 export { attachAssets } from './utils/serverUtils';
-
 export {
   Extend,
   Local,
   MakeHtml,
   Production,
-}
+};
 
 interface Local {
   (arg: {

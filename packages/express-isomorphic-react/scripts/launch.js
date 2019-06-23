@@ -1,6 +1,6 @@
-const argv = require('yargs').argv;
+const { argv } = require('yargs');
 
-console.log(
+console.log( // eslint-disable-line
   '%s [express-isomorphic-react] launch: argv: %j',
   new Date().toISOString(),
   argv,
@@ -14,12 +14,12 @@ if (argv._.includes('production')) {
   });
 } else {
   const babelRc = {
-    "plugins": [
+    plugins: [
       [
-        "module-resolver", {
-          "alias": {
+        'module-resolver', {
+          alias: {
           },
-        }
+        },
       ],
       // Stage 2
       // ["@babel/plugin-proposal-decorators", { "legacy": true }],
@@ -35,14 +35,14 @@ if (argv._.includes('production')) {
       // "@babel/plugin-proposal-json-strings",
       'dynamic-import-node',
     ],
-    "presets": [
-      ["@babel/preset-env", {
+    presets: [
+      ['@babel/preset-env', {
         targets: {
           node: '8.11',
         },
       }],
-      "@babel/preset-react",
-      "@babel/preset-typescript",
+      '@babel/preset-react',
+      '@babel/preset-typescript',
     ],
   };
 

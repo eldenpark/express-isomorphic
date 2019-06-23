@@ -15,7 +15,7 @@ const chalk_1 = __importDefault(require("chalk"));
 const express_1 = __importDefault(require("express"));
 const log_1 = require("./utils/log");
 const ServerState_1 = require("./ServerState");
-const createExpress = function ({ bootstrap, extend, htmlGenerator, }) {
+const createExpress = function createExpress({ bootstrap, extend, htmlGenerator, }) {
     log_1.log('createExpress(): NODE_ENV: %s', process.env.NODE_ENV);
     const serverState = new ServerState_1.ServerState();
     const app = express_1.default();
@@ -32,18 +32,22 @@ const createExpress = function ({ bootstrap, extend, htmlGenerator, }) {
         serverState,
     };
 };
-const serveHtml = (serverState, htmlGenerator) => ((req, res, next) => __awaiter(this, void 0, void 0, function* () {
-    res.writeHead(200, { "Content-Type": "text/html" });
-    try {
-        const html = yield htmlGenerator({
-            requestUrl: req.url,
-            serverState,
+function serveHtml(serverState, htmlGenerator) {
+    return (req, res) => __awaiter(this, void 0, void 0, function* () {
+        res.writeHead(200, {
+            'Content-Type': 'text/html',
         });
-        res.end(html.toString());
-    }
-    catch (err) {
-        log_1.log(`serveHtml(): ${chalk_1.default.red('failed')} to create html: %o`, err);
-        res.end('Failed to create html');
-    }
-}));
+        try {
+            const html = yield htmlGenerator({
+                requestUrl: req.url,
+                serverState,
+            });
+            res.end(html.toString());
+        }
+        catch (err) {
+            log_1.log(`serveHtml(): ${chalk_1.default.red('failed')} to create html: %o`, err);
+            res.end('Failed to create html');
+        }
+    });
+}
 exports.default = createExpress;

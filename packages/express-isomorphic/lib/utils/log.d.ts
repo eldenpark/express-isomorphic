@@ -1,1 +1,1 @@
-export declare const log: (msg: string, ...args: any[]) => void;
+export declare function log(msg: string, ...args: any[]): void;

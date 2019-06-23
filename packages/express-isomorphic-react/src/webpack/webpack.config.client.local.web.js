@@ -12,7 +12,7 @@ const config = {
       'webpack-hot-middleware/client',
       path.resolve(paths.src, 'client/client.tsx'),
     ],
-    react: [ 'react', 'react-dom' ],
+    react: ['react', 'react-dom'],
   },
   mode: 'development',
   optimization: {

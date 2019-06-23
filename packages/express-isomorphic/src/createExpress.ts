@@ -1,13 +1,12 @@
 import chalk from 'chalk';
 import express, {
   RequestHandler,
-} from "express";
+} from 'express';
 
-import { requireNonNull } from './utils/serverUtils';
 import { log } from './utils/log';
 import { ServerState, State } from './ServerState';
 
-const createExpress: CreateExpress = function ({
+const createExpress: CreateExpress = function createExpress({
   bootstrap,
   extend,
   htmlGenerator,
@@ -33,9 +32,11 @@ const createExpress: CreateExpress = function ({
   };
 };
 
-const serveHtml: ServeHtml = (serverState, htmlGenerator) => (
-  async (req, res, next) => {
-    res.writeHead(200, { "Content-Type": "text/html" });
+function serveHtml(serverState: ServerState, htmlGenerator: HtmlGenerator): RequestHandler {
+  return async (req, res) => {
+    res.writeHead(200, {
+      'Content-Type': 'text/html',
+    });
 
     try {
       const html = await htmlGenerator({
@@ -48,8 +49,8 @@ const serveHtml: ServeHtml = (serverState, htmlGenerator) => (
       log(`serveHtml(): ${chalk.red('failed')} to create html: %o`, err);
       res.end('Failed to create html');
     }
-  }
-);
+  };
+}
 
 export default createExpress;
 
@@ -100,8 +101,3 @@ interface HtmlGenerator {
     serverState: ServerState;
   }): Promise<string>;
 }
-
-interface ServeHtml {
-  (serverState: ServerState, htmlGenerator: HtmlGenerator): RequestHandler;
-}
-
