@@ -15,9 +15,9 @@ const config = {
         },
     },
     output: {
-        path: paths.distPublicBundle,
-        filename: '[name].[chunkhash].js',
         chunkFilename: 'chunk.[chunkhash].js',
+        filename: '[name].[chunkhash].js',
+        path: paths.distPublicBundle,
         publicPath: '/bundle/',
     },
 };

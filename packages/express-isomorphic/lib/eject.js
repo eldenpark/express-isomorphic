@@ -10,20 +10,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-    result["default"] = mod;
-    return result;
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 const chalk_1 = __importDefault(require("chalk"));
-const fs = __importStar(require("fs"));
+const fs_1 = __importDefault(require("fs"));
+const logger_1 = require("@nodekit/logger");
 const mkdirp_1 = __importDefault(require("mkdirp"));
 const path_1 = __importDefault(require("path"));
-const log_1 = require("./utils/log");
-const tag = 'eject';
+const log = logger_1.logger('[express-isomorphic]');
 class EjectServer {
     constructor() {
         this.paths = [];
@@ -35,24 +28,24 @@ class EjectServer {
 const ejectServerInstance = new EjectServer();
 const eject = function eject({ assets, ejectPath, makeHtml, state, }) {
     return __awaiter(this, arguments, void 0, function* () {
-        log_1.log('eject():\n%o', arguments[0]); // eslint-disable-line
+        log('eject():\n%o', arguments[0]); // eslint-disable-line
         if (!ejectPath) {
             throw new Error('eject() cannot operate without valid ejectPath');
         }
         mkdirp_1.default.sync(ejectPath);
-        log_1.log('%s, assets:\n%o', tag, assets);
-        log_1.log('eject route paths: %o', ejectServerInstance.paths);
+        log('eject(): assets:\n%o', assets);
+        log('eject(): route paths: %o', ejectServerInstance.paths);
         const html = yield makeHtml({
             assets,
             requestUrl: '',
             state: state.public,
         });
         try {
-            fs.writeFileSync(path_1.default.resolve(ejectPath, 'power.html'), html);
-            log_1.log(`eject ${chalk_1.default.green('success')}`);
+            fs_1.default.writeFileSync(path_1.default.resolve(ejectPath, 'power.html'), html);
+            log(`eject(): ${chalk_1.default.green('success')}`);
         }
         catch (err) {
-            log_1.log('%s error: %o', tag, err);
+            log('eject(): error: %o', err);
         }
         // Terminate the program after ejecting.
         process.exit(0);

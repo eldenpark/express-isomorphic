@@ -14,8 +14,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const yargs_1 = require("yargs");
 const body_parser_1 = __importDefault(require("body-parser"));
 const express_1 = __importDefault(require("express"));
-const log_1 = require("./utils/log");
-log_1.log('htmlGeneratingServer(): command line arguments: %j', yargs_1.argv);
+const logger_1 = require("@nodekit/logger");
+const log = logger_1.logger('[express-isomorphic]');
+log('htmlGeneratingServer(): command line arguments: %j', yargs_1.argv);
 const app = express_1.default();
 const port = yargs_1.argv.port || 10021;
 const makeHtmlPath = requireNonEmpty(yargs_1.argv.makeHtmlPath, 'makeHtmlPath should be provided');
@@ -31,7 +32,7 @@ app.post('/makeHtml', (req, res) => __awaiter(this, void 0, void 0, function* ()
     res.send(html.toString());
 }));
 app.listen(port, () => {
-    log_1.log('htmlGeneratingServer(): listening on port: %s', port);
+    log('htmlGeneratingServer(): listening on port: %s', port);
 });
 function requireNonEmpty(obj, msg) {
     if (!obj || obj === '') {

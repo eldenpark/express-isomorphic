@@ -14,11 +14,11 @@ const react_1 = __importDefault(require("react"));
 const Header_1 = __importDefault(require("./components/Header"));
 const TransferredState_1 = __importDefault(require("./components/TransferredState"));
 const UniversalContext_1 = __importDefault(require("./contexts/UniversalContext"));
-Promise.resolve().then(() => __importStar(require('./components/Later'))).then((Later) => {
-    console.log('[express-isomorphic-react] Later is loaded');
+Promise.resolve().then(() => __importStar(require('./components/Later'))).then(() => {
+    console.log('[express-isomorphic-react] Later is loaded'); // eslint-disable-line
 })
-    .catch((err) => console.error('error loading <Later />', err));
-const Universal = ({ addPath, children, }) => {
+    .catch((err) => console.error('error loading <Later />', err)); // eslint-disable-line
+const Universal = ({ children, }) => {
     // const [ count, setCount ] = React.useState(0);
     // const handleClickButton = useMemo(
     //   () => {
@@ -31,7 +31,6 @@ const Universal = ({ addPath, children, }) => {
     return (react_1.default.createElement("div", null,
         react_1.default.createElement(Header_1.default, null),
         react_1.default.createElement("div", null,
-            "1",
             react_1.default.createElement("p", null, "[count]")),
         react_1.default.createElement(TransferredState_1.default, null),
         children));

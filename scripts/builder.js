@@ -1,9 +1,8 @@
 const { argv } = require('yargs');
+const { logger } = require('@nodekit/logger');
 const childProcess = require('child_process');
 const fs = require('fs');
 const path = require('path');
-
-const { logger } = require('./log');
 
 const cwd = process.cwd();
 const log = logger('[express-isomorphic]');

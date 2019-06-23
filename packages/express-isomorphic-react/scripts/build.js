@@ -77,4 +77,13 @@ gulp.task('webpack', (done) => {
 
 gulp.task('build', gulp.series('clean', gulp.parallel('webpack', 'tsc')));
 
-module.exports = gulp;
+function build(callback) {
+  const buildTask = gulp.task('build');
+  buildTask(callback);
+}
+
+module.exports = build;
+
+if (require.main === module) {
+  build();
+}

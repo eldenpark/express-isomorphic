@@ -1,21 +1,21 @@
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const babelRc = {
-    "plugins": [
+    plugins: [
         [
-            "module-resolver", {
-                "alias": {},
-            }
+            'module-resolver', {
+                alias: {},
+            },
         ],
         '@babel/plugin-syntax-dynamic-import',
     ],
-    "presets": [
-        ["@babel/preset-env", {
+    presets: [
+        ['@babel/preset-env', {
                 targets: {
                     node: '8.11',
                 },
             }],
-        "@babel/preset-react",
-        "@babel/preset-typescript",
+        '@babel/preset-react',
+        '@babel/preset-typescript',
     ],
 };
 module.exports = {
@@ -56,8 +56,8 @@ module.exports = {
                 ],
             },
             {
-                test: /\.mjs$/,
                 include: /node_modules/,
+                test: /\.mjs$/,
                 type: 'javascript/auto',
             },
         ],
@@ -66,9 +66,6 @@ module.exports = {
         new MiniCssExtractPlugin(),
     ],
     resolve: {
-        modules: [
-            'node_modules',
-        ],
         extensions: [
             '.js',
             '.jsx',
@@ -76,6 +73,9 @@ module.exports = {
             '.tsx',
             // https://github.com/apollographql/apollo-link-state/issues/302#issuecomment-431219631
             '*', '.mjs', '.gql', '.graphql',
+        ],
+        modules: [
+            'node_modules',
         ],
     },
     target: 'web',

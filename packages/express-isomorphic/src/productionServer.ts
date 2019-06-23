@@ -1,3 +1,5 @@
+import { logger } from '@nodekit/logger';
+
 import createExpress, {
   Extend,
   ServerCreation,
@@ -6,7 +8,7 @@ import {
   parseWebpackBuild,
 } from './utils/serverUtils';
 
-import { log } from './utils/log';
+const log = logger('[express-isomorphic]');
 
 const productionServer: ProductionServer = function productionServer({
   extend,

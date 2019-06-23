@@ -1,9 +1,11 @@
 import { argv } from 'yargs';
 import bodyParser from 'body-parser';
 import express from 'express';
+import { logger } from '@nodekit/logger';
 
 import { MakeHtml } from './createExpress';
-import { log } from './utils/log';
+
+const log = logger('[express-isomorphic]');
 
 log('htmlGeneratingServer(): command line arguments: %j', argv);
 

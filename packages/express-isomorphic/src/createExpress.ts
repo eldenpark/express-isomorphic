@@ -2,9 +2,11 @@ import chalk from 'chalk';
 import express, {
   RequestHandler,
 } from 'express';
+import { logger } from '@nodekit/logger';
 
-import { log } from './utils/log';
 import { ServerState, State } from './ServerState';
+
+const log = logger('[express-isomorphic]');
 
 const createExpress: CreateExpress = function createExpress({
   bootstrap,

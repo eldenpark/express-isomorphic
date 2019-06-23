@@ -1,5 +1,6 @@
 import chalk from 'chalk';
-import * as fs from 'fs';
+import fs from 'fs';
+import { logger } from '@nodekit/logger';
 import mkdirp from 'mkdirp';
 import path from 'path';
 import { Request } from 'express';
@@ -7,10 +8,9 @@ import { Request } from 'express';
 import {
   MakeHtml,
 } from './createExpress';
-import { log } from './utils/log';
 import { State } from './ServerState';
 
-const tag = 'eject';
+const log = logger('[express-isomorphic]');
 
 class EjectServer {
   paths: string[] = [];
@@ -36,8 +36,8 @@ const eject: Eject = async function eject({
 
   mkdirp.sync(ejectPath);
 
-  log('%s, assets:\n%o', tag, assets);
-  log('eject route paths: %o', ejectServerInstance.paths);
+  log('eject(): assets:\n%o', assets);
+  log('eject(): route paths: %o', ejectServerInstance.paths);
 
   const html = await makeHtml({
     assets,
@@ -47,9 +47,9 @@ const eject: Eject = async function eject({
 
   try {
     fs.writeFileSync(path.resolve(ejectPath, 'power.html'), html);
-    log(`eject ${chalk.green('success')}`);
+    log(`eject(): ${chalk.green('success')}`);
   } catch (err) {
-    log('%s error: %o', tag, err);
+    log('eject(): error: %o', err);
   }
 
   // Terminate the program after ejecting.

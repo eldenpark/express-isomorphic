@@ -1,6 +1,7 @@
 import chalk from 'chalk';
+import { logger } from '@nodekit/logger';
 
-import { log } from './utils/log';
+const log = logger('[express-isomorphic]');
 
 export class ServerState {
   assets?: string[] = [];

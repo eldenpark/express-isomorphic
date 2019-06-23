@@ -13,12 +13,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const react_hot_loader_1 = require("react-hot-loader");
 const React = __importStar(require("react"));
 const Universal_1 = __importDefault(require("../universal/Universal"));
-const ClientApp = ({ universalState, }) => {
-    // const { UniversalContext } = Universal.contexts;
-    return (
-    // <UniversalContext.Provider value={universalState}>
-    React.createElement(Universal_1.default, null)
-    // </UniversalContext.Provider>
-    );
+const ClientApp = () => {
+    return (React.createElement(Universal_1.default, null));
 };
 exports.default = react_hot_loader_1.hot(module)(ClientApp);

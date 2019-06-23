@@ -1413,6 +1413,13 @@
     call-me-maybe "^1.0.1"
     glob-to-regexp "^0.3.0"
 
+"@nodekit/logger@^0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@nodekit/logger/-/logger-0.1.0.tgz#93d44543902db6a28f8a420450d7b0dd5646f753"
+  integrity sha512-d3JWmaMXTPztza9cBvRInFRAayeUj6BC7vqJp5FYP2lbVyjB1mrzUEylpqxab3L5PNvrneZhidyn0WFZhsWdmA==
+  dependencies:
+    chalk "^2.4.2"
+
 "@nodelib/fs.stat@^1.1.2":
   version "1.1.3"
   resolved "https://registry.yarnpkg.com/@nodelib/fs.stat/-/fs.stat-1.1.3.tgz#2b5a3ab3f918cca48a8c754c08168e3f03eba61b"

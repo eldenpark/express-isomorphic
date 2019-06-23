@@ -12,8 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const React = __importStar(require("react"));
 const Universal_1 = __importDefault(require("../universal/Universal"));
-const ServerApp = ({ universalState, }) => {
-    // const { UniversalContext } = Universal.contexts;
+const ServerApp = () => {
     return (React.createElement(Universal_1.default, null));
 };
 exports.default = ServerApp;

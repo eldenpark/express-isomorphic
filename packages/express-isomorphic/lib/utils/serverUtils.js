@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const log_1 = require("./log");
-// import { WebpackBuild } from '../productionServer';
+const logger_1 = require("@nodekit/logger");
+const log = logger_1.logger('[express-isomorphic]');
 exports.parseWebpackBuild = function parseWebpackBuild({ entrypoints, }) {
-    log_1.log('parseWebpackBuildInfo(): entrypoints:\n%j', entrypoints);
+    log('parseWebpackBuildInfo(): entrypoints:\n%j', entrypoints);
     const assets = [];
     try {
         if (!entrypoints) {

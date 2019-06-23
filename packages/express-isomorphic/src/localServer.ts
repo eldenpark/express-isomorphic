@@ -1,5 +1,6 @@
 import axios from 'axios';
 import chalk from 'chalk';
+import { logger } from '@nodekit/logger';
 import nodemon from 'nodemon';
 import path from 'path';
 import { RequestHandler } from 'express';
@@ -12,11 +13,12 @@ import createExpress, {
   ServerCreation,
   WebpackStats,
 } from './createExpress';
-import { log } from './utils/log';
 import {
   parseWebpackBuild,
 } from './utils/serverUtils';
 import { ServerState } from './ServerState';
+
+const log = logger('[express-isomorphic]');
 
 const defaultWebpackStats = {
   all: false,

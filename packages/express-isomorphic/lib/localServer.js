@@ -13,14 +13,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const axios_1 = __importDefault(require("axios"));
 const chalk_1 = __importDefault(require("chalk"));
+const logger_1 = require("@nodekit/logger");
 const nodemon_1 = __importDefault(require("nodemon"));
 const path_1 = __importDefault(require("path"));
 const webpack_1 = __importDefault(require("webpack"));
 const webpack_dev_middleware_1 = __importDefault(require("webpack-dev-middleware"));
 const webpack_hot_middleware_1 = __importDefault(require("webpack-hot-middleware"));
 const createExpress_1 = __importDefault(require("./createExpress"));
-const log_1 = require("./utils/log");
 const serverUtils_1 = require("./utils/serverUtils");
+const log = logger_1.logger('[express-isomorphic]');
 const defaultWebpackStats = {
     all: false,
     assets: true,
@@ -56,7 +57,7 @@ const localServer = function localServer({ extend, makeHtmlPath, webpackConfig, 
 };
 exports.default = localServer;
 function createWebpackMiddlewares({ webpackConfig, webpackStats, }) {
-    log_1.log('createWebpackMiddlewares(): webpack-client-local will be compiled with config:\n%j', webpackConfig);
+    log('createWebpackMiddlewares(): webpack-client-local will be compiled with config:\n%j', webpackConfig);
     const clientWebpackCompiler = webpack_1.default(webpackConfig);
     const devMiddleware = webpack_dev_middleware_1.default(clientWebpackCompiler, {
         publicPath: webpackConfig.output.publicPath,
@@ -85,7 +86,7 @@ function setLaunchStatus(serverState, webpackStats) {
     };
 }
 function setupNodemon(makeHtmlPath) {
-    log_1.log('setupNodemon(): parent pid: %s, makeHtmlPath: %s', process.pid, makeHtmlPath);
+    log('setupNodemon(): parent pid: %s, makeHtmlPath: %s', process.pid, makeHtmlPath);
     const script = path_1.default.resolve(__dirname, 'htmlGeneratingServer.js');
     nodemon_1.default({
         args: [
@@ -98,10 +99,10 @@ function setupNodemon(makeHtmlPath) {
         script,
     })
         .on('quit', () => {
-        log_1.log('setupNodemon(): quit');
+        log('setupNodemon(): quit');
         process.exit();
     })
         .on('restart', (files) => {
-        log_1.log(`setupNodemon(): ${chalk_1.default.green('restarted')} by: %s`, files);
+        log(`setupNodemon(): ${chalk_1.default.green('restarted')} by: %s`, files);
     });
 }

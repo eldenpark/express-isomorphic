@@ -1,5 +1,6 @@
-import { log } from './log';
-// import { WebpackBuild } from '../productionServer';
+import { logger } from '@nodekit/logger';
+
+const log = logger('[express-isomorphic]');
 
 export const parseWebpackBuild: ParseWebpackBuild = function parseWebpackBuild({
   entrypoints,

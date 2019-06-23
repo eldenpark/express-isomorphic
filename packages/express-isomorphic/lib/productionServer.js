@@ -11,13 +11,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const logger_1 = require("@nodekit/logger");
 const createExpress_1 = __importDefault(require("./createExpress"));
 const serverUtils_1 = require("./utils/serverUtils");
-const log_1 = require("./utils/log");
+const log = logger_1.logger('[express-isomorphic]');
 const productionServer = function productionServer({ extend, makeHtmlPath, webpackBuild, }) {
     return createExpress_1.default({
         bootstrap: (app, serverState) => {
-            log_1.log(`bootstrap(): webpackBuild:\n%j`, webpackBuild);
+            log(`bootstrap(): webpackBuild:\n%j`, webpackBuild);
             const { error, assets } = serverUtils_1.parseWebpackBuild(webpackBuild);
             const makeHtml = require(makeHtmlPath).default || require(makeHtmlPath);
             serverState.update(Object.assign({ assets }, error && {

@@ -20,16 +20,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const React = __importStar(require("react"));
 const server_1 = require("react-dom/server");
-const express_isomorphic2_1 = require("@nodekit/express-isomorphic2");
+const express_isomorphic_1 = require("@nodekit/express-isomorphic");
 const ServerApp_1 = __importDefault(require("./ServerApp"));
-const makeHtml = function ({ assets, requestUrl, state, }) {
+const makeHtml = function makeHtml({ assets, requestUrl, }) {
     return __awaiter(this, void 0, void 0, function* () {
         const time = new Date().toISOString();
-        console.log(`${time} [express-isomorphic-react] makeHtml(): assets: %s, requestUrl: %s`, assets, requestUrl);
+        console.log(// eslint-disable-line
+        `${time} [express-isomorphic-react] makeHtml(): assets: %s, requestUrl: %s`, assets, requestUrl);
         const universalState = {
             foo: '13131',
         };
-        const element = (React.createElement(ServerApp_1.default, { universalState: universalState }));
+        const element = (React.createElement(ServerApp_1.default, null));
         const appRootInString = server_1.renderToString(element);
         return `
 <!DOCTYPE html>
@@ -42,7 +43,7 @@ const makeHtml = function ({ assets, requestUrl, state, }) {
 </head>
 <body>
   <div id="app-root">${appRootInString}</div>
-  ${express_isomorphic2_1.attachAssets(assets)}
+  ${express_isomorphic_1.attachAssets(assets)}
 </body>
 </html>
 `;

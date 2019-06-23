@@ -23,9 +23,7 @@ const makeHtml: MakeHtml = async function makeHtml({
   };
 
   const element = (
-    <ServerApp
-      universalState={universalState}
-    />
+    <ServerApp />
   );
 
   const appRootInString = renderToString(element);
