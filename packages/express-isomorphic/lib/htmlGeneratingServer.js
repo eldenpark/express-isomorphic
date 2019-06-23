@@ -23,11 +23,10 @@ const makeHtmlPath = requireNonEmpty(yargs_1.argv.makeHtmlPath, 'makeHtmlPath sh
 const makeHtml = require(makeHtmlPath).default || require(makeHtmlPath);
 app.use(body_parser_1.default.json());
 app.post('/makeHtml', (req, res) => __awaiter(this, void 0, void 0, function* () {
-    const { assets, requestUrl, } = req.body;
+    const { requestUrl, serverState, } = req.body;
     const html = yield makeHtml({
-        assets,
         requestUrl,
-        state: {},
+        serverState,
     });
     res.send(html.toString());
 }));

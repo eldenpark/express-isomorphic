@@ -8,7 +8,7 @@ import { Request } from 'express';
 import {
   MakeHtml,
 } from './createExpress';
-import { State } from './ServerState';
+import ServerState from './ServerState';
 
 const log = logger('[express-isomorphic]');
 
@@ -26,9 +26,9 @@ const eject: Eject = async function eject({
   assets,
   ejectPath,
   makeHtml,
-  state,
+  serverState,
 }) {
-  log('eject():\n%o', arguments[0]); // eslint-disable-line
+  log('eject():\n%o', arguments[0]);
 
   if (!ejectPath) {
     throw new Error('eject() cannot operate without valid ejectPath');
@@ -40,9 +40,8 @@ const eject: Eject = async function eject({
   log('eject(): route paths: %o', ejectServerInstance.paths);
 
   const html = await makeHtml({
-    assets,
     requestUrl: '',
-    state: state.public,
+    serverState,
   });
 
   try {
@@ -61,11 +60,11 @@ export default eject;
 export const addPath = ejectServerInstance.addPath.bind(ejectServerInstance);
 
 export interface Eject {
-  (args: {
+  <State>(args: {
     assets?: string[];
     ejectPath: string;
-    makeHtml: MakeHtml;
+    makeHtml: MakeHtml<State>;
     request?: Request;
-    state: State;
+    serverState: ServerState<State>;
   }): void;
 }

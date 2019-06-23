@@ -14,11 +14,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const chalk_1 = __importDefault(require("chalk"));
 const express_1 = __importDefault(require("express"));
 const logger_1 = require("@nodekit/logger");
-const ServerState_1 = require("./ServerState");
+const ServerState_1 = __importDefault(require("./ServerState"));
 const log = logger_1.logger('[express-isomorphic]');
-const createExpress = function createExpress({ bootstrap, extend, htmlGenerator, }) {
+function createExpress({ bootstrap, extend, htmlGenerator, }) {
     log('createExpress(): NODE_ENV: %s', process.env.NODE_ENV);
-    const serverState = new ServerState_1.ServerState();
+    const serverState = new ServerState_1.default();
     const app = express_1.default();
     if (extend) {
         log('createExpress(): extend is defined thus registered');
@@ -32,7 +32,7 @@ const createExpress = function createExpress({ bootstrap, extend, htmlGenerator,
         app,
         serverState,
     };
-};
+}
 function serveHtml(serverState, htmlGenerator) {
     return (req, res) => __awaiter(this, void 0, void 0, function* () {
         res.writeHead(200, {

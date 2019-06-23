@@ -24,14 +24,16 @@ const productionServer: ProductionServer = function productionServer({
       const { error, assets } = parseWebpackBuild(webpackBuild);
 
       serverState.update({
-        assets,
+        isLaunched: true,
         ...error && {
           error: {
             errorObj: error,
             type: 'WEBPACK_BUILD_ERROR',
           },
         },
-        isLaunched: true,
+        state: {
+          assets,
+        },
       });
     },
     extend,
@@ -65,11 +67,11 @@ export interface WebpackBuild {
 }
 
 interface ProductionServer {
-  (arg: {
-    extend?: Extend;
+  <State>(arg: {
+    extend?: Extend<State>;
     makeHtmlPath: string;
     webpackBuild: WebpackBuild;
-  }): ServerCreation;
+  }): ServerCreation<State>;
 }
 
 export default productionServer;

@@ -9,20 +9,20 @@ export { addPath } from './eject';
 export { attachAssets } from './utils/serverUtils';
 export { Extend, Local, MakeHtml, Production, };
 interface Local {
-    (arg: {
-        extend?: Extend;
+    <State>(arg: {
+        extend?: Extend<State>;
         makeHtmlPath: MakeHtmlPath;
         webpackConfig: WebpackConfig;
         webpackStats?: WebpackStats;
-    }): ServerCreation;
+    }): ServerCreation<State>;
 }
 interface Production {
-    (arg: {
-        extend?: Extend;
+    <State>(arg: {
+        extend?: Extend<State>;
         makeHtmlPath: MakeHtmlPath;
         webpackBuild: WebpackBuild;
         webpackConfig: WebpackConfig;
-    }): ServerCreation;
+    }): ServerCreation<State>;
 }
 /**
  * makeHtmlPath should be given as the full path to the makeHtml file.

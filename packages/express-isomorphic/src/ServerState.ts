@@ -3,17 +3,13 @@ import { logger } from '@nodekit/logger';
 
 const log = logger('[express-isomorphic]');
 
-export class ServerState {
-  assets?: string[] = [];
-  buildHash: number | undefined = undefined;
+export default class ServerState<State> {
   error?: Error = undefined;
   isLaunched: boolean = false;
-  state: State = {};
-  updatedAt: Date | undefined = undefined;
+  state: State;
 
-  update(obj: Partial<ServerState> = {}): void {
-    const time = new Date();
-    log(`[state] state will ${chalk.green('update')} at %s with:\n%j`, time, obj);
+  update(obj): void {
+    log(`serverState: state will ${chalk.green('update')} with:\n%j`, obj);
 
     Object.keys(obj)
       .forEach((key) => {
@@ -21,17 +17,10 @@ export class ServerState {
           this[key] = obj[key];
         }
       });
-    this.updatedAt = time;
   }
 }
-
-export default ServerState;
 
 interface Error {
   errorObj: any;
   type: string;
-}
-
-export interface State {
-  [key: string]: any;
 }

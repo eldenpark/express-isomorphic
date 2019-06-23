@@ -19,7 +19,7 @@ const paths = {
 
 function writeWebpackBuildJson(buildInfo) {
   const buildJsonPath = path.resolve(paths.exampleDist, 'build.json');
-  log('webpack', 'writeWebpackBuildJson(): buildJsonPath: %s, build: %j', buildJsonPath, build);
+  log('webpack', 'writeWebpackBuildJson(): buildJsonPath: %s, buildInfo: %j', buildJsonPath, buildInfo);
   fs.writeFileSync(buildJsonPath, JSON.stringify(buildInfo, null, 2));
 }
 

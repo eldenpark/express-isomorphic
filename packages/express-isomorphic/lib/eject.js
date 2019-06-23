@@ -26,9 +26,9 @@ class EjectServer {
     }
 }
 const ejectServerInstance = new EjectServer();
-const eject = function eject({ assets, ejectPath, makeHtml, state, }) {
+const eject = function eject({ assets, ejectPath, makeHtml, serverState, }) {
     return __awaiter(this, arguments, void 0, function* () {
-        log('eject():\n%o', arguments[0]); // eslint-disable-line
+        log('eject():\n%o', arguments[0]);
         if (!ejectPath) {
             throw new Error('eject() cannot operate without valid ejectPath');
         }
@@ -36,9 +36,8 @@ const eject = function eject({ assets, ejectPath, makeHtml, state, }) {
         log('eject(): assets:\n%o', assets);
         log('eject(): route paths: %o', ejectServerInstance.paths);
         const html = yield makeHtml({
-            assets,
             requestUrl: '',
-            state: state.public,
+            serverState,
         });
         try {
             fs_1.default.writeFileSync(path_1.default.resolve(ejectPath, 'power.html'), html);

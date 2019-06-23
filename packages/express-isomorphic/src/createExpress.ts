@@ -4,18 +4,18 @@ import express, {
 } from 'express';
 import { logger } from '@nodekit/logger';
 
-import { ServerState, State } from './ServerState';
+import ServerState from './ServerState';
 
 const log = logger('[express-isomorphic]');
 
-const createExpress: CreateExpress = function createExpress({
+function createExpress<State>({
   bootstrap,
   extend,
   htmlGenerator,
 }) {
   log('createExpress(): NODE_ENV: %s', process.env.NODE_ENV);
 
-  const serverState = new ServerState();
+  const serverState = new ServerState<State>();
   const app = express();
 
   if (extend) {
@@ -32,9 +32,12 @@ const createExpress: CreateExpress = function createExpress({
     app,
     serverState,
   };
-};
+}
 
-function serveHtml(serverState: ServerState, htmlGenerator: HtmlGenerator): RequestHandler {
+function serveHtml<State>(
+  serverState: ServerState<State>,
+  htmlGenerator: HtmlGenerator,
+): RequestHandler {
   return async (req, res) => {
     res.writeHead(200, {
       'Content-Type': 'text/html',
@@ -56,17 +59,18 @@ function serveHtml(serverState: ServerState, htmlGenerator: HtmlGenerator): Requ
 
 export default createExpress;
 
-export interface ServerCreation {
+export interface ServerCreation<State> {
   app: express.Application;
-  serverState: ServerState;
+  serverState: ServerState<State>;
 }
 
-export interface MakeHtml {
-  (arg: {
-    assets: string[] | undefined;
-    requestUrl: string;
-    state: State;
-  }): Promise<string> | string;
+export interface MakeHtml<State> {
+  (arg: MakeHtmlPayload<State>): Promise<string> | string;
+}
+
+export interface MakeHtmlPayload<State> {
+  requestUrl: string;
+  serverState: ServerState<State>;
 }
 
 export interface WebpackStats {
@@ -75,8 +79,8 @@ export interface WebpackStats {
   [key: string]: boolean;
 }
 
-export interface Extend {
-  (app: express.Application, serverState: ServerState): void;
+export interface Extend<State> {
+  (app: express.Application, serverState: ServerState<State>): void;
 }
 
 export interface WebpackConfig {
@@ -87,19 +91,19 @@ export interface WebpackConfig {
 }
 
 interface CreateExpress {
-  (arg: {
+  <State>(arg: {
     bootstrap: (
       app: express.Application,
-      serverState: ServerState,
+      serverState: ServerState<State>,
     ) => void;
-    extend?: Extend;
+    extend?: Extend<State>;
     htmlGenerator: HtmlGenerator;
-  }): ServerCreation;
+  }): ServerCreation<State>;
 }
 
 interface HtmlGenerator {
-  (arg: {
+  <State>(arg: {
     requestUrl: string;
-    serverState: ServerState;
+    serverState: ServerState<State>;
   }): Promise<string>;
 }

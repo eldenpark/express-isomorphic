@@ -1,17 +1,11 @@
-export declare class ServerState {
-    assets?: string[];
-    buildHash: number | undefined;
+export default class ServerState<State> {
     error?: Error;
     isLaunched: boolean;
     state: State;
-    updatedAt: Date | undefined;
-    update(obj?: Partial<ServerState>): void;
+    update(obj: any): void;
 }
-export default ServerState;
 interface Error {
     errorObj: any;
     type: string;
 }
-export interface State {
-    [key: string]: any;
-}
+export {};

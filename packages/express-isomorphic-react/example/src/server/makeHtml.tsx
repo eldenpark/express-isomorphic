@@ -1,10 +1,10 @@
-import * as React from 'react';
-import { renderToString } from 'react-dom/server';
-
 import {
   attachAssets,
   MakeHtml,
 } from '@nodekit/express-isomorphic';
+import React from 'react';
+import { renderToString } from 'react-dom/server';
+
 import ServerApp from './ServerApp';
 
 const makeHtml: MakeHtml = async function makeHtml({

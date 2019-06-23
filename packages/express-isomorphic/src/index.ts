@@ -28,21 +28,21 @@ export {
 };
 
 interface Local {
-  (arg: {
-    extend?: Extend;
+  <State>(arg: {
+    extend?: Extend<State>;
     makeHtmlPath: MakeHtmlPath;
     webpackConfig: WebpackConfig;
     webpackStats?: WebpackStats;
-  }): ServerCreation;
+  }): ServerCreation<State>;
 }
 
 interface Production {
-  (arg: {
-    extend?: Extend;
+  <State>(arg: {
+    extend?: Extend<State>;
     makeHtmlPath: MakeHtmlPath;
     webpackBuild: WebpackBuild;
     webpackConfig: WebpackConfig;
-  }): ServerCreation;
+  }): ServerCreation<State>;
 }
 
 /**

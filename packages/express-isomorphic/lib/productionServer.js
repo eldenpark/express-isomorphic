@@ -21,12 +21,14 @@ const productionServer = function productionServer({ extend, makeHtmlPath, webpa
         bootstrap: (app, serverState) => {
             log(`bootstrap(): webpackBuild:\n%j`, webpackBuild);
             const { error, assets } = serverUtils_1.parseWebpackBuild(webpackBuild);
-            serverState.update(Object.assign({ assets }, error && {
+            serverState.update(Object.assign({ isLaunched: true }, error && {
                 error: {
                     errorObj: error,
                     type: 'WEBPACK_BUILD_ERROR',
                 },
-            }, { isLaunched: true }));
+            }, { state: {
+                    assets,
+                } }));
         },
         extend,
         htmlGenerator: ({ requestUrl, serverState, }) => __awaiter(this, void 0, void 0, function* () {

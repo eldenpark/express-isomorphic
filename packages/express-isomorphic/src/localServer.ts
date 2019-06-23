@@ -10,13 +10,14 @@ import webpackHotMiddleware from 'webpack-hot-middleware';
 
 import createExpress, {
   Extend,
+  MakeHtmlPayload,
   ServerCreation,
   WebpackStats,
 } from './createExpress';
 import {
   parseWebpackBuild,
 } from './utils/serverUtils';
-import { ServerState } from './ServerState';
+import ServerState from './ServerState';
 
 const log = logger('[express-isomorphic]');
 
@@ -30,12 +31,12 @@ const defaultWebpackStats = {
   errors: true,
 };
 
-const localServer: LocalServer = function localServer({
+const localServer: LocalServer = <State extends {}> ({
   extend,
   makeHtmlPath,
   webpackConfig,
   webpackStats = defaultWebpackStats,
-}) {
+}) => {
   const { devMiddleware, hotMiddleware } = createWebpackMiddlewares({
     webpackConfig,
     webpackStats,
@@ -56,10 +57,11 @@ const localServer: LocalServer = function localServer({
       requestUrl,
       serverState,
     }) => {
-      const { data } = await axios.post('http://localhost:10021/makeHtml', {
-        assets: serverState.assets,
+      const makeHtmlPayload: MakeHtmlPayload<State> = {
         requestUrl,
-      });
+        serverState,
+      };
+      const { data } = await axios.post('http://localhost:10021/makeHtml', makeHtmlPayload);
       return data;
     },
   });
@@ -91,22 +93,26 @@ function createWebpackMiddlewares({
   return { devMiddleware, hotMiddleware };
 }
 
-function setLaunchStatus(serverState: ServerState, webpackStats: WebpackStats): RequestHandler {
+function setLaunchStatus<State>(
+  serverState: ServerState<State>,
+  webpackStats: WebpackStats,
+): RequestHandler {
   return (req, res, next) => {
-    if (serverState.buildHash !== res.locals.webpackStats.hash) {
+    if (serverState.state['buildHash'] !== res.locals.webpackStats.hash) { // eslint-disable-line
       const webpackBuild = res.locals.webpackStats.toJson(webpackStats);
       const { error, assets } = parseWebpackBuild(webpackBuild);
 
       serverState.update({
-        assets,
-        buildHash: res.locals.webpackStats.hash,
         ...error && {
           error: {
             errorObj: error,
             type: 'LOCAL_WEBPACK_BUILD_ERROR',
           },
         },
-        isLaunched: true,
+        state: {
+          assets,
+          buildHash: res.locals.webpackStats.hash,
+        },
       });
     }
     next();
@@ -137,10 +143,10 @@ function setupNodemon(makeHtmlPath) {
 }
 
 interface LocalServer {
-  (arg: {
-    extend?: Extend;
+  <State>(arg: {
+    extend?: Extend<State>;
     makeHtmlPath: any;
     webpackConfig: any;
     webpackStats?: any;
-  }): ServerCreation;
+  }): ServerCreation<State>;
 }

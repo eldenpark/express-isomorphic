@@ -24,7 +24,10 @@ gulp.task('tsc', () => {
   log('tsc', 'config: %j, src: %s', tsConfig.compilerOptions, paths.src);
 
   return gulp.src([`${paths.src}/**/*.{ts,tsx}`])
-    .pipe(ts(tsConfig.compilerOptions))
+    .pipe(ts(tsConfig.compilerOptions)
+      .on('error', (err) => {
+        log('tsc', 'error: %o', err);
+      }))
     .pipe(gulp.dest(paths.lib));
 });
 

@@ -3,7 +3,10 @@ import bodyParser from 'body-parser';
 import express from 'express';
 import { logger } from '@nodekit/logger';
 
-import { MakeHtml } from './createExpress';
+import {
+  MakeHtml,
+  MakeHtmlPayload,
+} from './createExpress';
 
 const log = logger('[express-isomorphic]');
 
@@ -12,20 +15,19 @@ log('htmlGeneratingServer(): command line arguments: %j', argv);
 const app = express();
 const port = argv.port || 10021;
 const makeHtmlPath = requireNonEmpty(argv.makeHtmlPath, 'makeHtmlPath should be provided');
-const makeHtml: MakeHtml = require(makeHtmlPath).default || require(makeHtmlPath);
+const makeHtml: MakeHtml<any> = require(makeHtmlPath).default || require(makeHtmlPath);
 
 app.use(bodyParser.json());
 
 app.post('/makeHtml', async (req, res) => {
   const {
-    assets,
     requestUrl,
-  } = req.body;
+    serverState,
+  }: MakeHtmlPayload<any> = req.body;
 
   const html = await makeHtml({
-    assets,
     requestUrl,
-    state: {},
+    serverState,
   });
 
   res.send(html.toString());

@@ -31,7 +31,7 @@ const defaultWebpackStats = {
     entrypoints: true,
     errors: true,
 };
-const localServer = function localServer({ extend, makeHtmlPath, webpackConfig, webpackStats = defaultWebpackStats, }) {
+const localServer = ({ extend, makeHtmlPath, webpackConfig, webpackStats = defaultWebpackStats, }) => {
     const { devMiddleware, hotMiddleware } = createWebpackMiddlewares({
         webpackConfig,
         webpackStats,
@@ -47,10 +47,11 @@ const localServer = function localServer({ extend, makeHtmlPath, webpackConfig, 
         },
         extend,
         htmlGenerator: ({ requestUrl, serverState, }) => __awaiter(this, void 0, void 0, function* () {
-            const { data } = yield axios_1.default.post('http://localhost:10021/makeHtml', {
-                assets: serverState.assets,
+            const makeHtmlPayload = {
                 requestUrl,
-            });
+                serverState,
+            };
+            const { data } = yield axios_1.default.post('http://localhost:10021/makeHtml', makeHtmlPayload);
             return data;
         }),
     });
@@ -72,15 +73,18 @@ function createWebpackMiddlewares({ webpackConfig, webpackStats, }) {
 }
 function setLaunchStatus(serverState, webpackStats) {
     return (req, res, next) => {
-        if (serverState.buildHash !== res.locals.webpackStats.hash) {
+        if (serverState.state['buildHash'] !== res.locals.webpackStats.hash) { // eslint-disable-line
             const webpackBuild = res.locals.webpackStats.toJson(webpackStats);
             const { error, assets } = serverUtils_1.parseWebpackBuild(webpackBuild);
-            serverState.update(Object.assign({ assets, buildHash: res.locals.webpackStats.hash }, error && {
+            serverState.update(Object.assign({}, error && {
                 error: {
                     errorObj: error,
                     type: 'LOCAL_WEBPACK_BUILD_ERROR',
                 },
-            }, { isLaunched: true }));
+            }, { state: {
+                    assets,
+                    buildHash: res.locals.webpackStats.hash,
+                } }));
         }
         next();
     };

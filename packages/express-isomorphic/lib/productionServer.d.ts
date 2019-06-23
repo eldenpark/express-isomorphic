@@ -11,10 +11,10 @@ export interface WebpackBuild {
     errors: any[];
 }
 interface ProductionServer {
-    (arg: {
-        extend?: Extend;
+    <State>(arg: {
+        extend?: Extend<State>;
         makeHtmlPath: string;
         webpackBuild: WebpackBuild;
-    }): ServerCreation;
+    }): ServerCreation<State>;
 }
 export default productionServer;
