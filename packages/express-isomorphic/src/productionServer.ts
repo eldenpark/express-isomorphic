@@ -15,12 +15,13 @@ const productionServer: ProductionServer = function productionServer({
   makeHtmlPath,
   webpackBuild,
 }) {
+  const makeHtml = require(makeHtmlPath).default || require(makeHtmlPath);
+
   return createExpress({
     bootstrap: (app, serverState) => {
       log(`bootstrap(): webpackBuild:\n%j`, webpackBuild);
 
       const { error, assets } = parseWebpackBuild(webpackBuild);
-      const makeHtml = require(makeHtmlPath).default || require(makeHtmlPath);
 
       serverState.update({
         assets,
@@ -31,7 +32,6 @@ const productionServer: ProductionServer = function productionServer({
           },
         },
         isLaunched: true,
-        makeHtml,
       });
     },
     extend,
@@ -41,7 +41,6 @@ const productionServer: ProductionServer = function productionServer({
     }) => {
       const {
         assets,
-        makeHtml = () => 'makeHtml not loaded',
         state,
       } = serverState;
 

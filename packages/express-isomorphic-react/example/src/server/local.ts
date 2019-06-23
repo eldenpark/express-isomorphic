@@ -1,11 +1,11 @@
-import { Request, NextFunction } from 'express';
 import ExpressIsomorphic, {
   Extend,
 } from '@nodekit/express-isomorphic';
 import http from 'http';
+import { logger } from '@nodekit/logger';
 import path from 'path';
+import { Request, NextFunction } from 'express';
 
-import { logger } from './log';
 import webpackConfig from '../webpack/webpack.config.client.local.web';
 
 const log = logger('[express-isomorphic-react]');

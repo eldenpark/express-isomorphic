@@ -16,21 +16,21 @@ const createExpress_1 = __importDefault(require("./createExpress"));
 const serverUtils_1 = require("./utils/serverUtils");
 const log = logger_1.logger('[express-isomorphic]');
 const productionServer = function productionServer({ extend, makeHtmlPath, webpackBuild, }) {
+    const makeHtml = require(makeHtmlPath).default || require(makeHtmlPath);
     return createExpress_1.default({
         bootstrap: (app, serverState) => {
             log(`bootstrap(): webpackBuild:\n%j`, webpackBuild);
             const { error, assets } = serverUtils_1.parseWebpackBuild(webpackBuild);
-            const makeHtml = require(makeHtmlPath).default || require(makeHtmlPath);
             serverState.update(Object.assign({ assets }, error && {
                 error: {
                     errorObj: error,
                     type: 'WEBPACK_BUILD_ERROR',
                 },
-            }, { isLaunched: true, makeHtml }));
+            }, { isLaunched: true }));
         },
         extend,
         htmlGenerator: ({ requestUrl, serverState, }) => __awaiter(this, void 0, void 0, function* () {
-            const { assets, makeHtml = () => 'makeHtml not loaded', state, } = serverState;
+            const { assets, state, } = serverState;
             return makeHtml({
                 assets,
                 requestUrl,

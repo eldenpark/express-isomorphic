@@ -8,7 +8,6 @@ export class ServerState {
   buildHash: number | undefined = undefined;
   error?: Error = undefined;
   isLaunched: boolean = false;
-  makeHtml?: Function = undefined;
   state: State = {};
   updatedAt: Date | undefined = undefined;
 

@@ -12,7 +12,6 @@ class ServerState {
         this.buildHash = undefined;
         this.error = undefined;
         this.isLaunched = false;
-        this.makeHtml = undefined;
         this.state = {};
         this.updatedAt = undefined;
     }

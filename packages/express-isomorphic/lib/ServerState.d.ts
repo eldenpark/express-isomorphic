@@ -3,15 +3,14 @@ export declare class ServerState {
     buildHash: number | undefined;
     error?: Error;
     isLaunched: boolean;
-    makeHtml?: Function;
     state: State;
     updatedAt: Date | undefined;
     update(obj?: Partial<ServerState>): void;
 }
 export default ServerState;
 interface Error {
-    type: string;
     errorObj: any;
+    type: string;
 }
 export interface State {
     [key: string]: any;
