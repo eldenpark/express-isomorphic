@@ -16,9 +16,9 @@ const express_1 = __importDefault(require("express"));
 const logger_1 = require("@nodekit/logger");
 const ServerState_1 = __importDefault(require("./ServerState"));
 const log = logger_1.logger('[express-isomorphic]');
-function createExpress({ bootstrap, extend, htmlGenerator, }) {
+const createExpress = ({ bootstrap, extend, htmlGenerator, state, }) => {
     log('createExpress(): NODE_ENV: %s', process.env.NODE_ENV);
-    const serverState = new ServerState_1.default();
+    const serverState = new ServerState_1.default(state || {});
     const app = express_1.default();
     if (extend) {
         log('createExpress(): extend is defined thus registered');
@@ -32,7 +32,7 @@ function createExpress({ bootstrap, extend, htmlGenerator, }) {
         app,
         serverState,
     };
-}
+};
 function serveHtml(serverState, htmlGenerator) {
     return (req, res) => __awaiter(this, void 0, void 0, function* () {
         res.writeHead(200, {

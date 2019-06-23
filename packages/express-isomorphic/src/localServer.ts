@@ -3,57 +3,25 @@ import chalk from 'chalk';
 import { logger } from '@nodekit/logger';
 import nodemon from 'nodemon';
 import path from 'path';
-import { RequestHandler } from 'express';
-import webpack from 'webpack';
-import webpackDevMiddleware from 'webpack-dev-middleware';
-import webpackHotMiddleware from 'webpack-hot-middleware';
 
 import createExpress, {
   Extend,
   MakeHtmlPayload,
   ServerCreation,
-  WebpackStats,
 } from './createExpress';
-import {
-  parseWebpackBuild,
-} from './utils/serverUtils';
-import ServerState from './ServerState';
 
 const log = logger('[express-isomorphic]');
 
-const defaultWebpackStats = {
-  all: false,
-  assets: true,
-  builtAt: true,
-  chunks: true,
-  color: true,
-  entrypoints: true,
-  errors: true,
-};
-
-const localServer: LocalServer = <State extends {}> ({
+const localServer: LocalServer = <State extends {}>({
   extend,
   makeHtmlPath,
-  webpackConfig,
-  webpackStats = defaultWebpackStats,
 }) => {
-  const { devMiddleware, hotMiddleware } = createWebpackMiddlewares({
-    webpackConfig,
-    webpackStats,
-  });
-
-  return createExpress({
-    bootstrap: (app, serverState) => {
+  return createExpress<State>({
+    bootstrap: () => {
       setupNodemon(makeHtmlPath);
-
-      app.use([
-        devMiddleware,
-        hotMiddleware,
-        setLaunchStatus(serverState, webpackStats),
-      ]);
     },
     extend,
-    htmlGenerator: async ({
+    htmlGenerator: async <State>({
       requestUrl,
       serverState,
     }) => {
@@ -68,56 +36,6 @@ const localServer: LocalServer = <State extends {}> ({
 };
 
 export default localServer;
-
-function createWebpackMiddlewares({
-  webpackConfig,
-  webpackStats,
-}) {
-  log(
-    'createWebpackMiddlewares(): webpack-client-local will be compiled with config:\n%j',
-    webpackConfig,
-  );
-  const clientWebpackCompiler = webpack(webpackConfig);
-
-  const devMiddleware = webpackDevMiddleware(clientWebpackCompiler, {
-    publicPath: webpackConfig.output.publicPath,
-    serverSideRender: true,
-    stats: webpackStats,
-  });
-
-  const hotMiddleware = webpackHotMiddleware(clientWebpackCompiler, {
-    heartbeat: 2000,
-    reload: true,
-  });
-
-  return { devMiddleware, hotMiddleware };
-}
-
-function setLaunchStatus<State>(
-  serverState: ServerState<State>,
-  webpackStats: WebpackStats,
-): RequestHandler {
-  return (req, res, next) => {
-    if (serverState.state['buildHash'] !== res.locals.webpackStats.hash) { // eslint-disable-line
-      const webpackBuild = res.locals.webpackStats.toJson(webpackStats);
-      const { error, assets } = parseWebpackBuild(webpackBuild);
-
-      serverState.update({
-        ...error && {
-          error: {
-            errorObj: error,
-            type: 'LOCAL_WEBPACK_BUILD_ERROR',
-          },
-        },
-        state: {
-          assets,
-          buildHash: res.locals.webpackStats.hash,
-        },
-      });
-    }
-    next();
-  };
-}
 
 function setupNodemon(makeHtmlPath) {
   log('setupNodemon(): parent pid: %s, makeHtmlPath: %s', process.pid, makeHtmlPath);
@@ -146,7 +64,5 @@ interface LocalServer {
   <State>(arg: {
     extend?: Extend<State>;
     makeHtmlPath: any;
-    webpackConfig: any;
-    webpackStats?: any;
   }): ServerCreation<State>;
 }

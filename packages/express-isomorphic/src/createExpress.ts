@@ -8,14 +8,15 @@ import ServerState from './ServerState';
 
 const log = logger('[express-isomorphic]');
 
-function createExpress<State>({
+const createExpress: CreateExpress = <State extends {}> ({
   bootstrap,
   extend,
   htmlGenerator,
-}) {
+  state,
+}) => {
   log('createExpress(): NODE_ENV: %s', process.env.NODE_ENV);
 
-  const serverState = new ServerState<State>();
+  const serverState = new ServerState<State>(state || {});
   const app = express();
 
   if (extend) {
@@ -32,11 +33,11 @@ function createExpress<State>({
     app,
     serverState,
   };
-}
+};
 
 function serveHtml<State>(
   serverState: ServerState<State>,
-  htmlGenerator: HtmlGenerator,
+  htmlGenerator: HtmlGenerator<State>,
 ): RequestHandler {
   return async (req, res) => {
     res.writeHead(200, {
@@ -73,12 +74,6 @@ export interface MakeHtmlPayload<State> {
   serverState: ServerState<State>;
 }
 
-export interface WebpackStats {
-  chunks: boolean;
-  entrypoints: boolean;
-  [key: string]: boolean;
-}
-
 export interface Extend<State> {
   (app: express.Application, serverState: ServerState<State>): void;
 }
@@ -97,12 +92,12 @@ interface CreateExpress {
       serverState: ServerState<State>,
     ) => void;
     extend?: Extend<State>;
-    htmlGenerator: HtmlGenerator;
+    htmlGenerator: HtmlGenerator<State>;
   }): ServerCreation<State>;
 }
 
-interface HtmlGenerator {
-  <State>(arg: {
+interface HtmlGenerator<State> {
+  (arg: {
     requestUrl: string;
     serverState: ServerState<State>;
   }): Promise<string>;

@@ -28,7 +28,7 @@ const eject: Eject = async function eject({
   makeHtml,
   serverState,
 }) {
-  log('eject():\n%o', arguments[0]);
+  log('eject():\n%o', arguments[0]); // eslint-disable-line
 
   if (!ejectPath) {
     throw new Error('eject() cannot operate without valid ejectPath');

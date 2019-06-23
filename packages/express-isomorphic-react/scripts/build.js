@@ -74,16 +74,16 @@ gulp.task('webpack', (done) => {
   }
 });
 
-gulp.task('build-example', gulp.parallel('webpack', 'tsc'), () => {
+gulp.task('build-example', gulp.parallel('webpack', () => {
   const exampleSrcPath = `${paths.exampleSrc}/**/*.{js,jsx,ts,tsx}`;
-  log('build-example');
+  log('build-example', 'exampleSrcPath: %s', exampleSrcPath);
 
   return gulp.src([exampleSrcPath])
     .pipe(ts(tsConfig.compilerOptions))
     .pipe(gulp.dest(paths.exampleDist));
-});
+}));
 
-gulp.task('build', gulp.series('clean', gulp.parallel('webpack', 'tsc')));
+gulp.task('build', gulp.series('clean', 'tsc'));
 
 function build(callback) {
   const buildTask = gulp.task('build');

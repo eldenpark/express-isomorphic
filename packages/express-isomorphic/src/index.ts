@@ -3,12 +3,12 @@ import {
   MakeHtml,
   ServerCreation,
   WebpackConfig,
-  WebpackStats,
 } from './createExpress';
 import localServer from './localServer';
 import productionServer, {
   WebpackBuild,
 } from './productionServer';
+import ServerState from './ServerState';
 
 const local: Local = (arg) => localServer(arg);
 const production: Production = (arg) => productionServer(arg);
@@ -19,20 +19,18 @@ export default {
 };
 
 export { addPath } from './eject';
-export { attachAssets } from './utils/serverUtils';
 export {
   Extend,
   Local,
   MakeHtml,
   Production,
+  ServerState,
 };
 
 interface Local {
   <State>(arg: {
     extend?: Extend<State>;
     makeHtmlPath: MakeHtmlPath;
-    webpackConfig: WebpackConfig;
-    webpackStats?: WebpackStats;
   }): ServerCreation<State>;
 }
 

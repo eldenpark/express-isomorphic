@@ -5,7 +5,5 @@ interface LocalServer {
     <State>(arg: {
         extend?: Extend<State>;
         makeHtmlPath: any;
-        webpackConfig: any;
-        webpackStats?: any;
     }): ServerCreation<State>;
 }

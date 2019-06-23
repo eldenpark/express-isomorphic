@@ -1,19 +1,17 @@
-import { Extend, MakeHtml, ServerCreation, WebpackConfig, WebpackStats } from './createExpress';
+import { Extend, MakeHtml, ServerCreation, WebpackConfig } from './createExpress';
 import { WebpackBuild } from './productionServer';
+import ServerState from './ServerState';
 declare const _default: {
     local: Local;
     production: Production;
 };
 export default _default;
 export { addPath } from './eject';
-export { attachAssets } from './utils/serverUtils';
-export { Extend, Local, MakeHtml, Production, };
+export { Extend, Local, MakeHtml, Production, ServerState, };
 interface Local {
     <State>(arg: {
         extend?: Extend<State>;
         makeHtmlPath: MakeHtmlPath;
-        webpackConfig: WebpackConfig;
-        webpackStats?: WebpackStats;
     }): ServerCreation<State>;
 }
 interface Production {

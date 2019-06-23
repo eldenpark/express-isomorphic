@@ -1,27 +1,25 @@
 import {
-  attachAssets,
   MakeHtml,
 } from '@nodekit/express-isomorphic';
+import { logger } from '@nodekit/logger';
 import React from 'react';
 import { renderToString } from 'react-dom/server';
 
 import ServerApp from './ServerApp';
+import State from './State';
 
-const makeHtml: MakeHtml = async function makeHtml({
-  assets,
+const log = logger('[express-isomorphic-react]');
+
+const makeHtml: MakeHtml<State> = async function makeHtml({
   requestUrl,
+  serverState,
 }) {
-  const time = new Date().toISOString();
-  console.log( // eslint-disable-line
-    `${time} [express-isomorphic-react] makeHtml(): assets: %s, requestUrl: %s`,
-    assets,
-    requestUrl,
-  );
+  log('makeHtml(): requestUrl: %s, serverState: %s', requestUrl, serverState);
 
+  const { state } = serverState;
   const element = (
     <ServerApp />
   );
-
   const appRootInString = renderToString(element);
 
   return `
@@ -34,10 +32,26 @@ const makeHtml: MakeHtml = async function makeHtml({
 </head>
 <body>
   <div id="app-root">${appRootInString}</div>
-  ${attachAssets(assets)}
+  ${attachAssets(state.assets)}
 </body>
 </html>
 `;
 };
 
 export default makeHtml;
+
+function attachAssets(assets: string[] = []): string {
+  return assets.map((asset) => {
+    if (asset.endsWith('.js')) {
+      return `<script src="/bundle/${asset}"></script>`;
+    }
+
+    if (asset.endsWith('.css')) {
+      return `<link rel="stylesheet" type="text/css" href="/bundle/${asset}">`;
+    }
+
+    console.warn('The type of asset is not handled: %s', asset); // eslint-disable-line
+    return undefined;
+  })
+    .join('');
+}

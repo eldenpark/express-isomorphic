@@ -16,34 +16,12 @@ const chalk_1 = __importDefault(require("chalk"));
 const logger_1 = require("@nodekit/logger");
 const nodemon_1 = __importDefault(require("nodemon"));
 const path_1 = __importDefault(require("path"));
-const webpack_1 = __importDefault(require("webpack"));
-const webpack_dev_middleware_1 = __importDefault(require("webpack-dev-middleware"));
-const webpack_hot_middleware_1 = __importDefault(require("webpack-hot-middleware"));
 const createExpress_1 = __importDefault(require("./createExpress"));
-const serverUtils_1 = require("./utils/serverUtils");
 const log = logger_1.logger('[express-isomorphic]');
-const defaultWebpackStats = {
-    all: false,
-    assets: true,
-    builtAt: true,
-    chunks: true,
-    color: true,
-    entrypoints: true,
-    errors: true,
-};
-const localServer = ({ extend, makeHtmlPath, webpackConfig, webpackStats = defaultWebpackStats, }) => {
-    const { devMiddleware, hotMiddleware } = createWebpackMiddlewares({
-        webpackConfig,
-        webpackStats,
-    });
+const localServer = ({ extend, makeHtmlPath, }) => {
     return createExpress_1.default({
-        bootstrap: (app, serverState) => {
+        bootstrap: () => {
             setupNodemon(makeHtmlPath);
-            app.use([
-                devMiddleware,
-                hotMiddleware,
-                setLaunchStatus(serverState, webpackStats),
-            ]);
         },
         extend,
         htmlGenerator: ({ requestUrl, serverState, }) => __awaiter(this, void 0, void 0, function* () {
@@ -57,38 +35,6 @@ const localServer = ({ extend, makeHtmlPath, webpackConfig, webpackStats = defau
     });
 };
 exports.default = localServer;
-function createWebpackMiddlewares({ webpackConfig, webpackStats, }) {
-    log('createWebpackMiddlewares(): webpack-client-local will be compiled with config:\n%j', webpackConfig);
-    const clientWebpackCompiler = webpack_1.default(webpackConfig);
-    const devMiddleware = webpack_dev_middleware_1.default(clientWebpackCompiler, {
-        publicPath: webpackConfig.output.publicPath,
-        serverSideRender: true,
-        stats: webpackStats,
-    });
-    const hotMiddleware = webpack_hot_middleware_1.default(clientWebpackCompiler, {
-        heartbeat: 2000,
-        reload: true,
-    });
-    return { devMiddleware, hotMiddleware };
-}
-function setLaunchStatus(serverState, webpackStats) {
-    return (req, res, next) => {
-        if (serverState.state['buildHash'] !== res.locals.webpackStats.hash) { // eslint-disable-line
-            const webpackBuild = res.locals.webpackStats.toJson(webpackStats);
-            const { error, assets } = serverUtils_1.parseWebpackBuild(webpackBuild);
-            serverState.update(Object.assign({}, error && {
-                error: {
-                    errorObj: error,
-                    type: 'LOCAL_WEBPACK_BUILD_ERROR',
-                },
-            }, { state: {
-                    assets,
-                    buildHash: res.locals.webpackStats.hash,
-                } }));
-        }
-        next();
-    };
-}
 function setupNodemon(makeHtmlPath) {
     log('setupNodemon(): parent pid: %s, makeHtmlPath: %s', process.pid, makeHtmlPath);
     const script = path_1.default.resolve(__dirname, 'htmlGeneratingServer.js');

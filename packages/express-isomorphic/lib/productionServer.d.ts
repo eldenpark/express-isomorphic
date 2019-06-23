@@ -14,7 +14,6 @@ interface ProductionServer {
     <State>(arg: {
         extend?: Extend<State>;
         makeHtmlPath: string;
-        webpackBuild: WebpackBuild;
     }): ServerCreation<State>;
 }
 export default productionServer;

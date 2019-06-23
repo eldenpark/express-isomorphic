@@ -8,6 +8,10 @@ export default class ServerState<State> {
   isLaunched: boolean = false;
   state: State;
 
+  constructor(state) {
+    this.state = state;
+  }
+
   update(obj): void {
     log(`serverState: state will ${chalk.green('update')} with:\n%j`, obj);
 
