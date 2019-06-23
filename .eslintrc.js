@@ -20,6 +20,7 @@ module.exports = {
   },
   plugins: [
     '@typescript-eslint',
+    'typescript-sort-keys',
   ],
   root: true,
   rules: {
@@ -47,6 +48,8 @@ module.exports = {
         allowTemplateLiterals: true,
       }],
     'sort-keys': ['error'],
+    'typescript-sort-keys/interface': 2,
+    'typescript-sort-keys/string-enum': 2,
     'wrap-iife': ['error', 'inside'],
   },
 };

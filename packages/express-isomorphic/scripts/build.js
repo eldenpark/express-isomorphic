@@ -1,22 +1,15 @@
-const chalk = require('chalk');
 const del = require('del');
 const gulp = require('gulp');
+const { buildLogger } = require('@nodekit/logger');
 const path = require('path');
 const ts = require('gulp-typescript');
-const util = require('util');
 
 const tsConfig = require('../tsconfig.json');
 
+const log = buildLogger('[express-isomorphic]');
 const paths = {
   lib: path.resolve(__dirname, '..', 'lib'),
   src: path.resolve(__dirname, '..', 'src'),
-};
-
-const log = (tag, ...args) => {
-  const time = new Date().toISOString();
-  const name = chalk.cyan('[express-isomorphic]');
-  const _tag = chalk.magenta(`[gulp>${tag}]`);
-  console.log(`${time} ${name} ${_tag} ${util.format(...args)}`); // eslint-disable-line
 };
 
 gulp.task('clean', () => {

@@ -29,8 +29,8 @@ export class ServerState {
 export default ServerState;
 
 interface Error {
-  type: string;
   errorObj: any;
+  type: string;
 }
 
 export interface State {
