@@ -2,8 +2,8 @@
   "author": "Elden S. Park",
   "dependencies": {
     "@babel/plugin-syntax-dynamic-import": "^7.2.0",
-    "@nodekit/express-isomorphic": "^0.9.1",
-    "@nodekit/express-isomorphic-react": "^0.9.1",
+    "@nodekit/express-isomorphic": "^0.9.2",
+    "@nodekit/express-isomorphic-react": "^0.9.2",
     "babel-loader": "^8.0.6",
     "babel-plugin-dynamic-import-node": "^2.2.0",
     "babel-polyfill": "^6.26.0",
@@ -30,6 +30,6 @@
   "publishConfig": {
     "access": "private"
   },
-  "version": "0.9.1",
+  "version": "0.9.2",
   "gitHead": "076bbff561952f7c0f9066bb28252e4142fe449c"
 }
