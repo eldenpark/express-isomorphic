@@ -23,7 +23,7 @@
     "example": "example",
     "lib": "lib"
   },
-  "gitHead": "076bbff561952f7c0f9066bb28252e4142fe449c",
+  "gitHead": "db8c2aff5e8b7cc440f3a719a4e3c9e9030a2153",
   "keywords": [],
   "license": "ISC",
   "main": "lib/index.js",
