@@ -24,11 +24,11 @@
     "webpack-merge": "^4.2.1"
   },
   "description": "",
-  "name": "example-react",
   "keywords": [],
   "license": "ISC",
   "publishConfig": {
     "access": "private"
   },
-  "version": "0.9.0"
+  "version": "0.9.0",
+  "gitHead": "85965115545aca1367291f748a29bd688827755b"
 }

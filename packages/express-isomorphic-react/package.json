@@ -34,5 +34,6 @@
     "dev": "node ./src/launch.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "version": "0.9.0"
+  "version": "0.9.0",
+  "gitHead": "85965115545aca1367291f748a29bd688827755b"
 }
