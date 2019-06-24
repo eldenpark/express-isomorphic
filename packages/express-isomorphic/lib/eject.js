@@ -28,7 +28,7 @@ class EjectServer {
 const ejectServerInstance = new EjectServer();
 const eject = function eject({ assets, ejectPath, makeHtml, serverState, }) {
     return __awaiter(this, arguments, void 0, function* () {
-        log('eject():\n%o', arguments[0]);
+        log('eject():\n%o', arguments[0]); // eslint-disable-line
         if (!ejectPath) {
             throw new Error('eject() cannot operate without valid ejectPath');
         }

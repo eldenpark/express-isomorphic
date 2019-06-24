@@ -3,6 +3,7 @@
   "dependencies": {
     "@babel/plugin-syntax-dynamic-import": "^7.2.0",
     "@nodekit/express-isomorphic": "^0.8.1",
+    "@nodekit/express-isomorphic-react": "^0.8.1",
     "babel-loader": "^8.0.6",
     "babel-plugin-dynamic-import-node": "^2.2.0",
     "babel-polyfill": "^6.26.0",
@@ -23,16 +24,11 @@
     "webpack-merge": "^4.2.1"
   },
   "description": "",
-  "main": "lib/index.js",
-  "name": "@nodekit/express-isomorphic-react",
+  "name": "example-react",
   "keywords": [],
   "license": "ISC",
   "publishConfig": {
-    "access": "public"
-  },
-  "scripts": {
-    "dev": "node ./src/launch.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "access": "private"
   },
   "version": "0.8.1"
 }

@@ -1,6 +1,6 @@
 // import { logger } from '@nodekit/logger';
 
-// const log = logger('[express-isomorphic]');
+// const log = logger('[express-isomorphic-react]');
 
 // export const parseWebpackBuild: ParseWebpackBuild = function parseWebpackBuild({
 //   entrypoints,
@@ -35,30 +35,6 @@
 //     };
 //   }
 // };
-
-// export function attachAssets(assets: string[] = []): string {
-//   return assets.map((asset) => {
-//     if (asset.endsWith('.js')) {
-//       return `<script src="/bundle/${asset}"></script>`;
-//     }
-
-//     if (asset.endsWith('.css')) {
-//       return `<link rel="stylesheet" type="text/css" href="/bundle/${asset}">`;
-//     }
-
-//     console.warn('The type of asset is not handled: %s', asset); // eslint-disable-line
-//     return undefined;
-//   })
-//     .join('');
-// }
-
-// export function requireNonNull(obj: any, msg: string) {
-//   if (!obj) {
-//     throw new Error(msg);
-//   } else {
-//     return obj;
-//   }
-// }
 
 // interface ParseWebpackBuild {
 //   (buildInfo: WebpackBuild): {

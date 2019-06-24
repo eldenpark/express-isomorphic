@@ -1,4 +1,4 @@
-import express, {
+import {
   NextFunction,
   Request,
 } from 'express';
@@ -8,8 +8,8 @@ import ExpressIsomorphic, {
 import http from 'http';
 import { logger } from '@nodekit/logger';
 import path from 'path';
+import { withReactProd } from '@nodekit/express-isomorphic-react';
 
-import { parseWebpackBuild } from './serverUtils';
 import State from './State';
 import webpackConfig from '../webpack/webpack.config.client.prod.web';
 
@@ -18,30 +18,16 @@ const webpackBuild = require('../../dist/build.json');
 const log = logger('[express-isomorphic-react]');
 
 const extend: Extend<State> = (app, serverState) => {
-  const { path: outputPath, publicPath } = webpackConfig.output;
-  const { error, assets } = parseWebpackBuild(webpackBuild);
-
-  log(`bootstrap(): webpackBuild:\n%j`, webpackBuild);
-
-  serverState.update({
-    isLaunched: true,
-    ...error && {
-      error: {
-        errorObj: error,
-        type: 'WEBPACK_BUILD_ERROR',
-      },
-    },
-    state: {
-      assets,
-    },
-  });
-
   app.use((req: Request, res, next: NextFunction) => {
     log('extend(): requestUrl: %s', req.url);
     next();
   });
 
-  app.use(publicPath, express.static(outputPath));
+  withReactProd({
+    serverState,
+    webpackBuild,
+    webpackConfig,
+  })(app);
 };
 
 const { app } = ExpressIsomorphic.production({

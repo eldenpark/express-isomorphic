@@ -8,10 +8,10 @@ function launch() {
 
   if (argv._.includes('production')) {
     const { gulp } = require('./build');
-    const buildExampleTask = gulp.task('build-example');
+    const buildTask = gulp.task('build');
 
-    buildExampleTask(() => {
-      require('../example/dist/server/production.js');
+    buildTask(() => {
+      require('../dist/server/production.js');
     });
   } else {
     const babelRc = {
@@ -52,7 +52,7 @@ function launch() {
       extensions: ['.js', '.jsx', '.ts', '.tsx'],
     });
 
-    require('../example/src/server/local.ts');
+    require('../src/server/local.ts');
   }
 }
 
