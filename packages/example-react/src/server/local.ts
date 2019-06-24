@@ -22,7 +22,6 @@ const extend: Extend<State> = (app, serverState) => {
   });
 
   withReactLocal({
-    app,
     serverState,
     webpackConfig,
   })(app);

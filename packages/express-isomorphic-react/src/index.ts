@@ -192,7 +192,7 @@ interface WebpackBuild {
 interface WithReactLocalArgs<State extends ReactServerState> {
   serverState: ServerState<State>;
   webpackConfig: WebpackConfig;
-  webpackStats: WebpackStats;
+  webpackStats?: WebpackStats;
 }
 
 interface WithReactProdArgs<State extends ReactServerState> {
