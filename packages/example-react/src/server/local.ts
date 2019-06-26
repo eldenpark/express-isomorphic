@@ -28,7 +28,13 @@ const extend: Extend<State> = (app, serverState) => {
 
   serverState.update({
     state: {
-      testProp: 4,
+      testProp1: 1,
+    },
+  });
+
+  serverState.update({
+    state: {
+      testProp2: 2,
     },
   });
 };

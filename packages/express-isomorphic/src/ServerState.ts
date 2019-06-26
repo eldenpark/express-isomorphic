@@ -17,7 +17,14 @@ export default class ServerState<State> {
 
     Object.keys(obj)
       .forEach((key) => {
-        this[key] = obj[key];
+        if (key === 'state') {
+          this.state = {
+            ...this.state,
+            ...obj[key],
+          };
+        } else {
+          this[key] = obj[key];
+        }
       });
   }
 }
