@@ -16,9 +16,7 @@ class ServerState {
         log(`serverState: state will ${chalk_1.default.green('update')} with:\n%j`, obj);
         Object.keys(obj)
             .forEach((key) => {
-            if (Object.prototype.hasOwnProperty.call(this, key)) {
-                this[key] = obj[key];
-            }
+            this[key] = obj[key];
         });
     }
 }

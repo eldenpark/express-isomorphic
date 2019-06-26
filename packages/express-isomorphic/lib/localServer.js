@@ -31,7 +31,7 @@ const localServer = ({ extend, makeHtmlPath, }) => __awaiter(this, void 0, void 
                 requestUrl,
                 serverState,
             };
-            const { data } = yield axios_1.default.post(`http://localhost${port}/makeHtml`, makeHtmlPayload);
+            const { data } = yield axios_1.default.post(`http://localhost:${port}/makeHtml`, makeHtmlPayload);
             return data;
         }),
     });

@@ -32,7 +32,7 @@ const localServer: LocalServer = async <State extends {}>({
         requestUrl,
         serverState,
       };
-      const { data } = await axios.post(`http://localhost${port}/makeHtml`, makeHtmlPayload);
+      const { data } = await axios.post(`http://localhost:${port}/makeHtml`, makeHtmlPayload);
       return data;
     },
   });

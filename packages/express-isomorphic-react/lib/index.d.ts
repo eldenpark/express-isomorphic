@@ -14,6 +14,7 @@ export interface WebpackConfig {
     [key: string]: any;
 }
 export interface ReactServerState {
+    assets: string[];
     buildHash: string;
 }
 interface WebpackBuild {

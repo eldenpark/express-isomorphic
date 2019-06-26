@@ -8,7 +8,6 @@ import webpack from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
 
-
 const log = logger('[express-isomorphic-react]');
 
 const defaultWebpackStats = {
@@ -170,6 +169,7 @@ export interface WebpackConfig {
 }
 
 export interface ReactServerState {
+  assets: string[];
   buildHash: string;
 }
 

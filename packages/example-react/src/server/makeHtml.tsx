@@ -14,7 +14,7 @@ const makeHtml: MakeHtml<State> = async function makeHtml({
   requestUrl,
   serverState,
 }) {
-  log('makeHtml(): requestUrl: %s, serverState: %s', requestUrl, serverState);
+  log('makeHtml(): requestUrl: %s, serverState: %j', requestUrl, serverState);
 
   const { state } = serverState;
   const element = (

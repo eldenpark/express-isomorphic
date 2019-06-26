@@ -17,7 +17,7 @@ const log = logger('[example-react]');
 
 const extend: Extend<State> = (app, serverState) => {
   app.use((req: Request, res, next: NextFunction) => {
-    log('extend(): requestUrl: %s', req.url);
+    log('extend(): requestUrl: %s, serverState: %j', req.url, serverState);
     next();
   });
 
@@ -25,6 +25,12 @@ const extend: Extend<State> = (app, serverState) => {
     serverState,
     webpackConfig,
   })(app);
+
+  serverState.update({
+    state: {
+      testProp: 4,
+    },
+  });
 };
 
 (async () => {

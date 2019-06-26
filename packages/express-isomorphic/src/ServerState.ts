@@ -12,14 +12,12 @@ export default class ServerState<State> {
     this.state = state;
   }
 
-  update(obj): void {
+  update(obj: UpdateArgs): void {
     log(`serverState: state will ${chalk.green('update')} with:\n%j`, obj);
 
     Object.keys(obj)
       .forEach((key) => {
-        if (Object.prototype.hasOwnProperty.call(this, key)) {
-          this[key] = obj[key];
-        }
+        this[key] = obj[key];
       });
   }
 }
@@ -27,4 +25,8 @@ export default class ServerState<State> {
 interface Error {
   errorObj: any;
   type: string;
+}
+
+type UpdateArgs = Partial<ServerState<any>> & {
+  state: any;
 }
