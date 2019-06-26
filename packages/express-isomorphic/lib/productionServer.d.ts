@@ -14,6 +14,6 @@ interface ProductionServer {
     <State>(arg: {
         extend?: Extend<State>;
         makeHtmlPath: string;
-    }): ServerCreation<State>;
+    }): Promise<ServerCreation<State>>;
 }
 export default productionServer;

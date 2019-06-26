@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const createExpress_1 = __importDefault(require("./createExpress"));
-const productionServer = ({ extend, makeHtmlPath, }) => {
+const productionServer = ({ extend, makeHtmlPath, }) => __awaiter(this, void 0, void 0, function* () {
     const makeHtml = require(makeHtmlPath).default || require(makeHtmlPath);
     return createExpress_1.default({
         bootstrap: () => { },
@@ -24,5 +24,5 @@ const productionServer = ({ extend, makeHtmlPath, }) => {
             });
         }),
     });
-};
+});
 exports.default = productionServer;

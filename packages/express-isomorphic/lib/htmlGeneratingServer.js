@@ -13,6 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const yargs_1 = require("yargs");
 const body_parser_1 = __importDefault(require("body-parser"));
+const chalk_1 = __importDefault(require("chalk"));
 const express_1 = __importDefault(require("express"));
 const logger_1 = require("@nodekit/logger");
 const log = logger_1.logger('[express-isomorphic]');
@@ -31,7 +32,7 @@ app.post('/makeHtml', (req, res) => __awaiter(this, void 0, void 0, function* ()
     res.send(html.toString());
 }));
 app.listen(port, () => {
-    log('htmlGeneratingServer(): listening on port: %s', port);
+    log(`htmlGeneratingServer(): listening on port: ${chalk_1.default.yellow('%s')}`, port);
 });
 function requireNonEmpty(obj, msg) {
     if (!obj || obj === '') {

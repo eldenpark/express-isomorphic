@@ -4,7 +4,7 @@ import createExpress, {
   ServerCreation,
 } from './createExpress';
 
-const productionServer: ProductionServer = <State extends {}>({
+const productionServer: ProductionServer = async <State extends {}>({
   extend,
   makeHtmlPath,
 }) => {
@@ -40,7 +40,7 @@ interface ProductionServer {
   <State>(arg: {
     extend?: Extend<State>;
     makeHtmlPath: string;
-  }): ServerCreation<State>;
+  }): Promise<ServerCreation<State>>;
 }
 
 export default productionServer;

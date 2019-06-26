@@ -27,20 +27,16 @@ const extend: Extend<State> = (app, serverState) => {
   })(app);
 };
 
-const { app } = ExpressIsomorphic.local({
-  extend,
-  makeHtmlPath: path.resolve(__dirname, './makeHtmlLaunch.js'),
-});
+(async () => {
+  const { app } = await ExpressIsomorphic.local({
+    extend,
+    makeHtmlPath: path.resolve(__dirname, './makeHtmlLaunch.js'),
+  });
 
-const port = 6001;
+  const port = 6001;
 
-const httpServer = http.createServer(app);
-httpServer.listen(port, () => {
-  log('LocalServer listening on: %s', port);
-});
-
-interface WebpackStats {
-  chunks: boolean;
-  entrypoints: boolean;
-  [key: string]: boolean;
-}
+  const httpServer = http.createServer(app);
+  httpServer.listen(port, () => {
+    log('LocalServer listening on: %s', port);
+  });
+})();

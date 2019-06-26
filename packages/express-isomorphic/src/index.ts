@@ -31,7 +31,7 @@ interface Local {
   <State>(arg: {
     extend?: Extend<State>;
     makeHtmlPath: MakeHtmlPath;
-  }): ServerCreation<State>;
+  }): Promise<ServerCreation<State>>;
 }
 
 interface Production {
@@ -40,7 +40,7 @@ interface Production {
     makeHtmlPath: MakeHtmlPath;
     webpackBuild: WebpackBuild;
     webpackConfig: WebpackConfig;
-  }): ServerCreation<State>;
+  }): Promise<ServerCreation<State>>;
 }
 
 /**

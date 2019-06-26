@@ -12,7 +12,7 @@ interface Local {
     <State>(arg: {
         extend?: Extend<State>;
         makeHtmlPath: MakeHtmlPath;
-    }): ServerCreation<State>;
+    }): Promise<ServerCreation<State>>;
 }
 interface Production {
     <State>(arg: {
@@ -20,7 +20,7 @@ interface Production {
         makeHtmlPath: MakeHtmlPath;
         webpackBuild: WebpackBuild;
         webpackConfig: WebpackConfig;
-    }): ServerCreation<State>;
+    }): Promise<ServerCreation<State>>;
 }
 /**
  * makeHtmlPath should be given as the full path to the makeHtml file.

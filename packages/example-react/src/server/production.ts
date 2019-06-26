@@ -30,17 +30,19 @@ const extend: Extend<State> = (app, serverState) => {
   })(app);
 };
 
-const { app } = ExpressIsomorphic.production({
-  extend,
-  makeHtmlPath: path.resolve(__dirname, './makeHtml.js'),
-  webpackBuild,
-  webpackConfig,
-});
+(async () => {
+  const { app } = await ExpressIsomorphic.production({
+    extend,
+    makeHtmlPath: path.resolve(__dirname, './makeHtml.js'),
+    webpackBuild,
+    webpackConfig,
+  });
 
-const port = 6001;
+  const port = 6001;
 
-const httpServer = http.createServer(app);
+  const httpServer = http.createServer(app);
 
-httpServer.listen(port, () => {
-  log('productionServer listening on: %s', port);
-});
+  httpServer.listen(port, () => {
+    log('productionServer listening on: %s', port);
+  });
+})();

@@ -1,5 +1,6 @@
 import { argv } from 'yargs';
 import bodyParser from 'body-parser';
+import chalk from 'chalk';
 import express from 'express';
 import { logger } from '@nodekit/logger';
 
@@ -34,7 +35,7 @@ app.post('/makeHtml', async (req, res) => {
 });
 
 app.listen(port, () => {
-  log('htmlGeneratingServer(): listening on port: %s', port);
+  log(`htmlGeneratingServer(): listening on port: ${chalk.yellow('%s')}`, port);
 });
 
 function requireNonEmpty(obj, msg) {

@@ -1,5 +1,6 @@
 import axios from 'axios';
 import chalk from 'chalk';
+import http from 'http';
 import { logger } from '@nodekit/logger';
 import nodemon from 'nodemon';
 import path from 'path';
@@ -12,13 +13,15 @@ import createExpress, {
 
 const log = logger('[express-isomorphic]');
 
-const localServer: LocalServer = <State extends {}>({
+const localServer: LocalServer = async <State extends {}>({
   extend,
   makeHtmlPath,
 }) => {
+  const port = await getAvailablePort();
+
   return createExpress<State>({
     bootstrap: () => {
-      setupNodemon(makeHtmlPath);
+      setupNodemon(makeHtmlPath, port);
     },
     extend,
     htmlGenerator: async <State>({
@@ -29,7 +32,7 @@ const localServer: LocalServer = <State extends {}>({
         requestUrl,
         serverState,
       };
-      const { data } = await axios.post('http://localhost:10021/makeHtml', makeHtmlPayload);
+      const { data } = await axios.post(`http://localhost${port}/makeHtml`, makeHtmlPayload);
       return data;
     },
   });
@@ -37,14 +40,14 @@ const localServer: LocalServer = <State extends {}>({
 
 export default localServer;
 
-function setupNodemon(makeHtmlPath) {
+function setupNodemon(makeHtmlPath, port) {
   log('setupNodemon(): parent pid: %s, makeHtmlPath: %s', process.pid, makeHtmlPath);
   const script = path.resolve(__dirname, 'htmlGeneratingServer.js');
 
   nodemon({
     args: [
       '--port',
-      10021,
+      port,
       '--makeHtmlPath',
       makeHtmlPath,
     ],
@@ -60,9 +63,41 @@ function setupNodemon(makeHtmlPath) {
     });
 }
 
+async function getAvailablePort() {
+  const initialPort = 10021;
+
+  function openAndCheckConnection(port) {
+    return new Promise((resolve, reject) => {
+      const server = http.createServer(() => {});
+      server.listen(port, () => {
+        log('openAndCheckConnection(): connect success: %s', port);
+        server.close(() => {
+          log(`openAndCheckConnection(): ${chalk.green('successfully')} closed examining server: %s`, port);
+          resolve(port);
+        });
+      })
+        .on('error', (err) => {
+          log('openAndCheckConnection(): error: %s, port: %s', err, port);
+          reject();
+        });
+    });
+  }
+
+  for (let port = initialPort; port < initialPort + 10; port += 1) {
+    try {
+      const _port = await openAndCheckConnection(port);
+      log('getAvailablePort(): port is available: %s', port);
+      return _port;
+    } catch (err) {
+      log('getAvailablePort(): port not availble: %s', port);
+    }
+  }
+  throw new Error('getAvailablePort(): no port availble');
+}
+
 interface LocalServer {
   <State>(arg: {
     extend?: Extend<State>;
     makeHtmlPath: any;
-  }): ServerCreation<State>;
+  }): Promise<ServerCreation<State>>;
 }
