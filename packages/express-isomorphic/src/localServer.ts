@@ -19,7 +19,7 @@ const localServer: LocalServer = async <State extends {}>({
   watchExt,
   watchPaths,
 }) => {
-  const port = await getAvailablePort();
+  const port = await getAvailablePort(10021);
 
   return createExpress<State>({
     bootstrap: () => {
@@ -84,8 +84,7 @@ function setupNodemon({
     });
 }
 
-async function getAvailablePort() {
-  const initialPort = 10021;
+async function getAvailablePort(initialPort) {
 
   function openAndCheckConnection(port) {
     return new Promise((resolve, reject) => {
