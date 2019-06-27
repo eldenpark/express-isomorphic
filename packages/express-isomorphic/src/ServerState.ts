@@ -13,7 +13,8 @@ export default class ServerState<State> {
   }
 
   update(obj: UpdateArgs): void {
-    log(`serverState: state will ${chalk.green('update')} with:\n%j`, obj);
+    const stringifiedObj = JSON.stringify(obj);
+    log(`serverState: state will ${chalk.green('update')} with: %s`, stringifiedObj.slice(0, 30));
 
     Object.keys(obj)
       .forEach((key) => {
