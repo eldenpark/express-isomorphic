@@ -43,8 +43,10 @@ const extend: Extend<State> = (app, serverState) => {
   const { app } = await ExpressIsomorphic.local({
     extend,
     makeHtmlPath: path.resolve(__dirname, './makeHtmlLaunch.js'),
+    watchExt: 'js,jsx,ts,tsx,html,test',
     watchPaths: [
       path.resolve(__dirname, '../universal'),
+      path.resolve(__dirname, 'html'),
     ],
   });
 

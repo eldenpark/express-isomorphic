@@ -12,6 +12,7 @@ interface Local {
     <State>(arg: {
         extend?: Extend<State>;
         makeHtmlPath: MakeHtmlPath;
+        watchExt: string;
         watchPaths?: string[];
     }): Promise<ServerCreation<State>>;
 }

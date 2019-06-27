@@ -16,6 +16,7 @@ const log = logger('[express-isomorphic]');
 const localServer: LocalServer = async <State extends {}>({
   extend,
   makeHtmlPath,
+  watchExt,
   watchPaths,
 }) => {
   const port = await getAvailablePort();
@@ -25,6 +26,7 @@ const localServer: LocalServer = async <State extends {}>({
       setupNodemon({
         makeHtmlPath,
         port,
+        watchExt,
         watchPaths,
       });
     },
@@ -48,6 +50,7 @@ export default localServer;
 function setupNodemon({
   makeHtmlPath,
   port,
+  watchExt,
   watchPaths,
 }) {
   log(
@@ -65,7 +68,7 @@ function setupNodemon({
       '--makeHtmlPath',
       makeHtmlPath,
     ],
-    ext: 'js json jsx ts tsx',
+    ext: watchExt || 'js,json,jsx,ts,tsx,html,css,scss',
     script,
     watch: [
       makeHtmlPath,
@@ -117,6 +120,7 @@ interface LocalServer {
   <State>(arg: {
     extend?: Extend<State>;
     makeHtmlPath: any;
+    watchExt?: string;
     watchPaths?: string[];
   }): Promise<ServerCreation<State>>;
 }
