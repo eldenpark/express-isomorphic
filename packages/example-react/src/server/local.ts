@@ -28,7 +28,7 @@ const extend: Extend<State> = (app, serverState) => {
 
   serverState.update({
     state: {
-      testProp1: 1,
+      testProp1: 'abcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcv',
     },
   });
 

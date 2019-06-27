@@ -13,8 +13,11 @@ class ServerState {
         this.state = state;
     }
     update(obj) {
-        const stringifiedObj = JSON.stringify(obj);
-        log(`serverState: state will ${chalk_1.default.green('update')} with: %s`, stringifiedObj.slice(0, 30));
+        const objString = JSON.stringify(obj);
+        const strToPrint = objString.length > 100
+            ? `${objString.slice(0, 180)}...[length: ${objString.length}]`
+            : objString;
+        log(`serverState: state will ${chalk_1.default.green('update')} with: %s`, strToPrint);
         Object.keys(obj)
             .forEach((key) => {
             if (key === 'state') {
