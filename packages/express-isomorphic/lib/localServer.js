@@ -19,11 +19,15 @@ const nodemon_1 = __importDefault(require("nodemon"));
 const path_1 = __importDefault(require("path"));
 const createExpress_1 = __importDefault(require("./createExpress"));
 const log = logger_1.logger('[express-isomorphic]');
-const localServer = ({ extend, makeHtmlPath, }) => __awaiter(this, void 0, void 0, function* () {
+const localServer = ({ extend, makeHtmlPath, watchPaths, }) => __awaiter(this, void 0, void 0, function* () {
     const port = yield getAvailablePort();
     return createExpress_1.default({
         bootstrap: () => {
-            setupNodemon(makeHtmlPath, port);
+            setupNodemon({
+                makeHtmlPath,
+                port,
+                watchPaths,
+            });
         },
         extend,
         htmlGenerator: ({ requestUrl, serverState, }) => __awaiter(this, void 0, void 0, function* () {
@@ -37,8 +41,8 @@ const localServer = ({ extend, makeHtmlPath, }) => __awaiter(this, void 0, void 
     });
 });
 exports.default = localServer;
-function setupNodemon(makeHtmlPath, port) {
-    log('setupNodemon(): parent pid: %s, makeHtmlPath: %s', process.pid, makeHtmlPath);
+function setupNodemon({ makeHtmlPath, port, watchPaths, }) {
+    log('setupNodemon(): parent pid: %s, makeHtmlPath: %s, watchPaths: %s', process.pid, makeHtmlPath, watchPaths);
     const script = path_1.default.resolve(__dirname, 'htmlGeneratingServer.js');
     nodemon_1.default({
         args: [
@@ -49,6 +53,10 @@ function setupNodemon(makeHtmlPath, port) {
         ],
         ext: 'js json jsx ts tsx',
         script,
+        watch: [
+            ...watchPaths,
+            makeHtmlPath,
+        ],
     })
         .on('quit', () => {
         log('setupNodemon(): quit');

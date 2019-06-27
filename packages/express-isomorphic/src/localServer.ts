@@ -16,12 +16,17 @@ const log = logger('[express-isomorphic]');
 const localServer: LocalServer = async <State extends {}>({
   extend,
   makeHtmlPath,
+  watchPaths,
 }) => {
   const port = await getAvailablePort();
 
   return createExpress<State>({
     bootstrap: () => {
-      setupNodemon(makeHtmlPath, port);
+      setupNodemon({
+        makeHtmlPath,
+        port,
+        watchPaths,
+      });
     },
     extend,
     htmlGenerator: async <State>({
@@ -40,8 +45,17 @@ const localServer: LocalServer = async <State extends {}>({
 
 export default localServer;
 
-function setupNodemon(makeHtmlPath, port) {
-  log('setupNodemon(): parent pid: %s, makeHtmlPath: %s', process.pid, makeHtmlPath);
+function setupNodemon({
+  makeHtmlPath,
+  port,
+  watchPaths,
+}) {
+  log(
+    'setupNodemon(): parent pid: %s, makeHtmlPath: %s, watchPaths: %s',
+    process.pid,
+    makeHtmlPath,
+    watchPaths,
+  );
   const script = path.resolve(__dirname, 'htmlGeneratingServer.js');
 
   nodemon({
@@ -53,6 +67,10 @@ function setupNodemon(makeHtmlPath, port) {
     ],
     ext: 'js json jsx ts tsx',
     script,
+    watch: [
+      makeHtmlPath,
+      ...watchPaths,
+    ],
   })
     .on('quit', () => {
       log('setupNodemon(): quit');
@@ -99,5 +117,6 @@ interface LocalServer {
   <State>(arg: {
     extend?: Extend<State>;
     makeHtmlPath: any;
+    watchPaths?: string[];
   }): Promise<ServerCreation<State>>;
 }

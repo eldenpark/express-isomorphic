@@ -15,6 +15,7 @@ import State from './State';
 
 const log = logger('[example-react]');
 
+
 const extend: Extend<State> = (app, serverState) => {
   app.use((req: Request, res, next: NextFunction) => {
     log('extend(): requestUrl: %s, serverState: %j', req.url, serverState);
@@ -43,6 +44,9 @@ const extend: Extend<State> = (app, serverState) => {
   const { app } = await ExpressIsomorphic.local({
     extend,
     makeHtmlPath: path.resolve(__dirname, './makeHtmlLaunch.js'),
+    watchPaths: [
+      path.resolve(__dirname, '../universal'),
+    ],
   });
 
   const port = 6001;
