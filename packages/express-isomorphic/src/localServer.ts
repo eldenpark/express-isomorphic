@@ -39,7 +39,7 @@ const localServer: LocalServer = async <State extends {}>({
       io.on('connection', (socket) => {
         log('createExpress(): socket is connected');
         socket.emit('express-isomorphic', {
-          msg: '[express-isomorphic] socket is connected',
+          msg: `socket is connected, socketId: ${socket.id}`,
         });
         serverState.update({
           socketId: socket.id,

@@ -38,7 +38,7 @@ const makeHtml: MakeHtml<State> = async function makeHtml({
     if (window.io) {
       var socket = io.connect('http://localhost:${socketPort}');
       socket.on('express-isomorphic', function ({ msg }) {
-        console.log(msg);
+        console.log('[express-isomorphic] %s', msg);
       });
     }
   </script>

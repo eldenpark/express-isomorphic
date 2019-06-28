@@ -35,7 +35,7 @@ const localServer = ({ extend, makeHtmlPath, watchExt, watchPaths, }) => __await
             io.on('connection', (socket) => {
                 log('createExpress(): socket is connected');
                 socket.emit('express-isomorphic', {
-                    msg: '[express-isomorphic] socket is connected',
+                    msg: `socket is connected, socketId: ${socket.id}`,
                 });
                 serverState.update({
                     socketId: socket.id,
