@@ -7,6 +7,11 @@ const path = require('path');
 const cwd = process.cwd();
 const log = logger('[express-isomorphic]');
 
+const buildOrder = [
+  'express-isomorphic',
+  'express-isomorphic-react',
+];
+
 function executeBuild(buildFilePath) {
   return new Promise((resolve, reject) => {
     const child = childProcess.spawn(
@@ -42,13 +47,13 @@ async function builder() {
       }
     } else {
       const packagesPath = path.resolve(cwd, 'packages');
-      const packages = fs.readdirSync(packagesPath);
-      for (let i = 0; i < packages.length; i += 1) {
-        const stat = fs.lstatSync(path.resolve(packagesPath, packages[i]));
+
+      for (let i = 0; i < buildOrder.length; i += 1) {
+        const stat = fs.lstatSync(path.resolve(packagesPath, buildOrder[i]));
         if (stat.isDirectory()) {
           const buildFilePath = path.resolve(
             packagesPath,
-            packages[i],
+            buildOrder[i],
             'scripts',
             'build.js',
           );
