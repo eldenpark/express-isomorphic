@@ -16,7 +16,7 @@ const makeHtml: MakeHtml<State> = async function makeHtml({
 }) {
   log('makeHtml(): requestUrl: %s, serverState: %j', requestUrl, serverState);
 
-  const { socketPort, state } = serverState;
+  const { socketPath, socketPort, state } = serverState;
   const element = (
     <ServerApp />
   );
@@ -36,7 +36,9 @@ const makeHtml: MakeHtml<State> = async function makeHtml({
   ${attachAssets(state.assets)}
   <script>
     if (window.io) {
-      var socket = io.connect('http://localhost:${socketPort}');
+      var socket = io('http://localhost:${socketPort}', {
+        path: '${socketPath}',
+      });
       socket.on('express-isomorphic', function ({ msg }) {
         console.log('[express-isomorphic] %s', msg);
       });

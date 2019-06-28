@@ -2,6 +2,7 @@ export default class ServerState<State> {
     error?: Error;
     isLaunched: boolean;
     socketId: string;
+    socketPath: string;
     socketPort: number;
     state: State;
     constructor(state: State);

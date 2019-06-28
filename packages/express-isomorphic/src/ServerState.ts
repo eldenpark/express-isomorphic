@@ -7,6 +7,7 @@ export default class ServerState<State> {
   error?: Error = undefined;
   isLaunched: boolean = false;
   socketId: string;
+  socketPath: string;
   socketPort: number;
   state: State;
 

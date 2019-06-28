@@ -23,17 +23,21 @@ const getAvailablePort_1 = __importDefault(require("./utils/getAvailablePort"));
 const log = logger_1.logger('[express-isomorphic]');
 const localServer = ({ extend, makeHtmlPath, watchExt, watchPaths, }) => __awaiter(this, void 0, void 0, function* () {
     const htmlGeneratorPort = yield getAvailablePort_1.default(10021);
+    const socketPath = `/${Date.now()}/socket.io`;
     return createExpress_1.default({
         bootstrap: (app, serverState) => __awaiter(this, void 0, void 0, function* () {
             const server = http_1.default.createServer();
             const socketPort = yield getAvailablePort_1.default(20021);
-            const io = socket_io_1.default(server);
+            const io = socket_io_1.default(server, {
+                path: socketPath,
+            });
             server.listen(socketPort);
             serverState.update({
+                socketPath,
                 socketPort,
             });
             io.on('connection', (socket) => {
-                log('createExpress(): socket is connected');
+                log('createExpress(): socket is connected, handshake: %j', socket.handshake);
                 socket.emit('express-isomorphic', {
                     msg: `socket is connected, socketId: ${socket.id}`,
                 });

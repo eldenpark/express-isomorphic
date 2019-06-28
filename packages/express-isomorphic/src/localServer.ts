@@ -25,19 +25,23 @@ const localServer: LocalServer = async <State extends {}>({
   watchPaths,
 }) => {
   const htmlGeneratorPort = await getAvailablePort(10021);
+  const socketPath = `/${Date.now()}/socket.io`;
 
   return createExpress<State>({
     bootstrap: async (app, serverState) => {
       const server = http.createServer();
       const socketPort: number = await getAvailablePort(20021);
-      const io: Server = socketIO(server);
+      const io: Server = socketIO(server, {
+        path: socketPath,
+      });
       server.listen(socketPort);
       serverState.update({
+        socketPath,
         socketPort,
       });
 
       io.on('connection', (socket) => {
-        log('createExpress(): socket is connected');
+        log('createExpress(): socket is connected, handshake: %j', socket.handshake);
         socket.emit('express-isomorphic', {
           msg: `socket is connected, socketId: ${socket.id}`,
         });
