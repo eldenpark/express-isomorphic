@@ -1,8 +1,8 @@
 import ExpressIsomorphic, {
   Extend,
 } from '@nodekit/express-isomorphic';
-import http from 'http';
 import { logger } from '@nodekit/logger';
+import http from 'http';
 import path from 'path';
 import {
   NextFunction,
@@ -10,8 +10,8 @@ import {
 } from 'express';
 import { withReactLocal } from '@nodekit/express-isomorphic-react';
 
-import webpackConfig from '../webpack/webpack.config.client.local.web';
 import State from './State';
+import webpackConfig from '../webpack/webpack.config.client.local.web';
 
 const log = logger('[example-react]');
 
@@ -39,7 +39,7 @@ const extend: Extend<State> = (app, serverState) => {
   });
 };
 
-(async () => {
+(async function local() {
   const { app } = await ExpressIsomorphic.local({
     extend,
     makeHtmlPath: path.resolve(__dirname, './makeHtmlLaunch.js'),
@@ -50,10 +50,9 @@ const extend: Extend<State> = (app, serverState) => {
     ],
   });
 
-  const port = 6001;
+  const server = http.createServer(app);
 
-  const httpServer = http.createServer(app);
-  httpServer.listen(port, () => {
-    log('LocalServer listening on: %s', port);
+  server.listen(6001, () => {
+    log('local(): server is listening on: %s', 6001);
   });
 })();

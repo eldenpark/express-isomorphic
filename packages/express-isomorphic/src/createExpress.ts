@@ -8,7 +8,7 @@ import ServerState from './ServerState';
 
 const log = logger('[express-isomorphic]');
 
-const createExpress: CreateExpress = <State extends {}> ({
+const createExpress: CreateExpress = async <State extends {}> ({
   bootstrap,
   extend,
   htmlGenerator,
@@ -23,7 +23,7 @@ const createExpress: CreateExpress = <State extends {}> ({
     log('createExpress(): extend is defined thus registered');
     extend(app, serverState);
   }
-  bootstrap(app, serverState);
+  await bootstrap(app, serverState);
 
   app.get('*', [
     serveHtml(serverState, htmlGenerator),
@@ -75,7 +75,10 @@ export interface MakeHtmlPayload<State> {
 }
 
 export interface Extend<State> {
-  (app: express.Application, serverState: ServerState<State>): void;
+  (
+    app: express.Application,
+    serverState: ServerState<State>,
+  ): void;
 }
 
 export interface WebpackConfig {
@@ -93,7 +96,7 @@ interface CreateExpress {
     ) => void;
     extend?: Extend<State>;
     htmlGenerator: HtmlGenerator<State>;
-  }): ServerCreation<State>;
+  }): Promise<ServerCreation<State>>;
 }
 
 interface HtmlGenerator<State> {

@@ -4,12 +4,17 @@ import http from 'http';
 import { logger } from '@nodekit/logger';
 import nodemon from 'nodemon';
 import path from 'path';
+import socketIO, {
+  Server,
+} from 'socket.io';
 
 import createExpress, {
   Extend,
   MakeHtmlPayload,
   ServerCreation,
 } from './createExpress';
+import getAvailablePort from './utils/getAvailablePort';
+import ServerState from './ServerState';
 
 const log = logger('[express-isomorphic]');
 
@@ -19,13 +24,33 @@ const localServer: LocalServer = async <State extends {}>({
   watchExt,
   watchPaths,
 }) => {
-  const port = await getAvailablePort(10021);
+  const htmlGeneratorPort = await getAvailablePort(10021);
 
   return createExpress<State>({
-    bootstrap: () => {
-      setupNodemon({
+    bootstrap: async (app, serverState) => {
+      const server = http.createServer();
+      const socketPort: number = await getAvailablePort(20021);
+      const io: Server = socketIO(server);
+      server.listen(socketPort);
+      serverState.update({
+        socketPort,
+      });
+
+      io.on('connection', (socket) => {
+        log('createExpress(): socket is connected');
+        socket.emit('express-isomorphic', {
+          msg: '[express-isomorphic] socket is connected',
+        });
+        serverState.update({
+          socketId: socket.id,
+        });
+      });
+
+      setupNodemon<State>({
+        htmlGeneratorPort,
+        io,
         makeHtmlPath,
-        port,
+        serverState,
         watchExt,
         watchPaths,
       });
@@ -39,7 +64,7 @@ const localServer: LocalServer = async <State extends {}>({
         requestUrl,
         serverState,
       };
-      const { data } = await axios.post(`http://localhost:${port}/makeHtml`, makeHtmlPayload);
+      const { data } = await axios.post(`http://localhost:${htmlGeneratorPort}/makeHtml`, makeHtmlPayload);
       return data;
     },
   });
@@ -47,12 +72,14 @@ const localServer: LocalServer = async <State extends {}>({
 
 export default localServer;
 
-function setupNodemon({
+function setupNodemon<State>({
+  htmlGeneratorPort,
+  io,
   makeHtmlPath,
-  port,
+  serverState,
   watchExt,
   watchPaths,
-}) {
+}: SetupNodemonArgs<State>) {
   log(
     'setupNodemon(): parent pid: %s, makeHtmlPath: %s, watchPaths: %s',
     process.pid,
@@ -64,7 +91,7 @@ function setupNodemon({
   nodemon({
     args: [
       '--port',
-      port,
+      htmlGeneratorPort,
       '--makeHtmlPath',
       makeHtmlPath,
     ],
@@ -81,38 +108,13 @@ function setupNodemon({
     })
     .on('restart', (files: string[]) => {
       log(`setupNodemon(): ${chalk.green('restarted')} by: %s`, files);
-    });
-}
 
-async function getAvailablePort(initialPort) {
-
-  function openAndCheckConnection(port) {
-    return new Promise((resolve, reject) => {
-      const server = http.createServer(() => {});
-      server.listen(port, () => {
-        log('openAndCheckConnection(): connect success: %s', port);
-        server.close(() => {
-          log(`openAndCheckConnection(): ${chalk.green('successfully')} closed examining server: %s`, port);
-          resolve(port);
+      if (serverState.socketId) {
+        io.to(serverState.socketId).emit('express-isomorphic', {
+          msg: 'Nodemon restarting. Refresh recommended',
         });
-      })
-        .on('error', (err) => {
-          log('openAndCheckConnection(): error: %s, port: %s', err, port);
-          reject();
-        });
+      }
     });
-  }
-
-  for (let port = initialPort; port < initialPort + 10; port += 1) {
-    try {
-      const _port = await openAndCheckConnection(port);
-      log('getAvailablePort(): port is available: %s', port);
-      return _port;
-    } catch (err) {
-      log('getAvailablePort(): port not availble: %s', port);
-    }
-  }
-  throw new Error('getAvailablePort(): no port availble');
 }
 
 interface LocalServer {
@@ -122,4 +124,13 @@ interface LocalServer {
     watchExt?: string;
     watchPaths?: string[];
   }): Promise<ServerCreation<State>>;
+}
+
+interface SetupNodemonArgs<State> {
+  htmlGeneratorPort: number;
+  io: Server;
+  makeHtmlPath: string;
+  serverState: ServerState<State>;
+  watchExt: string;
+  watchPaths: string[],
 }

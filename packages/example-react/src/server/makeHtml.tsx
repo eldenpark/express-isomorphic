@@ -16,7 +16,7 @@ const makeHtml: MakeHtml<State> = async function makeHtml({
 }) {
   log('makeHtml(): requestUrl: %s, serverState: %j', requestUrl, serverState);
 
-  const { state } = serverState;
+  const { socketPort, state } = serverState;
   const element = (
     <ServerApp />
   );
@@ -29,10 +29,19 @@ const makeHtml: MakeHtml<State> = async function makeHtml({
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,height=device-height,initial-scale=1">
   <title>express-isomorphic-example</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.dev.js"></script>
 </head>
 <body>
   <div id="app-root">${appRootInString}</div>
   ${attachAssets(state.assets)}
+  <script>
+    if (window.io) {
+      var socket = io.connect('http://localhost:${socketPort}');
+      socket.on('express-isomorphic', function ({ msg }) {
+        console.log(msg);
+      });
+    }
+  </script>
 </body>
 </html>
 `;

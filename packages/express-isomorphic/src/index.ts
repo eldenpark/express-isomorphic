@@ -10,8 +10,8 @@ import productionServer, {
 } from './productionServer';
 import ServerState from './ServerState';
 
-const local: Local = (arg) => localServer(arg);
-const production: Production = (arg) => productionServer(arg);
+const local: Local = <State>(arg) => localServer<State>(arg);
+const production: Production = <State>(arg) => productionServer<State>(arg);
 
 export default {
   local,

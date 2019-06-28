@@ -27,7 +27,7 @@ interface CreateExpress {
         bootstrap: (app: express.Application, serverState: ServerState<State>) => void;
         extend?: Extend<State>;
         htmlGenerator: HtmlGenerator<State>;
-    }): ServerCreation<State>;
+    }): Promise<ServerCreation<State>>;
 }
 interface HtmlGenerator<State> {
     (arg: {

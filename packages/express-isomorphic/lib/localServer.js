@@ -17,38 +17,58 @@ const http_1 = __importDefault(require("http"));
 const logger_1 = require("@nodekit/logger");
 const nodemon_1 = __importDefault(require("nodemon"));
 const path_1 = __importDefault(require("path"));
+const socket_io_1 = __importDefault(require("socket.io"));
 const createExpress_1 = __importDefault(require("./createExpress"));
+const getAvailablePort_1 = __importDefault(require("./utils/getAvailablePort"));
 const log = logger_1.logger('[express-isomorphic]');
 const localServer = ({ extend, makeHtmlPath, watchExt, watchPaths, }) => __awaiter(this, void 0, void 0, function* () {
-    const port = yield getAvailablePort();
+    const htmlGeneratorPort = yield getAvailablePort_1.default(10021);
     return createExpress_1.default({
-        bootstrap: () => {
+        bootstrap: (app, serverState) => __awaiter(this, void 0, void 0, function* () {
+            const server = http_1.default.createServer();
+            const socketPort = yield getAvailablePort_1.default(20021);
+            const io = socket_io_1.default(server);
+            server.listen(socketPort);
+            serverState.update({
+                socketPort,
+            });
+            io.on('connection', (socket) => {
+                log('createExpress(): socket is connected');
+                socket.emit('express-isomorphic', {
+                    msg: '[express-isomorphic] socket is connected',
+                });
+                serverState.update({
+                    socketId: socket.id,
+                });
+            });
             setupNodemon({
+                htmlGeneratorPort,
+                io,
                 makeHtmlPath,
-                port,
+                serverState,
                 watchExt,
                 watchPaths,
             });
-        },
+        }),
         extend,
         htmlGenerator: ({ requestUrl, serverState, }) => __awaiter(this, void 0, void 0, function* () {
             const makeHtmlPayload = {
                 requestUrl,
                 serverState,
             };
-            const { data } = yield axios_1.default.post(`http://localhost:${port}/makeHtml`, makeHtmlPayload);
+            const { data } = yield axios_1.default.post(`http://localhost:${htmlGeneratorPort}/makeHtml`, makeHtmlPayload);
             return data;
         }),
     });
 });
 exports.default = localServer;
-function setupNodemon({ makeHtmlPath, port, watchExt, watchPaths, }) {
+function setupNodemon({ htmlGeneratorPort, io, makeHtmlPath, serverState, watchExt, watchPaths, }) {
     log('setupNodemon(): parent pid: %s, makeHtmlPath: %s, watchPaths: %s', process.pid, makeHtmlPath, watchPaths);
     const script = path_1.default.resolve(__dirname, 'htmlGeneratingServer.js');
     nodemon_1.default({
         args: [
             '--port',
-            port,
+            htmlGeneratorPort,
             '--makeHtmlPath',
             makeHtmlPath,
         ],
@@ -65,37 +85,10 @@ function setupNodemon({ makeHtmlPath, port, watchExt, watchPaths, }) {
     })
         .on('restart', (files) => {
         log(`setupNodemon(): ${chalk_1.default.green('restarted')} by: %s`, files);
-    });
-}
-function getAvailablePort() {
-    return __awaiter(this, void 0, void 0, function* () {
-        const initialPort = 10021;
-        function openAndCheckConnection(port) {
-            return new Promise((resolve, reject) => {
-                const server = http_1.default.createServer(() => { });
-                server.listen(port, () => {
-                    log('openAndCheckConnection(): connect success: %s', port);
-                    server.close(() => {
-                        log(`openAndCheckConnection(): ${chalk_1.default.green('successfully')} closed examining server: %s`, port);
-                        resolve(port);
-                    });
-                })
-                    .on('error', (err) => {
-                    log('openAndCheckConnection(): error: %s, port: %s', err, port);
-                    reject();
-                });
+        if (serverState.socketId) {
+            io.to(serverState.socketId).emit('express-isomorphic', {
+                msg: 'Nodemon restarting. Refresh recommended',
             });
         }
-        for (let port = initialPort; port < initialPort + 10; port += 1) {
-            try {
-                const _port = yield openAndCheckConnection(port);
-                log('getAvailablePort(): port is available: %s', port);
-                return _port;
-            }
-            catch (err) {
-                log('getAvailablePort(): port not availble: %s', port);
-            }
-        }
-        throw new Error('getAvailablePort(): no port availble');
     });
 }

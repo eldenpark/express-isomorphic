@@ -6,9 +6,11 @@ const log = logger('[express-isomorphic]');
 export default class ServerState<State> {
   error?: Error = undefined;
   isLaunched: boolean = false;
+  socketId: string;
+  socketPort: number;
   state: State;
 
-  constructor(state) {
+  constructor(state: State) {
     this.state = state;
   }
 
@@ -22,13 +24,15 @@ export default class ServerState<State> {
 
     Object.keys(obj)
       .forEach((key) => {
-        if (key === 'state') {
-          this.state = {
-            ...this.state,
-            ...obj[key],
-          };
-        } else {
-          this[key] = obj[key];
+        switch (key) {
+          case 'state':
+            this.state = {
+              ...this.state,
+              ...obj[key],
+            };
+            break;
+          default:
+            this[key] = obj[key];
         }
       });
   }
@@ -40,5 +44,5 @@ interface Error {
 }
 
 type UpdateArgs = Partial<ServerState<any>> & {
-  state: any;
+  state?: any;
 }
