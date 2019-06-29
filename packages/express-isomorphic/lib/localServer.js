@@ -33,21 +33,19 @@ const localServer = ({ extend, makeHtmlPath, watchExt, watchPaths, }) => __await
             });
             server.listen(socketPort);
             serverState.update({
+                io,
                 socketPath,
                 socketPort,
             });
             io.on('connection', (socket) => {
-                log('createExpress(): socket is connected, handshake: %j', socket.handshake);
+                const { clientsCount } = io.engine;
+                log('createExpress(): socket is connected, handshake: %j, clientsCount: %s', socket.handshake, clientsCount);
                 socket.emit('express-isomorphic', {
                     msg: `socket is connected, socketId: ${socket.id}`,
-                });
-                serverState.update({
-                    socketId: socket.id,
                 });
             });
             setupNodemon({
                 htmlGeneratorPort,
-                io,
                 makeHtmlPath,
                 serverState,
                 watchExt,
@@ -66,7 +64,7 @@ const localServer = ({ extend, makeHtmlPath, watchExt, watchPaths, }) => __await
     });
 });
 exports.default = localServer;
-function setupNodemon({ htmlGeneratorPort, io, makeHtmlPath, serverState, watchExt, watchPaths, }) {
+function setupNodemon({ htmlGeneratorPort, makeHtmlPath, serverState, watchExt, watchPaths, }) {
     log('setupNodemon(): parent pid: %s, makeHtmlPath: %s, watchPaths: %s', process.pid, makeHtmlPath, watchPaths);
     const script = path_1.default.resolve(__dirname, 'htmlGeneratingServer.js');
     nodemon_1.default({
@@ -89,8 +87,9 @@ function setupNodemon({ htmlGeneratorPort, io, makeHtmlPath, serverState, watchE
     })
         .on('restart', (files) => {
         log(`setupNodemon(): ${chalk_1.default.green('restarted')} by: %s`, files);
-        if (serverState.socketId) {
-            io.to(serverState.socketId).emit('express-isomorphic', {
+        const { io } = serverState;
+        if (io) {
+            io.sockets.emit('express-isomorphic', {
                 msg: 'Nodemon restarting. Refresh recommended',
             });
         }

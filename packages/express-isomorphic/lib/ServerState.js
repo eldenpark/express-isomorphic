@@ -10,14 +10,20 @@ class ServerState {
     constructor(state) {
         this.error = undefined;
         this.isLaunched = false;
+        this.unstringifiedProperties = new Map();
         this.state = state;
     }
+    get io() {
+        const io = this.unstringifiedProperties.get('io');
+        return io;
+    }
+    set io(io) {
+        log('set io()');
+        this.unstringifiedProperties.set('io', io);
+    }
     update(obj) {
-        const objString = JSON.stringify(obj);
-        const strToPrint = objString.length > 100
-            ? `${objString.slice(0, 180)}...[length: ${objString.length}]`
-            : objString;
-        log(`serverState: state will ${chalk_1.default.green('update')} with: %s`, strToPrint);
+        const stringifiedObj = stringify(obj);
+        log(`serverState: state will ${chalk_1.default.green('update')} with: %s`, stringifiedObj);
         Object.keys(obj)
             .forEach((key) => {
             switch (key) {
@@ -31,3 +37,15 @@ class ServerState {
     }
 }
 exports.default = ServerState;
+function stringify(obj) {
+    try {
+        const objString = JSON.stringify(obj);
+        return objString.length > 100
+            ? `${objString.slice(0, 180)}...[length: ${objString.length}]`
+            : objString;
+    }
+    catch (err) {
+        log('stringify(): error in strinifying the obj');
+        return '[obj] not stringifiable';
+    }
+}

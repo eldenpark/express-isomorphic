@@ -36,23 +36,26 @@ const localServer: LocalServer = async <State extends {}>({
       });
       server.listen(socketPort);
       serverState.update({
+        io,
         socketPath,
         socketPort,
       });
 
       io.on('connection', (socket) => {
-        log('createExpress(): socket is connected, handshake: %j', socket.handshake);
+        const { clientsCount } = (io.engine as any);
+        log(
+          'createExpress(): socket is connected, handshake: %j, clientsCount: %s',
+          socket.handshake,
+          clientsCount,
+        );
+
         socket.emit('express-isomorphic', {
           msg: `socket is connected, socketId: ${socket.id}`,
-        });
-        serverState.update({
-          socketId: socket.id,
         });
       });
 
       setupNodemon<State>({
         htmlGeneratorPort,
-        io,
         makeHtmlPath,
         serverState,
         watchExt,
@@ -78,7 +81,6 @@ export default localServer;
 
 function setupNodemon<State>({
   htmlGeneratorPort,
-  io,
   makeHtmlPath,
   serverState,
   watchExt,
@@ -113,8 +115,9 @@ function setupNodemon<State>({
     .on('restart', (files: string[]) => {
       log(`setupNodemon(): ${chalk.green('restarted')} by: %s`, files);
 
-      if (serverState.socketId) {
-        io.to(serverState.socketId).emit('express-isomorphic', {
+      const { io } = serverState;
+      if (io) {
+        io.sockets.emit('express-isomorphic', {
           msg: 'Nodemon restarting. Refresh recommended',
         });
       }
@@ -132,7 +135,6 @@ interface LocalServer {
 
 interface SetupNodemonArgs<State> {
   htmlGeneratorPort: number;
-  io: Server;
   makeHtmlPath: string;
   serverState: ServerState<State>;
   watchExt: string;

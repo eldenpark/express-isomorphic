@@ -1,11 +1,13 @@
+import { Server } from 'socket.io';
 export default class ServerState<State> {
     error?: Error;
     isLaunched: boolean;
-    socketId: string;
     socketPath: string;
     socketPort: number;
     state: State;
+    unstringifiedProperties: Map<String, any>;
     constructor(state: State);
+    io: Server | undefined;
     update(obj: UpdateArgs): void;
 }
 interface Error {
