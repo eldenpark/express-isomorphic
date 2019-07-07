@@ -29,12 +29,20 @@ const localServer: LocalServer = async <State extends {}>({
 
   return createExpress<State>({
     bootstrap: async (app, serverState) => {
-      const server = http.createServer();
+      const socketServer = http.createServer();
       const socketPort: number = await getAvailablePort(20021);
-      const io: Server = socketIO(server, {
+
+      socketServer.listen(socketPort, () => {
+        log(
+          `createExpress(): socketServer is listening on port: ${chalk.yellow('%s')}`,
+          socketPort,
+        );
+      });
+
+      const io: Server = socketIO(socketServer, {
         path: socketPath,
       });
-      server.listen(socketPort);
+
       serverState.update({
         io,
         socketPath,
@@ -86,13 +94,15 @@ function setupNodemon<State>({
   watchExt,
   watchPaths,
 }: SetupNodemonArgs<State>) {
+  const script = path.resolve(__dirname, 'htmlGeneratingServer.js');
+
   log(
-    'setupNodemon(): parent pid: %s, makeHtmlPath: %s, watchPaths: %s',
+    'setupNodemon(): parent pid: %s, makeHtmlPath: %s, watchPaths: %s, htmlGeneratingServer: %s',
     process.pid,
     makeHtmlPath,
     watchPaths,
+    script,
   );
-  const script = path.resolve(__dirname, 'htmlGeneratingServer.js');
 
   nodemon({
     args: [

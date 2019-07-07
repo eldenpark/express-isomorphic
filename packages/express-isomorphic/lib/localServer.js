@@ -26,12 +26,14 @@ const localServer = ({ extend, makeHtmlPath, watchExt, watchPaths, }) => __await
     const socketPath = `/${Date.now()}/socket.io`;
     return createExpress_1.default({
         bootstrap: (app, serverState) => __awaiter(this, void 0, void 0, function* () {
-            const server = http_1.default.createServer();
+            const socketServer = http_1.default.createServer();
             const socketPort = yield getAvailablePort_1.default(20021);
-            const io = socket_io_1.default(server, {
+            socketServer.listen(socketPort, () => {
+                log(`createExpress(): socketServer is listening on port: ${chalk_1.default.yellow('%s')}`, socketPort);
+            });
+            const io = socket_io_1.default(socketServer, {
                 path: socketPath,
             });
-            server.listen(socketPort);
             serverState.update({
                 io,
                 socketPath,
@@ -65,8 +67,8 @@ const localServer = ({ extend, makeHtmlPath, watchExt, watchPaths, }) => __await
 });
 exports.default = localServer;
 function setupNodemon({ htmlGeneratorPort, makeHtmlPath, serverState, watchExt, watchPaths, }) {
-    log('setupNodemon(): parent pid: %s, makeHtmlPath: %s, watchPaths: %s', process.pid, makeHtmlPath, watchPaths);
     const script = path_1.default.resolve(__dirname, 'htmlGeneratingServer.js');
+    log('setupNodemon(): parent pid: %s, makeHtmlPath: %s, watchPaths: %s, htmlGeneratingServer: %s', process.pid, makeHtmlPath, watchPaths, script);
     nodemon_1.default({
         args: [
             '--port',

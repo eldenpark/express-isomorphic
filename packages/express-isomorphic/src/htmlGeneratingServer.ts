@@ -13,30 +13,40 @@ const log = logger('[express-isomorphic]');
 
 log('htmlGeneratingServer(): command line arguments: %j', argv);
 
-const app = express();
-const port = argv.port || 10021;
-const makeHtmlPath = requireNonEmpty(argv.makeHtmlPath, 'makeHtmlPath should be provided');
-const makeHtml: MakeHtml<any> = require(makeHtmlPath).default || require(makeHtmlPath);
+(function htmlGeneratingServer() {
+  const app = express();
+  const port = argv.port || 10021;
+  const makeHtmlPath = requireNonEmpty(argv.makeHtmlPath, 'makeHtmlPath should be provided');
+  const makeHtml: MakeHtml<any> = require(makeHtmlPath).default || require(makeHtmlPath);
 
-app.use(bodyParser.json());
+  app.use(bodyParser.json());
 
-app.post('/makeHtml', async (req, res) => {
-  const {
-    requestUrl,
-    serverState,
-  }: MakeHtmlPayload<any> = req.body;
+  app.post('/makeHtml', async (req, res) => {
+    const {
+      requestUrl,
+      serverState,
+    }: MakeHtmlPayload<any> = req.body;
 
-  const html = await makeHtml({
-    requestUrl,
-    serverState,
+    let html: string;
+    try {
+      html = (await makeHtml({
+        requestUrl,
+        serverState,
+      })).toString();
+    } catch (err) {
+      log('htmlGeneratingServer(): error making html: %o', err);
+      html = err.toString();
+    }
+
+    res.send(html);
   });
 
-  res.send(html.toString());
-});
+  app.listen(port, () => {
+    log(`htmlGeneratingServer(): listening on port: ${chalk.yellow('%s')}`, port);
+  });
 
-app.listen(port, () => {
-  log(`htmlGeneratingServer(): listening on port: ${chalk.yellow('%s')}`, port);
-});
+  return app;
+})();
 
 function requireNonEmpty(obj, msg) {
   if (!obj || obj === '') {
