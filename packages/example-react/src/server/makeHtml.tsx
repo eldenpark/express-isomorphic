@@ -18,7 +18,7 @@ const makeHtml: MakeHtml<State> = async function makeHtml({
 
   const { socketPath, socketPort, state } = serverState;
   const element = (
-    <ServerApp />1
+    <ServerApp />
   );
   const appRootInString = renderToString(element);
 
