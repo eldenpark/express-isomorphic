@@ -44,8 +44,10 @@
   "scripts": {
     "build": "node ./scripts/builder",
     "eslint": "npx eslint . --ext .ts,.tsx,.js,.jsx",
+    "example": "yarn run launch -p example-react",
     "launch": "node ./scripts/launcher",
     "lerna": "node ./node_modules/.bin/lerna",
+    "postinstall": "yarn lerna exec yarn install && yarn lerna bootstrap",
     "test": "echo \"Error: no test specified\" && exit 1"
   }
 }

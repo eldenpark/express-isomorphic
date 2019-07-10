@@ -33,6 +33,11 @@
   "publishConfig": {
     "access": "public"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/eldeni/express-isomorphic.git",
+    "directory": "packages/express-isomorphic"
+  },
   "scripts": {
     "build": "yarn run gulp build",
     "example": "yarn run gulp build && yarn run gulp build:example && node example/launch.js",

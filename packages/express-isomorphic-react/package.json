@@ -30,6 +30,11 @@
   "publishConfig": {
     "access": "public"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/eldeni/express-isomorphic.git",
+    "directory": "packages/express-isomorphic-react"
+  },
   "scripts": {
     "dev": "node ./src/launch.js",
     "test": "echo \"Error: no test specified\" && exit 1"
