@@ -92,7 +92,7 @@ function setupNodemon<State>({
   makeHtmlPath,
   serverState,
   watchExt,
-  watchPaths,
+  watchPaths = [],
 }: SetupNodemonArgs<State>) {
   const script = path.resolve(__dirname, 'htmlGeneratingServer.js');
 
