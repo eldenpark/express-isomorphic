@@ -1,3 +1,4 @@
+const merge = require('webpack-merge');
 const path = require('path');
 
 const paths = require('../paths');
@@ -24,4 +25,4 @@ const config = {
   },
 };
 
-module.exports = Object.assign({}, webpackConfigClientWeb, config);
+module.exports = merge(webpackConfigClientWeb, config);

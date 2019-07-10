@@ -2,6 +2,7 @@
   "author": "Elden S. Park",
   "dependencies": {
     "@babel/plugin-syntax-dynamic-import": "^7.2.0",
+    "@hot-loader/react-dom": "^16.8.6",
     "@nodekit/express-isomorphic": "^0.17.0",
     "@nodekit/express-isomorphic-react": "^0.17.0",
     "babel-loader": "^8.0.6",
@@ -9,8 +10,7 @@
     "babel-polyfill": "^6.26.0",
     "mini-css-extract-plugin": "^0.7.0",
     "react": "^16.8.6",
-    "react-dom": "^16.8.6",
-    "react-hot-loader": "^4.9.0",
+    "react-hot-loader": "^4.12.6",
     "webpack": "^4.33.0"
   },
   "devDependencies": {
