@@ -171,3 +171,4 @@ __temp/
 
 # ...
 package-lock.json
+packages/*/lib
