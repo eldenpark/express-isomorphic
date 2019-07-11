@@ -69,9 +69,6 @@ module.exports = {
     new MiniCssExtractPlugin(),
   ],
   resolve: {
-    alias: {
-      'react-dom': '@hot-loader/react-dom',
-    },
     extensions: [
       '.js',
       '.jsx',

@@ -3,7 +3,7 @@ import {
 } from '@nodekit/express-isomorphic';
 import { logger } from '@nodekit/logger';
 import React from 'react';
-import { renderToString } from '@hot-loader/react-dom/server';
+import { renderToString } from 'react-dom/server';
 
 import ServerApp from './ServerApp';
 import State from './State';

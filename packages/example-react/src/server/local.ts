@@ -8,7 +8,7 @@ import {
   NextFunction,
   Request,
 } from 'express';
-import { withReactLocal } from '@nodekit/express-isomorphic-react';
+import { withReactLocal } from '@nodekit/express-isomorphic-react/server';
 
 import State from './State';
 import webpackConfig from '../webpack/webpack.config.client.local.web';
@@ -28,13 +28,7 @@ const extend: Extend<State> = (app, serverState) => {
 
   serverState.update({
     state: {
-      testProp1: 'abcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcv',
-    },
-  });
-
-  serverState.update({
-    state: {
-      testProp2: 2,
+      testProp2: 1,
     },
   });
 };

@@ -9,11 +9,6 @@
     "nodemon": "^1.19.1",
     "socket.io": "^2.2.0",
     "url-loader": "^1.1.2",
-    "webpack": "^4.26.0",
-    "webpack-dev-middleware": "^3.4.0",
-    "webpack-hot-middleware": "^2.24.3",
-    "webpack-merge": "^4.1.4",
-    "webpack-node-externals": "^1.7.2",
     "yargs": "^13.2.4"
   },
   "description": "Description will be given soon.",

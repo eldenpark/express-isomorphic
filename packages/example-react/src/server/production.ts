@@ -8,7 +8,7 @@ import ExpressIsomorphic, {
 import http from 'http';
 import { logger } from '@nodekit/logger';
 import path from 'path';
-import { withReactProd } from '@nodekit/express-isomorphic-react';
+import { withReactProd } from '@nodekit/express-isomorphic-react/server';
 
 import State from './State';
 import webpackConfig from '../webpack/webpack.config.client.prod.web';

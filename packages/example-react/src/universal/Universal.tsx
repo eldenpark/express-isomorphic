@@ -1,8 +1,13 @@
 import React from 'react';
 
 import Header from './components/Header';
+import Inner from './components/Inner';
 import TransferredState from './components/TransferredState';
 import UniversalContext from './contexts/UniversalContext';
+
+if (typeof window === 'undefined' && global['window'] === undefined) {
+  global['window'] = {};
+}
 
 import('./components/Later')
   .then(() => {
@@ -28,9 +33,7 @@ const Universal: UniversalType = ({
     <div>
       <Header />
       <div>
-        <p>[count]</p>
-        {/* <p>{count}</p> */}
-        {/* <button onClick={handleClickButton}>add</button> */}
+        <Inner />
       </div>
       <TransferredState />
       {children}

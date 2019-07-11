@@ -31,6 +31,8 @@
     "gulp-typescript": "^5.0.1",
     "husky": "^2.4.1",
     "lerna": "^3.14.1",
+    "react": "^16.8.6",
+    "react-dom": "npm:@hot-loader/react-dom",
     "typescript": "^3.5.1"
   },
   "husky": {
@@ -42,7 +44,7 @@
   "license": "ISC",
   "name": "express-isomorphic",
   "scripts": {
-    "build": "node ./scripts/builder",
+    "build": "node ./scripts/builder && yarn lerna bootstrap",
     "eslint": "npx eslint . --ext .ts,.tsx,.js,.jsx",
     "example": "yarn run launch -p example-react",
     "launch": "node ./scripts/launcher",

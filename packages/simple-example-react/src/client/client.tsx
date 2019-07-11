@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import * as React from 'react';
-import * as ReactDOM from '@hot-loader/react-dom';
+import * as ReactDOM from 'react-dom';
 
 import ClientApp from './ClientApp';
 
