@@ -1,7 +1,7 @@
 {
   "author": "Elden S. Park",
   "dependencies": {
-    "@nodekit/express-isomorphic": "^0.18.0",
+    "express-isomorphic": "^0.19.3",
     "react": "^16.8.6",
     "webpack": "^4.33.0",
     "webpack-dev-middleware": "^3.7.0",
