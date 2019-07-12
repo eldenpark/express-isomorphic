@@ -1,6 +1,6 @@
 import ExpressIsomorphic, {
   Extend,
-} from '@nodekit/express-isomorphic';
+} from 'express-isomorphic';
 import { logger } from '@nodekit/logger';
 import http from 'http';
 import path from 'path';
@@ -8,7 +8,7 @@ import {
   NextFunction,
   Request,
 } from 'express';
-import { withReactLocal } from '@nodekit/express-isomorphic-react/server';
+import { withReactLocal } from 'express-isomorphic-react/server';
 
 import State from './State';
 import webpackConfig from '../webpack/webpack.config.client.local.web';

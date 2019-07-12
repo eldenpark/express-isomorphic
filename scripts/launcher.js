@@ -1,6 +1,8 @@
 const { argv } = require('yargs');
 const childProcess = require('child_process');
+const fs = require('fs');
 const { logger } = require('@nodekit/logger');
+const path = require('path');
 
 const { requireNonNull } = require('./scriptUtils');
 
@@ -11,7 +13,17 @@ function launcher() {
     log('launcher(): argv: %j', argv);
 
     requireNonNull(argv.p, 'You should provide "-p" with package name');
-    childProcess.spawn(
+
+    const cwdForLaunch = path.resolve(__dirname, '../packages', argv.p);
+    const launchFileRelativePath = './scripts/launch.js';
+    const launchFilePath = path.resolve(cwdForLaunch, launchFileRelativePath);
+    log('launcher(): launchFilePath: %s, cwdForLaunch: %s', launchFilePath, cwdForLaunch);
+
+    if (!fs.existsSync(launchFilePath)) {
+      throw new Error('launch file does not exist');
+    }
+
+    const launch = childProcess.spawn(
       'node',
       [
         './scripts/launch.js',
@@ -22,6 +34,10 @@ function launcher() {
         stdio: 'inherit',
       },
     );
+
+    launch.on('error', (err) => {
+      log('launcher(): error in process: $s, error: $o', argv.p, err);
+    });
   } catch (err) {
     log('launcher(): Error reading file', err);
   }

@@ -1,6 +1,6 @@
 import {
   MakeHtml,
-} from '@nodekit/express-isomorphic';
+} from 'express-isomorphic';
 import { logger } from '@nodekit/logger';
 import React from 'react';
 import { renderToString } from 'react-dom/server';

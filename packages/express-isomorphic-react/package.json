@@ -2,6 +2,7 @@
   "author": "Elden S. Park",
   "dependencies": {
     "@nodekit/express-isomorphic": "^0.18.0",
+    "react": "^16.8.6",
     "webpack": "^4.33.0",
     "webpack-dev-middleware": "^3.7.0",
     "webpack-hot-middleware": "^2.25.0"
@@ -13,7 +14,7 @@
   },
   "description": "",
   "main": "index.js",
-  "name": "@nodekit/express-isomorphic-react",
+  "name": "express-isomorphic-react",
   "keywords": [],
   "license": "ISC",
   "publishConfig": {

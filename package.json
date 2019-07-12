@@ -1,12 +1,5 @@
 {
   "author": "Elden S. Park",
-  "dependencies": {
-    "@babel/register": "^7.4.4",
-    "@nodekit/logger": "^0.1.0",
-    "babel-plugin-dynamic-import-node": "^2.2.0",
-    "gulp": "^4.0.2",
-    "yargs": "^13.2.4"
-  },
   "description": "Monorepo for isomorphic web application serving toolchain",
   "devDependencies": {
     "@babel/core": "^7.4.4",
@@ -14,10 +7,13 @@
     "@babel/preset-env": "^7.4.5",
     "@babel/preset-react": "^7.0.0",
     "@babel/preset-typescript": "^7.3.3",
+    "@babel/register": "^7.4.4",
     "@commitlint/cli": "^8.0.0",
+    "@nodekit/logger": "^0.1.0",
     "@types/node": "^12.0.10",
     "@typescript-eslint/eslint-plugin": "^1.10.2",
     "@typescript-eslint/parser": "^1.10.2",
+    "babel-plugin-dynamic-import-node": "^2.2.0",
     "babel-plugin-module-resolver": "^3.2.0",
     "chalk": "^2.4.2",
     "eslint": "^5.16.0",
@@ -28,12 +24,12 @@
     "eslint-plugin-react": "^7.13.0",
     "eslint-plugin-sort-destructure-keys": "^1.3.0",
     "eslint-plugin-typescript-sort-keys": "^0.2.0",
+    "gulp": "^4.0.2",
     "gulp-typescript": "^5.0.1",
     "husky": "^2.4.1",
-    "lerna": "^3.14.1",
-    "react": "^16.8.6",
-    "react-dom": "npm:@hot-loader/react-dom",
-    "typescript": "^3.5.1"
+    "lerna": "^3.15.0",
+    "typescript": "^3.5.1",
+    "yargs": "^13.2.4"
   },
   "husky": {
     "hooks": {
@@ -43,13 +39,18 @@
   },
   "license": "ISC",
   "name": "express-isomorphic",
+  "private": true,
   "scripts": {
-    "build": "node ./scripts/builder && yarn lerna bootstrap",
+    "build": "node ./scripts/builder",
     "eslint": "npx eslint . --ext .ts,.tsx,.js,.jsx",
     "example": "yarn run launch -p example-react",
-    "launch": "node ./scripts/launcher",
+    "launch": "yarn lerna bootstrap && node ./scripts/launcher",
+    "setup": "yarn install && yarn lerna exec yarn install",
     "lerna": "node ./node_modules/.bin/lerna",
-    "postinstall": "yarn lerna exec yarn install && yarn lerna bootstrap",
+    "postinstall": "echo \"Most likely you will need to run 'yarn run setup' as well.\"",
     "test": "echo \"Error: no test specified\" && exit 1"
-  }
+  },
+  "workspaces": [
+    "packages/*"
+  ]
 }

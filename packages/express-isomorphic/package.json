@@ -24,7 +24,7 @@
   "keywords": [],
   "license": "ISC",
   "main": "lib/index.js",
-  "name": "@nodekit/express-isomorphic",
+  "name": "express-isomorphic",
   "publishConfig": {
     "access": "public"
   },

@@ -4,11 +4,11 @@ import {
 } from 'express';
 import ExpressIsomorphic, {
   Extend,
-} from '@nodekit/express-isomorphic';
+} from 'express-isomorphic';
 import http from 'http';
 import { logger } from '@nodekit/logger';
 import path from 'path';
-import { withReactProd } from '@nodekit/express-isomorphic-react/server';
+import { withReactProd } from 'express-isomorphic-react/server';
 
 import State from './State';
 import webpackConfig from '../webpack/webpack.config.client.prod.web';

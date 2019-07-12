@@ -1,9 +1,4 @@
-import React from 'react';
-
-if (typeof window === 'undefined' && global['window'] === undefined) {
-  global['window'] = {};
-}
-window['React2'] = React;
+import React, { isValidElement } from 'react';
 
 export const IsomorphicContext = React.createContext(null);
 
@@ -15,4 +10,11 @@ export function useIsomorphicContext() {
   }
 
   return isomorphicContext;
+}
+
+export function IsomorphicProvider({
+  children,
+  store,
+}) {
+  return <IsomorphicContext.Provider value={store}>{children}</IsomorphicContext.Provider>;
 }
