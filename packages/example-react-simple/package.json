@@ -1,18 +1,24 @@
 {
   "author": "Elden S. Park",
   "dependencies": {
+    "@nodekit/logger": "^0.1.0",
     "babel-polyfill": "^6.26.0",
     "express-isomorphic": "^0.19.4",
-    "express-isomorphic-react": "^0.19.4"
+    "express-isomorphic-react": "^0.19.4",
+    "react": "^16.8.6",
+    "react-dom": "npm:@hot-loader/react-dom"
   },
   "devDependencies": {
     "@babel/plugin-syntax-dynamic-import": "^7.2.0",
+    "@babel/register": "^7.4.4",
     "@types/express": "^4.16.1",
     "@types/react": "^16.8.19",
     "@types/react-dom": "^16.8.4",
     "babel-loader": "^8.0.6",
     "babel-plugin-dynamic-import-node": "^2.2.0",
+    "express": "^4.17.1",
     "mini-css-extract-plugin": "^0.7.0",
+    "react-hot-loader": "^4.12.6",
     "webpack": "^4.33.0",
     "webpack-merge": "^4.2.1"
   },

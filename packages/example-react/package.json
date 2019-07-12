@@ -1,17 +1,22 @@
 {
   "author": "Elden S. Park",
   "dependencies": {
+    "@nodekit/logger": "^0.1.0",
     "axios": "^0.19.0",
     "babel-polyfill": "^6.26.0",
     "express-isomorphic": "^0.19.4",
     "express-isomorphic-react": "^0.19.4",
     "react": "^16.8.6",
-    "react-dom": "npm:@hot-loader/react-dom"
+    "react-dom": "npm:@hot-loader/react-dom",
+    "react-router-dom": "^5.0.1"
   },
   "devDependencies": {
+    "@babel/register": "^7.4.4",
+    "@types/express": "^4.17.0",
     "@types/react": "^16.8.23",
     "@types/react-dom": "^16.8.4",
     "babel-loader": "^8.0.6",
+    "express": "^4.17.1",
     "mini-css-extract-plugin": "^0.7.0",
     "react-hot-loader": "^4.12.6",
     "webpack": "^4.33.0",

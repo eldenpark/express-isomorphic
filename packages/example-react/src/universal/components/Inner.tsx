@@ -16,8 +16,7 @@ const Inner = () => {
   const { result } = useFetch(_fetcher, param, {
     key: 'http://httpbin.org/',
   });
-
-  
+  console.log(1, result);
 
   // const battery = useBattery();
   // console.log(1, battery);

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Route, Switch } from 'react-router-dom';
 
 import Header from './components/Header';
 import Inner from './components/Inner';
@@ -9,16 +10,21 @@ import('./components/Later')
   })
   .catch((err) => console.error('error loading <Later />', err)); // eslint-disable-line
 
-const Universal: React.FC<{}> = ({
-  children,
-}) => {
+const Universal: React.FC<{}> = () => {
   return (
     <div>
       <Header />
-      <div>
-        <Inner />
+      <div className="page">
+        <Switch>
+          <Route
+            component={Inner}
+            path="/page1"
+          />
+          <Route
+            component={() => 'd'}
+          />
+        </Switch>
       </div>
-      {children}
     </div>
   );
 };

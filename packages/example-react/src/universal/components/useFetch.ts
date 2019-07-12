@@ -7,14 +7,15 @@ import { useIsomorphicContext } from 'express-isomorphic-react';
 const useFetch = (fetch, fetchParam, options) => {
   const store = useIsomorphicContext();
   const { key } = options;
-
-  // if (store[key]) {
-    
-  // }
-
   const data = React.useRef(null);
 
+  if (store[key]) {
+    data.current = store[key];
+  }
+
   React.useEffect(() => {
+    // if (!data.current) {
+    // }
     fetch(fetchParam);
 
     return () => {
@@ -26,11 +27,11 @@ const useFetch = (fetch, fetchParam, options) => {
   // console.log(result);
 
   // React.useEffect(() => {
-    // async function getData() {
-    //   const data = await fetcher(fetcherParam);
-    //   setResult(data);
-    // }
-    // getData();
+  // async function getData() {
+  //   const data = await fetcher(fetcherParam);
+  //   setResult(data);
+  // }
+  // getData();
   // }, []);
 
   return {

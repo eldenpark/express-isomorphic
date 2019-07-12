@@ -1,13 +1,16 @@
-import * as React from 'react';
 import { IsomorphicProvider } from 'express-isomorphic-react';
+import { StaticRouter } from 'react-router-dom';
+import * as React from 'react';
 
 import Universal from '../universal/Universal';
 
 const ServerApp = () => {
   return (
-    <IsomorphicProvider store={{}}>
-      <Universal />
-    </IsomorphicProvider>
+    <StaticRouter>
+      <IsomorphicProvider store={{}}>
+        <Universal />
+      </IsomorphicProvider>
+    </StaticRouter>
   );
 };
 

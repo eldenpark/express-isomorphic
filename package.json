@@ -16,6 +16,7 @@
     "babel-plugin-dynamic-import-node": "^2.2.0",
     "babel-plugin-module-resolver": "^3.2.0",
     "chalk": "^2.4.2",
+    "del": "^5.0.0",
     "eslint": "^5.16.0",
     "eslint-config-airbnb": "^17.1.0",
     "eslint-config-airbnb-typescript": "^4.0.0",
@@ -45,9 +46,9 @@
     "eslint": "npx eslint . --ext .ts,.tsx,.js,.jsx",
     "example": "yarn run launch -p example-react",
     "launch": "yarn lerna bootstrap && node ./scripts/launcher",
-    "setup": "yarn install && yarn lerna exec yarn install",
     "lerna": "node ./node_modules/.bin/lerna",
-    "postinstall": "echo \"Most likely you will need to run 'yarn run setup' as well.\"",
+    "postinstall": "echo \"Most likely you need to run 'yarn run setup'.\"",
+    "setup": "yarn install && yarn lerna exec yarn install",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "workspaces": [

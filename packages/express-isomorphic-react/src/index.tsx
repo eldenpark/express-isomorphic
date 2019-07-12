@@ -1,4 +1,4 @@
-import React, { isValidElement } from 'react';
+import React from 'react';
 
 export const IsomorphicContext = React.createContext(null);
 

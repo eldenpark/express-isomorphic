@@ -54,7 +54,7 @@ interface Error {
 
 type UpdateArgs = Partial<ServerState<any>> & {
   state?: any;
-}
+};
 
 function stringify(obj: object): string {
   try {

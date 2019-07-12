@@ -1,4 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
 const del = require('del');
 const gulp = require('gulp');
 const { buildLogger } = require('@nodekit/logger');
