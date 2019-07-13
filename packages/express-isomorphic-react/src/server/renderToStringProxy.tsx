@@ -1,7 +1,7 @@
 import { logger } from '@nodekit/logger';
 import React from 'react';
 
-import { SSRManager, SSRManagerContext } from '../SSRManager';
+import { SSRManager, SSRManagerContext } from '../internals/SSRManager';
 
 const log = logger('[express-isomorphic-react]');
 
@@ -23,7 +23,7 @@ async function renderToStringProxy({
       );
       latestHtml = renderFunction(wrappedElement);
 
-      if (!ssrManager.hasFetchers()) {
+      if (!ssrManager.hasPromises()) {
         return latestHtml;
       }
     } catch (err) {
@@ -31,7 +31,7 @@ async function renderToStringProxy({
       throw new Error('Error has occurred in renderToStringProxy()');
     }
 
-    await ssrManager.consumeAndWaitFetchers();
+    await ssrManager.consumeAndWaitPromises();
 
     if (callCount > 12) {
       log('process(): too many recursive calls, returning');

@@ -3,8 +3,8 @@ import React from 'react';
 import Fetcher, {
   FetchFunction,
   FetchOptions,
-} from './Fetcher';
-import { SSRManagerContext } from './SSRManager';
+} from '../internals/Fetcher';
+import { SSRManagerContext } from '../internals/SSRManager';
 import useIsomorphicContext from './useIsomorphicContext';
 
 async function doFetch(fetchFunction, fetchParam, setResult) {

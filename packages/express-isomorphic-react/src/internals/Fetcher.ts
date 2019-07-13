@@ -1,5 +1,5 @@
 /* eslint-disable no-param-reassign */
-import { IsomorphicStore } from './Isomorphic';
+import { IsomorphicStore } from '../universal/Isomorphic';
 
 export default class Fetcher {
   promise: Promise<any>;

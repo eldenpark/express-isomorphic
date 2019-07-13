@@ -5,14 +5,14 @@ import Fetcher from './Fetcher';
 export class SSRManager {
   promiseSet = new Set<Promise<any>>();
 
-  consumeAndWaitFetchers(): Promise<any[]> {
+  consumeAndWaitPromises(): Promise<any[]> {
     const promises = Array.from(this.promiseSet);
     this.promiseSet.clear();
 
     return Promise.all(promises);
   }
 
-  hasFetchers() {
+  hasPromises() {
     return this.promiseSet.size > 0;
   }
 
