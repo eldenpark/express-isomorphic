@@ -4,8 +4,8 @@
     "@nodekit/logger": "^0.1.0",
     "axios": "^0.19.0",
     "babel-polyfill": "^6.26.0",
-    "express-isomorphic": "^0.19.4",
-    "express-isomorphic-react": "^0.19.4",
+    "express-isomorphic": "^0.20.0",
+    "express-isomorphic-react": "^0.20.0",
     "react": "^16.8.6",
     "react-dom": "npm:@hot-loader/react-dom",
     "react-router-dom": "^5.0.1"
@@ -27,6 +27,6 @@
   "license": "ISC",
   "name": "example-react",
   "private": true,
-  "version": "0.19.4",
+  "version": "0.20.0",
   "gitHead": "3c9c2d238e818632a0735c10f0b3873f9b32707d"
 }
