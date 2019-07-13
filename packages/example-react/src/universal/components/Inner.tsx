@@ -1,26 +1,24 @@
 import axios from 'axios';
 import React from 'react';
 
-import useFetch from './useFetch';
+import { useFetch } from 'express-isomorphic-react';
 
-const _fetcher = async (param) => {
-  console.log('param', param);
+const fetchFunction = async (param = {}) => {
+  console.log('fetchFunction(): executing with fetchParam: %j', param);
   const { data } = await axios.get('http://httpbin.org');
   return data;
 };
 
-const Inner = () => {
-  const param = {
-    a: 1,
-  };
-  const { result } = useFetch(_fetcher, param, {
-    key: 'http://httpbin.org/',
-  });
-  console.log(1, result);
+const fetchOptions = {
+  cacheKey: 'http://httpbin.org/',
+  fetcherParam: {
+    power: 1,
+  },
+};
 
-  // const battery = useBattery();
-  // console.log(1, battery);
-  // console.log(22, result);
+const Inner = () => {
+  const result = useFetch(fetchFunction, fetchOptions);
+  console.log('inner', result);
 
   return (
     <div>

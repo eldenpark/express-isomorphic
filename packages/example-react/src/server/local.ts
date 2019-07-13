@@ -4,7 +4,7 @@ import ExpressIsomorphic, {
 import { logger } from '@nodekit/logger';
 import http from 'http';
 import path from 'path';
-import {
+import express, {
   NextFunction,
   Request,
 } from 'express';
@@ -13,13 +13,19 @@ import { withReactLocal } from 'express-isomorphic-react/server';
 import State from './State';
 import webpackConfig from '../webpack/webpack.config.client.local.web';
 
+const paths = {
+  public: path.resolve(__dirname, '../../dist/public'),
+};
+
 const log = logger('[example-react]');
 
 const extend: Extend<State> = (app, serverState) => {
   app.use((req: Request, res, next: NextFunction) => {
-    log('extend(): requestUrl: %s, serverState: %j', req.url, serverState);
+    log('extend(): requestUrl: %s', req.url);
     next();
   });
+
+  app.use(express.static(paths.public));
 
   withReactLocal({
     serverState,

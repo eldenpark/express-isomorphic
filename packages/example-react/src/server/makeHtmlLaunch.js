@@ -1,17 +1,4 @@
-const babelRc = {
-  plugins: [
-    'dynamic-import-node',
-  ],
-  presets: [
-    ['@babel/preset-env', {
-      targets: {
-        node: '8.11',
-      },
-    }],
-    '@babel/preset-react',
-    '@babel/preset-typescript',
-  ],
-};
+const babelRc = require('../../scripts/.babelRc');
 
 require('@babel/register')({
   ...babelRc,

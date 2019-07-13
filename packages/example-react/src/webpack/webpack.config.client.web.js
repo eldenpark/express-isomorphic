@@ -1,25 +1,6 @@
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
-const babelRc = {
-  plugins: [
-    [
-      'module-resolver', {
-        alias: {
-        },
-      },
-    ],
-    '@babel/plugin-syntax-dynamic-import',
-  ],
-  presets: [
-    ['@babel/preset-env', {
-      targets: {
-        node: '8.11',
-      },
-    }],
-    '@babel/preset-react',
-    '@babel/preset-typescript',
-  ],
-};
+const babelRc = require('../../scripts/.babelRc');
 
 module.exports = {
   context: __dirname,

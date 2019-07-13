@@ -27,6 +27,7 @@ module.exports = {
   rules: {
     'arrow-body-style': ['off'],
     'arrow-parens': ['error', 'always'],
+    'dot-notation': ['error', { allowPattern: '^[^_]*([_]{2}).+' }],
     'global-require': ['off'],
     'import/no-dynamic-require': ['off'],
     'import/no-extraneous-dependencies': ['error', {

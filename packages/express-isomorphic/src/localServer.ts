@@ -52,7 +52,7 @@ const localServer: LocalServer = async <State extends {}>({
       io.on('connection', (socket) => {
         const { clientsCount } = (io.engine as any);
         log(
-          'createExpress(): socket is connected, handshake: %j, clientsCount: %s',
+          'createExpress(): socket is connected, Handshake: %j, Total socket client count: %s',
           socket.handshake,
           clientsCount,
         );

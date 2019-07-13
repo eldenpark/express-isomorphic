@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 
-import Header from './components/Header';
+import Header from '@@universal/components/Header';
 import Inner from './components/Inner';
 
 import('./components/Later')
@@ -17,11 +17,11 @@ const Universal: React.FC<{}> = () => {
       <div className="page">
         <Switch>
           <Route
-            component={Inner}
+            component={() => 'd'}
             path="/page1"
           />
           <Route
-            component={() => 'd'}
+            component={Inner}
           />
         </Switch>
       </div>

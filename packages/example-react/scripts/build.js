@@ -64,6 +64,15 @@ gulp.task('webpack', (done) => {
   }
 });
 
+gulp.task('copy-public', () => {
+  const publicPath = path.resolve(paths.src, 'server/public');
+  const destPath = path.resolve(paths.dist, 'public');
+  log('copy-public', 'publicPath: %s, destPath: %s', publicPath, destPath);
+
+  return gulp.src(`${publicPath}/**/*`)
+    .pipe(gulp.dest(destPath));
+});
+
 gulp.task('build-example', (done) => {
   const srcPath = `${paths.src}/**/*.{js,jsx,ts,tsx}`;
   log('build-example', 'srcPath: %s', srcPath);
@@ -74,6 +83,7 @@ gulp.task('build-example', (done) => {
     .on('end', done);
 });
 
+gulp.task('build-dev', gulp.series('clean', 'copy-public'));
 gulp.task('build', gulp.series('clean', 'webpack', 'build-example'));
 
 function build(callback) {
