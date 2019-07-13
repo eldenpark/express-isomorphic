@@ -2,7 +2,8 @@ import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 
 import Header from '@@universal/components/Header';
-import Inner from './components/Inner';
+import PageDefault from '@@universal/components/PageDefault';
+import Page1 from '@@universal/components/Page1';
 
 import('./components/Later')
   .then(() => {
@@ -17,11 +18,11 @@ const Universal: React.FC<{}> = () => {
       <div className="page">
         <Switch>
           <Route
-            component={() => 'd'}
+            component={Page1}
             path="/page1"
           />
           <Route
-            component={Inner}
+            component={PageDefault}
           />
         </Switch>
       </div>

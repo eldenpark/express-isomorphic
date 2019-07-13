@@ -34,6 +34,7 @@ module.exports = {
       devDependencies: true,
     }],
     'import/no-unresolved': ['off'],
+    'import/order': ['off'],
     'import/prefer-default-export': ['off'],
     'lines-between-class-members': ['off'],
     'no-await-in-loop': ['off'],

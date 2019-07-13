@@ -1,18 +1,48 @@
-import * as React from 'react';
+import React from 'react';
+import {
+  RouteComponentProps,
+  withRouter,
+} from 'react-router-dom';
 
-const Title = () => {
+const Title = ({
+  pathname,
+}) => {
   return (
-    <div>universal</div>
+    <div>{pathname}</div>
   );
 };
 
-const Header = () => {
+const Header: React.FC<RouteComponentProps> = ({
+  history,
+  location,
+}) => {
+  const { pathname } = location;
+
+  const handleClickButton = React.useCallback((route) => () => {
+    history.push(route);
+  }, []);
+
   return (
-    <div>
-      [Header]
-      <Title />
+    <div
+      style={{
+        marginBottom: 100,
+      }}
+    >
+      <Title pathname={pathname} />
+      <button
+        onClick={handleClickButton('/')}
+        type="button"
+      >
+        ROOT
+      </button>
+      <button
+        onClick={handleClickButton('/page1')}
+        type="button"
+      >
+        page1
+      </button>
     </div>
   );
 };
 
-export default Header;
+export default withRouter(Header);

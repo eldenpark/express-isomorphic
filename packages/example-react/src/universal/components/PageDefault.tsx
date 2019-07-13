@@ -16,15 +16,15 @@ const fetchOptions = {
   },
 };
 
-const Inner = () => {
+const PageDefault = () => {
   const result = useFetch(fetchFunction, fetchOptions);
-  console.log('inner', result);
+  console.log('PageDefault(): ', result);
 
   return (
     <div>
-      Inner
+      Page Default
     </div>
   );
 };
 
-export default Inner;
+export default PageDefault;

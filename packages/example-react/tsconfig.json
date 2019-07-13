@@ -13,8 +13,8 @@
     "module": "commonjs",
     "moduleResolution": "node",
     "paths": {
-      "@@react/*": [
-        "./src/react/*"
+      "@@universal/*": [
+        "./src/universal/*"
       ]
     },
     "strictNullChecks": true,
