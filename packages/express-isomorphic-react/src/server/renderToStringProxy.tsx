@@ -1,4 +1,4 @@
-import { logger } from '@nodekit/logger';
+import { logger } from 'jege/server';
 import React from 'react';
 
 import { SSRManager, SSRManagerContext } from '../internals/SSRManager';

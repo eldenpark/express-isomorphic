@@ -1,6 +1,6 @@
 import chalk from 'chalk';
 import fs from 'fs';
-import { logger } from '@nodekit/logger';
+import { logger } from 'jege/server';
 import mkdirp from 'mkdirp';
 import path from 'path';
 import { Request } from 'express';

@@ -6,7 +6,7 @@ import ExpressIsomorphic, {
   Extend,
 } from 'express-isomorphic';
 import http from 'http';
-import { logger } from '@nodekit/logger';
+import { logger } from 'jege/server';
 import path from 'path';
 import { withReactProd } from 'express-isomorphic-react/server';
 

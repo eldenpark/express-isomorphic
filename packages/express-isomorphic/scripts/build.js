@@ -1,6 +1,6 @@
 const del = require('del');
 const gulp = require('gulp');
-const { buildLogger } = require('@nodekit/logger');
+const { buildLogger } = require('jege/server');
 const path = require('path');
 const ts = require('gulp-typescript');
 

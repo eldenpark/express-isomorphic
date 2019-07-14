@@ -1,7 +1,7 @@
 import ExpressIsomorphic, {
   Extend,
 } from 'express-isomorphic';
-import { logger } from '@nodekit/logger';
+import { logger } from 'jege/server';
 import http from 'http';
 import path from 'path';
 import express, {

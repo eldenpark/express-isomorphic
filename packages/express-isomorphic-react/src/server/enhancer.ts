@@ -2,7 +2,7 @@ import express, {
   Application,
   RequestHandler,
 } from 'express';
-import { logger } from '@nodekit/logger';
+import { logger } from 'jege/server';
 import { ServerState } from 'express-isomorphic';
 import webpack from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';

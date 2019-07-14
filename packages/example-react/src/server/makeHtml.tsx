@@ -4,7 +4,7 @@ import {
 import {
   MakeHtml,
 } from 'express-isomorphic';
-import { logger } from '@nodekit/logger';
+import { logger } from 'jege/server';
 import React from 'react';
 import { renderToString } from 'react-dom/server';
 import { renderToStringProxy } from 'express-isomorphic-react/server';

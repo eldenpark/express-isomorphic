@@ -1,5 +1,5 @@
 const { argv } = require('yargs');
-const { logger } = require('@nodekit/logger');
+const { logger } = require('jege/server');
 
 const log = logger('[express-isomorphic-react]');
 

@@ -2,7 +2,7 @@ import { argv } from 'yargs';
 import bodyParser from 'body-parser';
 import chalk from 'chalk';
 import express from 'express';
-import { logger } from '@nodekit/logger';
+import { logger } from 'jege/server';
 
 import {
   MakeHtml,

@@ -1,5 +1,5 @@
 import chalk from 'chalk';
-import { logger } from '@nodekit/logger';
+import { logger } from 'jege/server';
 
 import { Server } from 'socket.io';
 

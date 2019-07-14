@@ -1,6 +1,6 @@
 import chalk from 'chalk';
 import http from 'http';
-import { logger } from '@nodekit/logger';
+import { logger } from 'jege/server';
 
 const log = logger('[express-isomorphic]');
 

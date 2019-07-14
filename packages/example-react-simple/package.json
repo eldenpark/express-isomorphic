@@ -1,10 +1,10 @@
 {
   "author": "Elden S. Park",
   "dependencies": {
-    "@nodekit/logger": "^0.1.0",
     "babel-polyfill": "^6.26.0",
     "express-isomorphic": "^0.20.0",
     "express-isomorphic-react": "^0.20.0",
+    "jege": "^0.4.0",
     "react": "^16.8.6",
     "react-dom": "npm:@hot-loader/react-dom"
   },

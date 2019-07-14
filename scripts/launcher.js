@@ -1,7 +1,7 @@
 const { argv } = require('yargs');
 const childProcess = require('child_process');
 const fs = require('fs');
-const { logger } = require('@nodekit/logger');
+const { logger } = require('jege/server');
 const path = require('path');
 
 const { requireNonNull } = require('./scriptUtils');

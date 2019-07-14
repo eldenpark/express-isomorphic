@@ -1,7 +1,7 @@
 import axios from 'axios';
 import chalk from 'chalk';
 import http from 'http';
-import { logger } from '@nodekit/logger';
+import { logger } from 'jege/server';
 import nodemon from 'nodemon';
 import path from 'path';
 import socketIO, {

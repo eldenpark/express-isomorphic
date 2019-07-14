@@ -2,7 +2,7 @@ import chalk from 'chalk';
 import express, {
   RequestHandler,
 } from 'express';
-import { logger } from '@nodekit/logger';
+import { logger } from 'jege/server';
 
 import ServerState from './ServerState';
 
