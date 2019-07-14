@@ -3,7 +3,7 @@ import { Route, Switch } from 'react-router-dom';
 
 import Header from '@@universal/components/Header';
 import PageDefault from '@@universal/components/PageDefault';
-import Page1 from '@@universal/components/Page1';
+import Page1 from '@@universal/components/PageOne';
 
 import('./components/Later')
   .then(() => {

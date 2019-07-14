@@ -3,6 +3,8 @@ import React from 'react';
 
 import { SSRManager, SSRManagerContext } from '../internals/SSRManager';
 
+const MAXIMUM_CALL_COUNT = 10;
+
 const log = logger('[express-isomorphic-react]');
 
 async function renderToStringProxy({
@@ -13,7 +15,7 @@ async function renderToStringProxy({
   let latestHtml = '';
   const ssrManager = new SSRManager();
 
-  async function process(): Promise<string> {
+  async function doRender(): Promise<string> {
     callCount += 1;
     try {
       const wrappedElement = (
@@ -24,24 +26,24 @@ async function renderToStringProxy({
       latestHtml = renderFunction(wrappedElement);
 
       if (!ssrManager.hasPromises()) {
+        log('doRender(): returning html, call count: %s', callCount);
         return latestHtml;
       }
     } catch (err) {
-      log('process(): Error has occurred in renderToStringProxy(): %o', err);
+      log('doRender(): Error has occurred in renderToStringProxy(): %o', err);
       throw new Error('Error has occurred in renderToStringProxy()');
     }
 
     await ssrManager.consumeAndWaitPromises();
 
-    if (callCount > 12) {
-      log('process(): too many recursive calls, returning');
+    if (callCount > MAXIMUM_CALL_COUNT) {
+      log('doRender(): too many recursive calls, returning latest html');
       return latestHtml;
     }
-    return process();
+    return doRender();
   }
 
-  log('renderToStringProxy(): returning html, call count: %s', callCount);
-  return Promise.resolve().then(process);
+  return Promise.resolve().then(doRender);
 }
 
 export default renderToStringProxy;

@@ -26,55 +26,34 @@ async function doFetch(fetchFunction, fetchParam, setResult) {
   }
 }
 
-/**
- * Feature still in construction
- */
-const useFetch = (fetchFunction: FetchFunction, fetchOptions: FetchOptions, callback?) => {
+const useFetch = (fetchFunction: FetchFunction, fetchOptions: FetchOptions) => {
   const {
     options,
     store,
   } = useIsomorphicContext();
   const ssrManager = React.useContext(SSRManagerContext);
-  const [result, setResult] = React.useState<any>({});
-  const { ssr } = options;
   const { cacheKey, fetchParam } = fetchOptions;
-
-  console.log('useFetch(): callback, %s', callback);
-
+  const isInCache = cacheKey && store[cacheKey];
+  const { ssr } = options;
   const ssrInUse = ssr && ssrManager;
-  console.log('useFetch(): store keys: %j', Object.keys(store));
+
+  const prefetchedResult = store[cacheKey] || {};
+  const [result, setResult] = React.useState<any>(prefetchedResult);
 
   React.useEffect(() => {
-    const isInCache = cacheKey && store[cacheKey];
-    console.log('useFetch(): useEffect, isInCache: %s', !!isInCache);
-
     if (!isInCache) {
-      console.log('useFetch(): fetch start');
       doFetch(fetchFunction, fetchParam, setResult);
     }
 
     return () => {
-      console.log('useFetch(): effect unload');
       if (isInCache) {
         delete store[cacheKey!];
       }
     };
   }, []);
 
-  // const [result, setResult] = React.useState(undefined);
-  // console.log(result);
-
-  // React.useEffect(() => {
-  // async function getData() {
-  //   const data = await fetcher(fetcherParam);
-  //   setResult(data);
-  // }
-  // getData();
-  // }, []);
-
   if (ssrInUse) {
-    if (!store[cacheKey]) {
-      console.log('useFetch(): ssrInUse, try register');
+    if (isInCache) {
       const fetcher = new Fetcher(fetchFunction, fetchOptions, store);
       ssrManager!.register(fetcher);
     }
@@ -83,7 +62,7 @@ const useFetch = (fetchFunction: FetchFunction, fetchOptions: FetchOptions, call
   return {
     data: result.data,
     error: result.error,
-    loading: result.loading,
+    loading: result.loading || false,
   };
 };
 

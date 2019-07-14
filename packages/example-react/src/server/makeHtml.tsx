@@ -27,6 +27,7 @@ const makeHtml: MakeHtml<State> = async function makeHtml({
   const element = (
     <ServerApp
       isomorphic={isomorphic}
+      requestUrl={requestUrl}
     />
   );
 
