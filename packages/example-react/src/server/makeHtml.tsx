@@ -1,5 +1,5 @@
 import {
-  Isomorphic,
+  createIsomorphic,
 } from 'express-isomorphic-react';
 import {
   MakeHtml,
@@ -21,7 +21,7 @@ const makeHtml: MakeHtml<State> = async function makeHtml({
   log('makeHtml(): requestUrl: %s, serverState: %j', requestUrl, serverState);
 
   const { socketPath, socketPort, state } = serverState;
-  const isomorphic = new Isomorphic({
+  const isomorphic = createIsomorphic({
     ssr: true,
   });
   const element = (

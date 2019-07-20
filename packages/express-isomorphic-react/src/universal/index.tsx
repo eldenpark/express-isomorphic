@@ -1,11 +1,11 @@
 import {
-  Isomorphic,
+  createIsomorphic,
   IsomorphicProvider,
 } from './Isomorphic';
 import useFetch from './useFetch';
 
 export {
-  Isomorphic,
+  createIsomorphic,
   IsomorphicProvider,
   useFetch,
 };
