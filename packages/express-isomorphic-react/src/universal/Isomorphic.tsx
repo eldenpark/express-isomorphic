@@ -1,5 +1,7 @@
 import React from 'react';
 
+const isomorphicConstructorSecret = Symbol('isomorphicConstructorSecret');
+
 export class Isomorphic {
   options: IsomorphicOptions = {
     ssr: false,
@@ -7,12 +9,15 @@ export class Isomorphic {
   store: IsomorphicStore;
 
   constructor({
-    ssr = false,
-    store = {},
-  } = {}) {
-    this.options = {
-      ssr,
-    };
+    constructorSecret,
+    options,
+    store,
+  }) {
+    if (constructorSecret !== isomorphicConstructorSecret) {
+      console.warn('Isomorphic(): Try not to instantiate this using new keyword. Use createIsomorphic() instead'); // eslint-disable-line
+    }
+
+    this.options = options;
     this.store = store;
   }
 
@@ -39,8 +44,12 @@ export const createIsomorphic = ({
   ssr = false,
   store = {},
 }: CreateIsomorphicArgs = {}) => {
-  return new Isomorphic({
+  const options = {
     ssr,
+  };
+  return new Isomorphic({
+    constructorSecret: isomorphicConstructorSecret,
+    options,
     store,
   });
 };
