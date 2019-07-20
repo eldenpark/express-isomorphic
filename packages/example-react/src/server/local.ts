@@ -8,7 +8,7 @@ import express, {
   NextFunction,
   Request,
 } from 'express';
-import { withReactLocal } from 'express-isomorphic-react/server';
+import { withReactLocal } from 'express-isomorphic-react/webpack';
 
 import State from './State';
 import webpackConfig from '../webpack/webpack.config.client.local.web';

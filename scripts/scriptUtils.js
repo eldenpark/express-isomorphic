@@ -1,4 +1,4 @@
-const { logger } = require('./log');
+const { logger } = require('jege/server');
 
 const log = logger('[express-isomorphic]');
 

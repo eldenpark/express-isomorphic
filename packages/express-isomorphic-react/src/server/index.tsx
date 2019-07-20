@@ -7,7 +7,7 @@ const MAXIMUM_CALL_COUNT = 10;
 
 const log = logger('[express-isomorphic-react]');
 
-async function renderToStringProxy({
+export async function renderToStringProxy({
   element,
   renderFunction,
 }: RenderToStringProxyArgs): Promise<string> {
@@ -45,8 +45,6 @@ async function renderToStringProxy({
 
   return Promise.resolve().then(doRender);
 }
-
-export default renderToStringProxy;
 
 interface RenderToStringProxyArgs {
   element: React.ReactElement;
