@@ -53,7 +53,7 @@ const useFetch = (fetchFunction: FetchFunction, fetchOptions: FetchOptions) => {
   }, []);
 
   if (ssrInUse) {
-    if (isInCache) {
+    if (!isInCache) {
       const fetcher = new Fetcher(fetchFunction, fetchOptions, store);
       ssrManager!.register(fetcher);
     }
