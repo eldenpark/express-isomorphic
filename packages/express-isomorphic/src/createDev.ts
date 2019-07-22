@@ -18,12 +18,12 @@ import ServerState from './ServerState';
 
 const log = logger('[express-isomorphic]');
 
-const localServer: LocalServer = async <State extends {}>({
+async function createDev<State>({
   extend,
   makeHtmlPath,
   watchExt,
   watchPaths,
-}) => {
+}: CreateDevArgs<State>): Promise<ServerCreation<State>> {
   const htmlGeneratorPort = await getAvailablePort(10021);
   const socketPath = `/${Date.now()}/socket.io`;
 
@@ -83,16 +83,16 @@ const localServer: LocalServer = async <State extends {}>({
       return data;
     },
   });
-};
+}
 
-export default localServer;
+export default createDev;
 
 function setupNodemon<State>({
   htmlGeneratorPort,
   makeHtmlPath,
   serverState,
   watchExt,
-  watchPaths = [],
+  watchPaths,
 }: SetupNodemonArgs<State>) {
   const script = path.resolve(__dirname, 'htmlGeneratingServer.js');
 
@@ -115,7 +115,7 @@ function setupNodemon<State>({
     script,
     watch: [
       makeHtmlPath,
-      ...watchPaths,
+      ...(watchPaths || []),
     ],
   })
     .on('quit', () => {
@@ -134,19 +134,17 @@ function setupNodemon<State>({
     });
 }
 
-interface LocalServer {
-  <State>(arg: {
-    extend?: Extend<State>;
-    makeHtmlPath: any;
-    watchExt?: string;
-    watchPaths?: string[];
-  }): Promise<ServerCreation<State>>;
+interface CreateDevArgs<State> {
+  extend?: Extend<State>;
+  makeHtmlPath: any;
+  watchExt?: string;
+  watchPaths?: string[];
 }
 
 interface SetupNodemonArgs<State> {
   htmlGeneratorPort: number;
   makeHtmlPath: string;
   serverState: ServerState<State>;
-  watchExt: string;
-  watchPaths: string[],
+  watchExt?: string;
+  watchPaths?: string[],
 }

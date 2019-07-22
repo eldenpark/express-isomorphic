@@ -9,7 +9,7 @@ const log = logger('[express-isomorphic]');
 
 const buildOrder = [
   'express-isomorphic',
-  'express-isomorphic-react',
+  'express-isomorphic-extension',
 ];
 
 async function batchExecuteBuild(buildDefinitions) {

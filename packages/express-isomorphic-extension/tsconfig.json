@@ -1,7 +1,6 @@
 {
   "compilerOptions": {
-    "allowJs": true,
-    "baseUrl": "./",
+    "declaration": true,
     "emitDecoratorMetadata": true,
     "esModuleInterop": true,
     "experimentalDecorators": true,
@@ -13,11 +12,7 @@
     ],
     "module": "commonjs",
     "moduleResolution": "node",
-    "paths": {
-      "@@universal/*": [
-        "./src/universal/*"
-      ]
-    },
+    "outDir": "./",
     "strictNullChecks": true,
     "target": "es6"
   },

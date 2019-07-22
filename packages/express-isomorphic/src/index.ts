@@ -1,49 +1,32 @@
+import { addPath } from './eject';
 import {
   Extend,
   MakeHtml,
   ServerCreation,
   WebpackConfig,
 } from './createExpress';
-import localServer from './localServer';
-import productionServer, {
+import createDev from './createDev';
+import create, {
   WebpackBuild,
-} from './productionServer';
+} from './create';
 import ServerState from './ServerState';
 
-const local: Local = <State>(arg) => localServer<State>(arg);
-const production: Production = <State>(arg) => productionServer<State>(arg);
-
-export default {
-  local,
-  production,
+const ExpressIsomorphic = {
+  create,
+  createDev,
 };
 
-export { addPath } from './eject';
+export default ExpressIsomorphic;
+
 export {
+  addPath,
   Extend,
-  Local,
   MakeHtml,
-  Production,
+  ServerCreation,
   ServerState,
+  WebpackBuild,
+  WebpackConfig,
 };
-
-interface Local {
-  <State>(arg: {
-    extend?: Extend<State>;
-    makeHtmlPath: MakeHtmlPath;
-    watchExt?: string;
-    watchPaths?: string[];
-  }): Promise<ServerCreation<State>>;
-}
-
-interface Production {
-  <State>(arg: {
-    extend?: Extend<State>;
-    makeHtmlPath: MakeHtmlPath;
-    webpackBuild: WebpackBuild;
-    webpackConfig: WebpackConfig;
-  }): Promise<ServerCreation<State>>;
-}
 
 /**
  * makeHtmlPath should be given as the full path to the makeHtml file.

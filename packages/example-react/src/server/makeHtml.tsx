@@ -53,16 +53,9 @@ const makeHtml: MakeHtml<State> = async function makeHtml({
 </head>
 <body>
   <div id="app-root">${appRootInString}</div>
-  ${attachAssets(state.assets)}
+  ${attachAssetElements(state.assets)}
   <script>
-    if (window.io) {
-      var socket = io('http://localhost:${socketPort}', {
-        path: '${socketPath}',
-      });
-      socket.on('express-isomorphic', function ({ msg }) {
-        console.log('[express-isomorphic] %s', msg);
-      });
-    }
+    ${createSocketScriptElement(socketPort, socketPath)}
   </script>
 </body>
 </html>
@@ -71,7 +64,7 @@ const makeHtml: MakeHtml<State> = async function makeHtml({
 
 export default makeHtml;
 
-function attachAssets(assets: string[] = []): string {
+function attachAssetElements(assets: string[] = []): string {
   return assets.map((asset) => {
     if (asset.endsWith('.js')) {
       return `<script src="/bundle/${asset}"></script>`;
@@ -85,4 +78,19 @@ function attachAssets(assets: string[] = []): string {
     return undefined;
   })
     .join('');
+}
+
+function createSocketScriptElement(socketPort, socketPath) {
+  if (socketPort && socketPath) {
+    return socketPort && socketPath && `
+if (window.io) {
+  var socket = io('http://localhost:${socketPort}', {
+    path: '${socketPath}',
+  });
+  socket.on('express-isomorphic', function ({ msg }) {
+    console.log('[express-isomorphic] %s', msg);
+  });
+}`;
+  }
+  return '';
 }

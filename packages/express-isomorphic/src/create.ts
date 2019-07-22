@@ -4,10 +4,10 @@ import createExpress, {
   ServerCreation,
 } from './createExpress';
 
-const productionServer: ProductionServer = async <State extends {}>({
+async function create<State>({
   extend,
   makeHtmlPath,
-}) => {
+}: CreateArgs<State>): Promise<ServerCreation<State>> {
   const makeHtml: MakeHtml<State> = require(makeHtmlPath).default || require(makeHtmlPath);
 
   return createExpress<State>({
@@ -23,7 +23,7 @@ const productionServer: ProductionServer = async <State extends {}>({
       });
     },
   });
-};
+}
 
 export interface WebpackBuild {
   assets: any[];
@@ -36,11 +36,9 @@ export interface WebpackBuild {
   errors: any[];
 }
 
-interface ProductionServer {
-  <State>(arg: {
-    extend?: Extend<State>;
-    makeHtmlPath: string;
-  }): Promise<ServerCreation<State>>;
+interface CreateArgs<State> {
+  extend?: Extend<State>;
+  makeHtmlPath: string;
 }
 
-export default productionServer;
+export default create;

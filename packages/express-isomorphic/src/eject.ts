@@ -22,6 +22,9 @@ class EjectServer {
 
 const ejectServerInstance = new EjectServer();
 
+/**
+ * Currently not functioning
+ */
 const eject: Eject = async function eject({
   assets,
   ejectPath,
