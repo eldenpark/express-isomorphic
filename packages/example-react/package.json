@@ -3,9 +3,9 @@
   "dependencies": {
     "axios": "^0.19.0",
     "babel-polyfill": "^6.26.0",
-    "express-isomorphic": "^0.23.0",
-    "express-isomorphic-extension": "^0.23.3",
-    "express-isomorphic-react": "^0.23.3",
+    "express-isomorphic": "^0.24.0",
+    "express-isomorphic-extension": "^0.24.0",
+    "express-isomorphic-react": "^0.24.0",
     "jege": "^0.4.0",
     "react": "^16.8.6",
     "react-dom": "npm:@hot-loader/react-dom",
@@ -30,6 +30,6 @@
   "license": "ISC",
   "name": "example-react",
   "private": true,
-  "version": "0.23.3",
+  "version": "0.24.0",
   "gitHead": "3c9c2d238e818632a0735c10f0b3873f9b32707d"
 }
