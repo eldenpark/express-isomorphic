@@ -8,7 +8,7 @@ import { renderToString } from 'react-dom/server';
 import ServerApp from './ServerApp';
 import State from './State';
 
-const log = logger('[express-isomorphic-react]');
+const log = logger('[example-react-simple]');
 
 const makeHtml: MakeHtml<State> = async function makeHtml({
   requestUrl,

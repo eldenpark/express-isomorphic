@@ -10,7 +10,7 @@ That is where *server side rendering (SSR)* kicks in. The technique claims that 
 
 The beauty of SSR is that it gives bots, most prominently search engines, the ease of parsing the content, (see *search engine optimization*, [SEO](https://en.wikipedia.org/wiki/Search_engine_optimization) to learn more) as well as it provides the best user experience with a good degree of interactivity.
 
-**Express Isomorphic** is born to facilitate server side rendering. It is designed to be as minimal as possible, and be expanded through modules. It is agnostic of third-party frameworks such as React.js, meaning it can serve any JavaScript web application to run both on the server and the client sides. Look [express-isomorphic-react](https://github.com/eldeni/express-isomorphic/tree/master/packages/express-isomorphic-react), to get the glimpse of how modules can be implemented to enhance the functionality.
+**Express Isomorphic** is born to facilitate server side rendering. It is designed to be as minimal as possible, and be expanded through modules. It is agnostic of third-party frameworks such as React.js, meaning it can serve any JavaScript web application to run both on the server and the client sides. Look [express-isomorphic-extension](https://github.com/eldeni/express-isomorphic/tree/master/packages/express-isomorphic-extension), to get the glimpse of how modules can be implemented to enhance the functionality.
 
 ## Scripts
 ```

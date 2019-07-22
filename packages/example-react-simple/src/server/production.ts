@@ -8,14 +8,14 @@ import ExpressIsomorphic, {
 import http from 'http';
 import { logger } from 'jege/server';
 import path from 'path';
-import { withReactProd } from 'express-isomorphic-react/server';
+import { withWebpack } from 'express-isomorphic-extension';
 
 import State from './State';
 import webpackConfig from '../webpack/webpack.config.client.prod.web';
 
 const webpackBuild = require('../../dist/build.json');
 
-const log = logger('[express-isomorphic-react]');
+const log = logger('[example-react-simple]');
 
 const extend: Extend<State> = (app, serverState) => {
   app.use((req: Request, res, next: NextFunction) => {
@@ -23,7 +23,7 @@ const extend: Extend<State> = (app, serverState) => {
     next();
   });
 
-  withReactProd({
+  withWebpack({
     serverState,
     webpackBuild,
     webpackConfig,
@@ -31,11 +31,9 @@ const extend: Extend<State> = (app, serverState) => {
 };
 
 (async () => {
-  const { app } = await ExpressIsomorphic.production({
+  const { app } = await ExpressIsomorphic.create({
     extend,
     makeHtmlPath: path.resolve(__dirname, './makeHtml.js'),
-    webpackBuild,
-    webpackConfig,
   });
 
   const port = 6001;

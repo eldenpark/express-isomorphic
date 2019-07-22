@@ -8,7 +8,7 @@ const webpack = require('webpack');
 
 const babelRc = require('./.babelRc');
 
-const log = buildLogger('[express-isomorphic-react]');
+const log = buildLogger('[example-react]');
 const paths = {
   dist: path.resolve(__dirname, '../dist'),
   lib: path.resolve(__dirname, '../lib'),

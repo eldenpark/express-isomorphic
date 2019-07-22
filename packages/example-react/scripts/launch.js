@@ -4,7 +4,7 @@ const { logger } = require('jege/server');
 const babelRc = require('./.babelRc');
 const { gulp } = require('./build');
 
-const log = logger('[express-isomorphic-react]');
+const log = logger('[example-react]');
 
 function launch() {
   log('launch(): argv: %j', argv);

@@ -1,29 +1,21 @@
+import { logger } from 'jege';
 import React from 'react';
 
 import Header from './components/Header';
 import TransferredState from './components/TransferredState';
 import UniversalContext from './contexts/UniversalContext';
 
+const log = logger('[example-react-simple]');
+
 import('./components/Later')
   .then(() => {
-    console.log('[express-isomorphic-react] Later is loaded'); // eslint-disable-line
+    log('Universal(): <Later /> is loaded');
   })
-  .catch((err) => console.error('error loading <Later />', err)); // eslint-disable-line
+  .catch((err) => log('error loading <Later />: %o', err));
 
 const Universal: UniversalType = ({
   children,
 }) => {
-  // const [ count, setCount ] = React.useState(0);
-
-  // const handleClickButton = useMemo(
-  //   () => {
-  //     return () => {
-  //       setCount(count + 1);
-  //     };
-  //   },
-  //   [count],
-  // );
-
   return (
     <div>
       <Header />

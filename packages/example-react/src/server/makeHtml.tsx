@@ -1,18 +1,14 @@
 import {
-  createIsomorphic,
-} from 'express-isomorphic-react';
-import {
   MakeHtml,
 } from 'express-isomorphic';
 import { logger } from 'jege/server';
 import React from 'react';
 import { renderToString } from 'react-dom/server';
-import { renderToStringProxy } from 'express-isomorphic-react/server';
 
 import ServerApp from './ServerApp';
 import State from './State';
 
-const log = logger('[express-isomorphic-react]');
+const log = logger('[example-react]');
 
 const makeHtml: MakeHtml<State> = async function makeHtml({
   requestUrl,
@@ -21,22 +17,14 @@ const makeHtml: MakeHtml<State> = async function makeHtml({
   log('makeHtml(): requestUrl: %s, serverState: %j', requestUrl, serverState);
 
   const { socketPath, socketPort, state } = serverState;
-  const isomorphic = createIsomorphic({
-    ssr: true,
-  });
   const element = (
     <ServerApp
-      isomorphic={isomorphic}
       requestUrl={requestUrl}
     />
   );
 
-  const appRootInString = await renderToStringProxy({
-    element,
-    renderFunction: renderToString,
-  });
+  const appRootInString = renderToString(element);
 
-  log('makeHtml(): store', Object.keys(isomorphic.store));
   log('makeHtml(): appRootInString length: %s', appRootInString.length);
 
   return `
@@ -47,9 +35,6 @@ const makeHtml: MakeHtml<State> = async function makeHtml({
   <meta name="viewport" content="width=device-width,height=device-height,initial-scale=1">
   <title>express-isomorphic-example</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.dev.js"></script>
-  <script>
-    window['__APP_STATE__']=${isomorphic.getStoreObject()}
-  </script>
 </head>
 <body>
   <div id="app-root">${appRootInString}</div>

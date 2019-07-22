@@ -8,7 +8,7 @@ import {
   NextFunction,
   Request,
 } from 'express';
-import { withReactLocal } from 'express-isomorphic-react/server';
+import { withWebpackDev } from 'express-isomorphic-extension/webpack';
 
 import State from './State';
 import webpackConfig from '../webpack/webpack.config.client.local.web';
@@ -21,7 +21,7 @@ const extend: Extend<State> = (app, serverState) => {
     next();
   });
 
-  withReactLocal({
+  withWebpackDev({
     serverState,
     webpackConfig,
   })(app);
@@ -34,7 +34,7 @@ const extend: Extend<State> = (app, serverState) => {
 };
 
 (async function local() {
-  const { app } = await ExpressIsomorphic.local({
+  const { app } = await ExpressIsomorphic.createDev({
     extend,
     makeHtmlPath: path.resolve(__dirname, './makeHtmlLaunch.js'),
   });

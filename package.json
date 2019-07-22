@@ -39,7 +39,6 @@
     }
   },
   "license": "ISC",
-  "name": "express-isomorphic",
   "private": true,
   "scripts": {
     "build": "node ./scripts/builder",

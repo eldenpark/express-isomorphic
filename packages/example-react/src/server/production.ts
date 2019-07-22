@@ -15,7 +15,7 @@ import webpackConfig from '../webpack/webpack.config.client.prod.web';
 
 const webpackBuild = require('../../dist/build.json');
 
-const log = logger('[express-isomorphic-react]');
+const log = logger('[example-react]');
 
 const extend: Extend<State> = (app, serverState) => {
   app.use((req: Request, res, next: NextFunction) => {

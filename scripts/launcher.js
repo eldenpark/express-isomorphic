@@ -6,7 +6,7 @@ const path = require('path');
 
 const { requireNonNull } = require('./scriptUtils');
 
-const log = logger('[express-isomorphic]');
+const log = logger('[monorepo-express-isomorphic]');
 
 function launcher() {
   try {

@@ -1,3 +1,4 @@
+import { logger } from 'jege';
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 
@@ -5,11 +6,13 @@ import Header from '@@universal/components/Header';
 import PageDefault from '@@universal/components/PageDefault';
 import Page1 from '@@universal/components/PageOne';
 
+const log = logger('[example-react-simple]');
+
 import('./components/Later')
   .then(() => {
-    console.log('[express-isomorphic-react] Later is loaded'); // eslint-disable-line
+    log('Universal(): <Later /> is loaded');
   })
-  .catch((err) => console.error('error loading <Later />', err)); // eslint-disable-line
+  .catch((err) => log('error loading <Later />: %o', err));
 
 const Universal: React.FC<{}> = () => {
   return (

@@ -1,7 +1,7 @@
 const { argv } = require('yargs');
 const { logger } = require('jege/server');
 
-const log = logger('[express-isomorphic-react]');
+const log = logger('[example-react-simple]');
 
 function launch() {
   log('launch(): argv: %j', argv);

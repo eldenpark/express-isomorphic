@@ -1,6 +1,6 @@
 const { logger } = require('jege/server');
 
-const log = logger('[express-isomorphic]');
+const log = logger('[monorepo-express-isomorphic]');
 
 exports.requireNonNull = (obj, message) => {
   if (obj === undefined || obj === null) {

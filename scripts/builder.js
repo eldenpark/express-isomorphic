@@ -5,7 +5,7 @@ const fs = require('fs');
 const path = require('path');
 
 const cwd = process.cwd();
-const log = logger('[express-isomorphic]');
+const log = logger('[monorepo-express-isomorphic]');
 
 const buildOrder = [
   'express-isomorphic',
