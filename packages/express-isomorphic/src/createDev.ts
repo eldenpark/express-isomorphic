@@ -10,7 +10,6 @@ import socketIO, {
 
 import createExpress, {
   Extend,
-  MakeHtmlPayload,
   ServerCreation,
 } from './createExpress';
 import getAvailablePort from './utils/getAvailablePort';
@@ -71,16 +70,23 @@ async function createDev<State>({
       });
     },
     extend,
-    htmlGenerator: async <State>({
+    htmlGenerator: async ({
       requestUrl,
       serverState,
     }) => {
-      const makeHtmlPayload: MakeHtmlPayload<State> = {
-        requestUrl,
-        serverState,
-      };
-      const { data } = await axios.post(`http://localhost:${htmlGeneratorPort}/makeHtml`, makeHtmlPayload);
-      return data;
+      try {
+        const { data } = await axios.post(`http://localhost:${htmlGeneratorPort}/makeHtml`, {
+          requestUrl,
+          serverState,
+        });
+        serverState.update({
+          latestHtmlGenerated: data,
+        });
+        return data;
+      } catch (err) {
+        log('htmlGenerator(): error occurred. Most likely htmlGeneratorServer is reloading');
+        return createHtmlGeneratorErrorHtml(serverState.latestHtmlGenerated);
+      }
     },
   });
 }
@@ -132,6 +138,11 @@ function setupNodemon<State>({
         });
       }
     });
+}
+
+function createHtmlGeneratorErrorHtml(latestHtmlGenerated) {
+  return 'htmlGenerator(): error occurred. Most likely htmlGeneratorServer is reloading <br />'
+    + latestHtmlGenerated;
 }
 
 interface CreateDevArgs<State> {

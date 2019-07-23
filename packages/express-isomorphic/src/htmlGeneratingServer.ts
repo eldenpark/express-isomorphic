@@ -35,7 +35,7 @@ log('htmlGeneratingServer(): command line arguments: %j', argv);
       })).toString();
     } catch (err) {
       log('htmlGeneratingServer(): error making html: %o', err);
-      html = err.toString();
+      html = createErrorHtml(err, requestUrl);
     }
 
     res.send(html);
@@ -47,6 +47,26 @@ log('htmlGeneratingServer(): command line arguments: %j', argv);
 
   return app;
 })();
+
+function createErrorHtml(err: Error, requestUrl: string): string {
+  return `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,height=device-height,initial-scale=1">
+  <title>Express Isomorphic (ERROR)</title>
+</head>
+<body>
+  <div>Request Url: ${requestUrl}</div>
+  <div>Timestamp: ${Date.now()}</div>
+  <div class="error-stack">
+    ${err.stack}
+  </div>
+</body>
+</html>
+`;
+}
 
 function requireNonEmpty(obj, msg) {
   if (!obj || obj === '') {

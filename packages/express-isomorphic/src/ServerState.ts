@@ -7,7 +7,7 @@ const log = logger('[express-isomorphic]');
 
 export default class ServerState<State> {
   error?: Error = undefined;
-  isLaunched: boolean = false;
+  latestHtmlGenerated: string = 'html has yet generated';
   socketPath: string;
   socketPort: number;
   state: State;

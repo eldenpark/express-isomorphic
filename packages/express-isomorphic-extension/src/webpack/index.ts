@@ -51,7 +51,6 @@ export function withWebpack<State extends WebpackServerState>({
   log(`bootstrap(): webpackBuild:\n%j`, webpackBuild);
 
   serverState.update({
-    isLaunched: true,
     ...error && {
       error: {
         errorObj: error,

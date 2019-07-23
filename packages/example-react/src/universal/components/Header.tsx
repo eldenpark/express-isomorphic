@@ -33,13 +33,19 @@ const Header: React.FC<RouteComponentProps> = ({
         onClick={handleClickButton('/')}
         type="button"
       >
-        ROOT
+        Root
       </button>
       <button
-        onClick={handleClickButton('/page1')}
+        onClick={handleClickButton('/pageOne')}
         type="button"
       >
-        page1
+        Page one
+      </button>
+      <button
+        onClick={handleClickButton('/pageError')}
+        type="button"
+      >
+        Page error
       </button>
     </div>
   );
