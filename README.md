@@ -37,9 +37,9 @@ Express Isomorphic supports two different development environments. Unlike `prod
 In `local` dev mode, Express Isomorphic watches designated files and keeps synchronizing with the current codebase, so the developers do not need to reboot the whole every once in a while.
 
 ## API
-### local
+### development
 ```typescript
-const { app } = await ExpressIsomorphic.local({
+const { app } = await ExpressIsomorphic.createDev({
   extend,
   makeHtmlPath: path.resolve(__dirname, './makeHtml.js'),
   watchExt: 'js,jsx,ts,tsx,html,others',
@@ -51,4 +51,9 @@ const { app } = await ExpressIsomorphic.local({
 ```
 
 ### prod
-to be added later...
+```typescript
+const { app } = await ExpressIsomorphic.createDev({
+  extend,
+  makeHtmlPath: path.resolve(__dirname, './makeHtml.js'),
+});
+```
