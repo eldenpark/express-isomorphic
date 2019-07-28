@@ -48,7 +48,7 @@ export function withWebpack<State extends WebpackServerState>({
   const { path: outputPath, publicPath } = webpackConfig.output;
   const { assets, error } = parseWebpackBuild(webpackBuild);
 
-  log(`bootstrap(): webpackBuild:\n%j`, webpackBuild);
+  log(`bootstrap(): webpackBuild: %j`, webpackBuild);
 
   serverState.update({
     ...error && {
@@ -75,7 +75,7 @@ function createWebpackMiddlewares({
   webpackStats?: WebpackStats;
 }) {
   log(
-    'createWebpackMiddlewares(): webpack-client-local will be compiled with config:\n%j',
+    'createWebpackMiddlewares(): webpack-client-local will be compiled with config: %j',
     webpackConfig,
   );
   const clientWebpackCompiler = webpack(webpackConfig);
@@ -123,7 +123,7 @@ function createWebpackBuildParserDev<State extends WebpackServerState>(
 function parseWebpackBuild({
   entrypoints,
 }: WebpackBuild): ParsedWebpackBuild {
-  log('parseWebpackBuildInfo(): entrypoints:\n%j', entrypoints);
+  log('parseWebpackBuildInfo(): entrypoints: %j', entrypoints);
 
   const assets: string[] = [];
   try {
