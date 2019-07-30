@@ -4,6 +4,7 @@ import {
 import { logger } from 'jege/server';
 import React from 'react';
 import { renderToString } from 'react-dom/server';
+import { ServerStyleSheet } from 'styled-components';
 
 import ServerApp from './ServerApp';
 import State from './State';
@@ -17,11 +18,14 @@ const makeHtml: MakeHtml<State> = async function makeHtml({
   log('makeHtml(): requestUrl: %s, serverState: %j', requestUrl, serverState);
 
   const { socketPath, socketPort, state } = serverState;
-  const element = (
+  const styledComponentsStyleSheet = new ServerStyleSheet();
+
+  let element = (
     <ServerApp
       requestUrl={requestUrl}
     />
   );
+  element = styledComponentsStyleSheet.collectStyles(element);
 
   const appRootInString = renderToString(element);
 
@@ -35,6 +39,7 @@ const makeHtml: MakeHtml<State> = async function makeHtml({
   <meta name="viewport" content="width=device-width,height=device-height,initial-scale=1">
   <title>express-isomorphic-example</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.dev.js"></script>
+  ${styledComponentsStyleSheet.getStyleTags()}
 </head>
 <body>
   <div id="app-root">${appRootInString}</div>

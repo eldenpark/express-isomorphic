@@ -26,6 +26,10 @@ const babelRc = {
     // ["@babel/plugin-proposal-class-properties", { "loose": false }],
     // "@babel/plugin-proposal-json-strings",
     'dynamic-import-node',
+    ['babel-plugin-styled-components', {
+      displayName: true,
+      ssr: true,
+    }],
   ],
   presets: [
     ['@babel/preset-env', {

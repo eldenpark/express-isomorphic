@@ -1,6 +1,7 @@
 import { logger } from 'jege';
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
+import styled from 'styled-components';
 
 import Header from '@@universal/components/Header';
 import PageDefault from '@@universal/components/PageDefault';
@@ -8,6 +9,11 @@ import PageError from '@@universal/components/PageError';
 import PageOne from '@@universal/components/PageOne';
 
 const log = logger('[example-react-simple]');
+
+const Page = styled.div({
+  display: 'flex',
+  justifyContent: 'center',
+});
 
 import('./components/Later')
   .then(() => {
@@ -19,7 +25,7 @@ const Universal: React.FC<{}> = () => {
   return (
     <div>
       <Header />
-      <div className="page">
+      <Page className="page">
         <Switch>
           <Route
             component={PageOne}
@@ -33,7 +39,7 @@ const Universal: React.FC<{}> = () => {
             component={PageDefault}
           />
         </Switch>
-      </div>
+      </Page>
     </div>
   );
 };
