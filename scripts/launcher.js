@@ -1,5 +1,5 @@
 const { argv } = require('yargs');
-const { createLaunch, proc } = require('process-launch');
+const { createLauncher, proc } = require('process-launch');
 const { logger } = require('jege/server');
 
 const log = logger('[monorepo-express-isomorphic]');
@@ -22,11 +22,11 @@ function launcher() {
   try {
     log('launcher(): argv: %j', argv);
 
-    const launch = createLaunch({
+    const Launcher = createLauncher({
       processDefinitions,
     });
 
-    launch({
+    Launcher.run({
       process: argv.process,
     });
   } catch (err) {

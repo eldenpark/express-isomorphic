@@ -8,6 +8,12 @@ const babelRc = {
       },
     ],
     // Stage 2
+    ['@babel/plugin-proposal-decorators', {
+      decoratorsBeforeExport: true,
+      legacy: false,
+      // legacy: true,
+    }],
+    ['@babel/plugin-proposal-class-properties', { loose: false }],
     // ["@babel/plugin-proposal-decorators", { "legacy": true }],
     // "@babel/plugin-proposal-function-sent",
     // "@babel/plugin-proposal-export-namespace-from",
