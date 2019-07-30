@@ -29,6 +29,7 @@
     "husky": "^2.4.1",
     "jege": "^0.4.0",
     "lerna": "^3.15.0",
+    "process-launch": "^0.5.0",
     "typescript": "^3.5.1",
     "yargs": "^13.2.4"
   },
@@ -43,7 +44,7 @@
   "scripts": {
     "build": "node ./scripts/builder",
     "eslint": "npx eslint . --ext .ts,.tsx,.js,.jsx",
-    "example": "yarn run launch -p example-react",
+    "example": "yarn run launch --process example-react",
     "launch": "yarn lerna bootstrap && node ./scripts/launcher",
     "lerna": "node ./node_modules/.bin/lerna",
     "postinstall": "echo \"Most likely you need to run 'yarn run setup'.\"",
