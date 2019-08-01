@@ -8,18 +8,23 @@ import express, {
   NextFunction,
   Request,
 } from 'express';
-import { withWebpackDev } from 'express-isomorphic-extension/webpack';
+import {
+  watch,
+  withWebpackDev,
+} from 'express-isomorphic-extension/webpack';
 
 import State from './State';
 import webpackConfig from '../webpack/webpack.config.client.local.web';
+import webpackConfigServer from '../webpack/webpack.config.server.local';
 
 const paths = {
+  dist: path.resolve(__dirname, '../../dist'),
   public: path.resolve(__dirname, '../../dist/public'),
 };
 
 const log = logger('[example-react]');
 
-const extend: Extend<State> = (app, serverState) => {
+const extend: Extend<State> = async (app, serverState) => {
   app.use((req: Request, res, next: NextFunction) => {
     log('extend(): requestUrl: %s', req.url);
     next();
@@ -32,17 +37,13 @@ const extend: Extend<State> = (app, serverState) => {
     webpackConfig,
   })(app);
 
-  serverState.update({
-    state: {
-      testProp2: 1,
-    },
-  });
+  return watch(webpackConfigServer);
 };
 
 (async function local() {
   const { app } = await ExpressIsomorphic.createDev({
     extend,
-    makeHtmlPath: path.resolve(__dirname, './makeHtmlLaunch.js'),
+    makeHtmlPath: path.resolve(paths.dist, 'makeHtml.bundle.js'),
     watchExt: 'js,jsx,ts,tsx,html,test',
     watchPaths: [
       path.resolve(__dirname, '../universal'),

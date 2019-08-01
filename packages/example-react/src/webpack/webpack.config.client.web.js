@@ -1,6 +1,6 @@
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
-const babelRc = require('../../scripts/.babelRc');
+const babelRc = require('./.babelRc');
 
 module.exports = {
   context: __dirname,
@@ -25,6 +25,9 @@ module.exports = {
           },
           {
             loader: 'css-loader',
+            options: {
+              modules: true,
+            },
           },
         ],
       },

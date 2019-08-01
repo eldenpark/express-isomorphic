@@ -21,7 +21,7 @@ const createExpress: CreateExpress = async <State extends {}> ({
 
   if (extend) {
     log('createExpress(): extend is defined thus registered');
-    extend(app, serverState);
+    await extend(app, serverState);
   }
   await bootstrap(app, serverState);
 
@@ -78,7 +78,7 @@ export interface Extend<State> {
   (
     app: express.Application,
     serverState: ServerState<State>,
-  ): void;
+  ): Promise<any>;
 }
 
 export interface WebpackConfig {

@@ -57,11 +57,11 @@ export default makeHtml;
 function attachAssetElements(assets: string[] = []): string {
   return assets.map((asset) => {
     if (asset.endsWith('.js')) {
-      return `<script src="/bundle/${asset}"></script>`;
+      return `<script src="/public/${asset}"></script>`;
     }
 
     if (asset.endsWith('.css')) {
-      return `<link rel="stylesheet" type="text/css" href="/bundle/${asset}">`;
+      return `<link rel="stylesheet" type="text/css" href="/public/${asset}">`;
     }
 
     console.warn('The type of asset is not handled: %s', asset); // eslint-disable-line

@@ -13,7 +13,8 @@ function launch() {
     const buildTask = gulp.task('build');
 
     buildTask(() => {
-      require('../dist/server/production.js');
+      log('launch(): build complete, launching...');
+      require('../build/server/production.js');
     });
   } else {
     require('@babel/register')({

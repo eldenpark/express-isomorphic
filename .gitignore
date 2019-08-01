@@ -162,6 +162,7 @@ fabric.properties
 
 .idea/
 tsc_out/
+build/
 dist/
 /src/config/marmoym-config
 .vscode/

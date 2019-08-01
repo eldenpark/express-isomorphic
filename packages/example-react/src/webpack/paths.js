@@ -3,13 +3,8 @@ const path = require('path');
 const ROOT_PATH = path.resolve(__dirname, '../..');
 
 module.exports = {
+  build: path.resolve(ROOT_PATH, 'build'),
   dist: path.resolve(ROOT_PATH, 'dist'),
-  distEject: path.resolve(ROOT_PATH, 'dist/eject'),
-  distPublicBundle: path.resolve(ROOT_PATH, 'dist/bundle'),
-  distUniversal: path.resolve(ROOT_PATH, 'dist/universal'),
+  distPublic: path.resolve(ROOT_PATH, 'dist/public'),
   src: path.resolve(ROOT_PATH, 'src'),
-  webpackConfigClientLocalWeb: path.resolve(ROOT_PATH, 'src/webpack/webpack.config.client.local.web'),
-  webpackConfigClientProdWeb: path.resolve(ROOT_PATH, 'src/webpack/webpack.config.client.prod.web'),
-  webpackConfigUniversalLocal: path.resolve(ROOT_PATH, 'src/webpack/webpack.config.universal.local'),
-  webpackConfigUniversalProd: path.resolve(ROOT_PATH, 'src/webpack/webpack.config.universal.prod'),
 };

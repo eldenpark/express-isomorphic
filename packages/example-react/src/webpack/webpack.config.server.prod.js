@@ -5,24 +5,24 @@ const paths = require('./paths');
 const webpackConfigClientWeb = require('./webpack.config.client.web');
 
 const config = {
+  devtool: 'source-map',
   entry: {
-    client: path.resolve(paths.src, 'client/client.tsx'),
-    react: ['react', 'react-dom'],
+    makeHtml: [
+      path.resolve(paths.src, 'server/makeHtml.tsx'),
+    ],
   },
   mode: 'production',
   optimization: {
-    minimize: true,
-    runtimeChunk: false,
-    splitChunks: {
-      chunks: 'all',
-    },
+    minimize: false,
   },
   output: {
-    chunkFilename: 'chunk.[chunkhash].js',
-    filename: '[name].[chunkhash].js',
-    path: paths.distPublic,
+    filename: 'makeHtml.bundle.js',
+    libraryTarget: 'commonjs2',
+    path: paths.build,
     publicPath: '/public/',
   },
+  plugins: [
+  ],
 };
 
 module.exports = merge(webpackConfigClientWeb, config);

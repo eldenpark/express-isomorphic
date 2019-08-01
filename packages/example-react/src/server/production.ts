@@ -1,4 +1,4 @@
-import {
+import express, {
   NextFunction,
   Request,
 } from 'express';
@@ -17,7 +17,7 @@ const webpackBuild = require('../../dist/build.json');
 
 const log = logger('[example-react]');
 
-const extend: Extend<State> = (app, serverState) => {
+const extend: Extend<State> = async (app, serverState) => {
   app.use((req: Request, res, next: NextFunction) => {
     log('extend(): requestUrl: %s', req.url);
     next();
@@ -26,14 +26,19 @@ const extend: Extend<State> = (app, serverState) => {
   withWebpack({
     serverState,
     webpackBuild,
-    webpackConfig,
   })(app);
+
+  const { path: outputPath, publicPath } = webpackConfig.output;
+  log('extend(): publicPath: %s, outputPath: %s', publicPath, outputPath);
+  app.use(publicPath, express.static(outputPath));
+
+  return true;
 };
 
 (async () => {
   const { app } = await ExpressIsomorphic.create({
     extend,
-    makeHtmlPath: path.resolve(__dirname, './makeHtml.js'),
+    makeHtmlPath: path.resolve(__dirname, '../makeHtml.bundle.js'),
   });
 
   const port = 6001;
