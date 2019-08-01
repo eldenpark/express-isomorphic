@@ -1,4 +1,3 @@
-import { addPath } from './eject';
 import {
   Extend,
   MakeHtml,
@@ -19,7 +18,6 @@ const ExpressIsomorphic = {
 export default ExpressIsomorphic;
 
 export {
-  addPath,
   Extend,
   MakeHtml,
   ServerCreation,
