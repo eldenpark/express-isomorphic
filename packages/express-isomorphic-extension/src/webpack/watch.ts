@@ -1,3 +1,4 @@
+import chalk from 'chalk';
 import { logger } from 'jege/server';
 import webpack from 'webpack';
 
@@ -12,10 +13,13 @@ export default async function watch(webpackConfig) {
       aggregateTimeout: 600,
     }, (err, stats) => {
       if (err || stats.hasErrors()) {
-        log('watch(): error bundling server: %o', err);
+        log(`watch(): ${chalk.red('error')} bundling server: %o`, err);
         reject();
       }
-      log('watch(): success bundling server: %j', stats.toJson(defaultWebpackStats));
+      log(
+        `watch(): ${chalk.green('success')} bundling server: %j`,
+        stats.toJson(defaultWebpackStats),
+      );
       resolve(stats.toJson(defaultWebpackStats));
     });
   });

@@ -52,7 +52,7 @@ function serveHtml<State>(
 
       res.end(html.toString());
     } catch (err) {
-      log(`serveHtml(): ${chalk.red('failed')} to create html, error msg: %s`, err.message);
+      log(`serveHtml(): ${chalk.red('error')} creating html, error msg: %s`, err.message);
       res.end('Failed to create html');
     }
   };

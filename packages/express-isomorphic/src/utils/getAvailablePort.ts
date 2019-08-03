@@ -11,7 +11,7 @@ export default async function getAvailablePort(initialPort): Promise<number> {
       server.listen(port, () => {
         log('openAndCheckConnection(): connect success: %s', port);
         server.close(() => {
-          log(`openAndCheckConnection(): ${chalk.green('successfully')} closed examining server: %s`, port);
+          log(`openAndCheckConnection(): successfully closed examining server: %s`, port);
           resolve(port);
         });
       })
@@ -31,5 +31,7 @@ export default async function getAvailablePort(initialPort): Promise<number> {
       log('getAvailablePort(): port not availble: %s', port);
     }
   }
+
+  log(`getAvailablePort(): ${chalk.red('error')} getting available port`);
   throw new Error('getAvailablePort(): no port availble');
 }

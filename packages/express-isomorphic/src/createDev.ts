@@ -84,7 +84,9 @@ async function createDev<State>({
         });
         return data;
       } catch (err) {
-        log('htmlGenerator(): error occurred. Most likely htmlGeneratorServer is reloading');
+        log(
+          `htmlGenerator(): ${chalk.red('error')} generating html. Most likely htmlGeneratorServer is reloading`,
+        );
         return createHtmlGeneratorErrorHtml(serverState.latestHtmlGenerated);
       }
     },

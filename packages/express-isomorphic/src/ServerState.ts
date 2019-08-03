@@ -1,4 +1,4 @@
-import chalk from 'chalk';
+// import chalk from 'chalk';
 import { logger } from 'jege/server';
 
 import { Server } from 'socket.io';
@@ -29,7 +29,7 @@ export default class ServerState<State> {
 
   update(obj: UpdateArgs): void {
     const stringifiedObj = stringify(obj);
-    log(`serverState: state will ${chalk.green('update')} with: %s`, stringifiedObj);
+    log(`serverState: state will update with: %s`, stringifiedObj);
 
     Object.keys(obj)
       .forEach((key) => {

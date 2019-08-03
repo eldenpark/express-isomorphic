@@ -1,6 +1,7 @@
 {
   "author": "Elden S. Park",
   "dependencies": {
+    "chalk": "^2.4.2",
     "express-isomorphic": "^0.26.0",
     "jege": "^0.4.0",
     "webpack": "^4.33.0",
