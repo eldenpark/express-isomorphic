@@ -1,4 +1,9 @@
 import watch from './watch';
+import {
+  WebpackBuild,
+  WebpackConfig,
+  WebpackServerState,
+} from './types';
 import withWebpack from './withWebpack';
 import withWebpackDev from './withWebpackDev';
 
@@ -8,4 +13,8 @@ export {
   withWebpackDev,
 };
 
-export * from './types';
+export {
+  WebpackBuild,
+  WebpackConfig,
+  WebpackServerState,
+};
