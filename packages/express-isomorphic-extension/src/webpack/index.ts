@@ -7,3 +7,5 @@ export {
   withWebpack,
   withWebpackDev,
 };
+
+export * from './types';
