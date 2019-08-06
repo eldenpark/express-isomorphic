@@ -17,7 +17,7 @@ const makeHtml: MakeHtml<State> = async function makeHtml({
 }) {
   log('makeHtml(): requestUrl: %s, serverState: %j', requestUrl, serverState);
 
-  const { socketPath, socketPort, state } = serverState;
+  const { socketPath, socketPort, state } = serverState.getState();
   const styledComponentsStyleSheet = new ServerStyleSheet();
 
   let element = (

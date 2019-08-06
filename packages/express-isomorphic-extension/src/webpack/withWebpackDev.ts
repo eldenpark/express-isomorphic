@@ -72,11 +72,12 @@ function createWebpackBuildParserDev<State extends WebpackServerState>(
   webpackStats: WebpackStats,
 ): RequestHandler {
   return (req, res, next) => {
-    if (serverState.state.buildHash !== res.locals.webpackStats.hash) {
+    if (serverState.getState().state.buildHash !== res.locals.webpackStats.hash) {
       const webpackBuild = res.locals.webpackStats.toJson(webpackStats);
       const { assets, error } = parseWebpackBuild(webpackBuild);
 
-      serverState.update({
+      serverState.update((object) => ({
+        ...object,
         ...error && {
           error: {
             errorObj: error,
@@ -84,10 +85,11 @@ function createWebpackBuildParserDev<State extends WebpackServerState>(
           },
         },
         state: {
+          ...object.state,
           assets,
           buildHash: res.locals.webpackStats.hash,
         },
-      });
+      }));
     }
     next();
   };

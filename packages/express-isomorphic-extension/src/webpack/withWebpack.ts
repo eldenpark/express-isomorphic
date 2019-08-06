@@ -22,7 +22,8 @@ export default function withWebpack<State extends WebpackServerState>({
 
   log(`bootstrap(): webpackBuild: %j`, webpackBuild);
 
-  serverState.update({
+  serverState.update((object) => ({
+    ...object,
     ...error && {
       error: {
         errorObj: error,
@@ -30,9 +31,10 @@ export default function withWebpack<State extends WebpackServerState>({
       },
     },
     state: {
+      ...object.state,
       assets,
     },
-  });
+  }));
 
   return (app) => {
     return app;

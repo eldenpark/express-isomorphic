@@ -19,7 +19,7 @@ async function create<State>({
     }) => {
       return makeHtml({
         requestUrl,
-        serverState,
+        serverState: serverState.getState(),
       });
     },
   });

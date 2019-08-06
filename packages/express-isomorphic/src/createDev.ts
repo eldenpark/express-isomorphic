@@ -13,7 +13,7 @@ import createExpress, {
   ServerCreation,
 } from './createExpress';
 import getAvailablePort from './utils/getAvailablePort';
-import ServerState from './ServerState';
+import ServerState, { IO } from './ServerState';
 
 const log = logger('[express-isomorphic]');
 
@@ -49,11 +49,12 @@ async function createDev<State>({
         path: socketPath,
       });
 
-      serverState.update({
-        io,
+      serverState.update((object) => ({
+        ...object,
+        [IO]: io,
         socketPath,
         socketPort,
-      });
+      }));
 
       io.on('connection', (socket) => {
         const { clientsCount } = (io.engine as any);
@@ -84,17 +85,20 @@ async function createDev<State>({
       try {
         const { data } = await axios.post(`http://localhost:${htmlGeneratorPort}/makeHtml`, {
           requestUrl,
-          serverState,
+          serverState: serverState.getState(),
         });
-        serverState.update({
+
+        serverState.update((object) => ({
+          ...object,
           latestHtmlGenerated: data,
-        });
+        }));
+
         return data;
       } catch (err) {
         log(
           `htmlGenerator(): ${chalk.red('error')} generating html. Most likely htmlGeneratorServer is reloading`,
         );
-        return createHtmlGeneratorErrorHtml(serverState.latestHtmlGenerated);
+        return createHtmlGeneratorErrorHtml(serverState.getState().latestHtmlGenerated);
       }
     },
   });

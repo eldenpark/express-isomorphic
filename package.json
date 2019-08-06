@@ -46,7 +46,7 @@
   "scripts": {
     "build": "node ./scripts/builder",
     "eslint": "npx eslint . --ext .ts,.tsx,.js,.jsx",
-    "example": "yarn run launch --process example-react",
+    "example": "yarn run launch --process exampleReact",
     "launch": "yarn lerna bootstrap && node ./scripts/launcher",
     "lerna": "node ./node_modules/.bin/lerna",
     "postinstall": "echo \"Most likely you need to run 'yarn run setup'.\"",

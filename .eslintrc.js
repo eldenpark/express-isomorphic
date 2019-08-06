@@ -52,7 +52,9 @@ module.exports = {
       }],
     'sort-destructure-keys/sort-destructure-keys': 2,
     'sort-keys': ['error'],
-    'typescript-sort-keys/interface': 2,
+    'typescript-sort-keys/interface': ['error', 'asc', {
+      caseSensitive: false,
+    }],
     'typescript-sort-keys/string-enum': 2,
     'wrap-iife': ['error', 'inside'],
   },
