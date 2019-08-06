@@ -8053,10 +8053,10 @@ private@^0.1.6:
   resolved "https://registry.yarnpkg.com/private/-/private-0.1.8.tgz#2381edb3689f7a53d653190060fcf822d2f368ff"
   integrity sha512-VvivMrbvd2nKkiG38qjULzlc+4Vx4wm/whI9pQD35YrARNnhxeiRktSOhSukRLFNlzg6Br/cJPet5J/u19r/mg==
 
-process-launch@^0.6.0:
-  version "0.6.0"
-  resolved "https://registry.yarnpkg.com/process-launch/-/process-launch-0.6.0.tgz#62e28a40b8f5fc331f1a344cf51473c57c3822dc"
-  integrity sha512-LIA6MyUhrv35T69itNG2yxgo9ZhoWZc8OOkujSJBfd/J9JzCKodG8Mgrb5nP6SrkUJVWu7ezSeEREX7QtXLsTQ==
+process-launch@^0.6.1:
+  version "0.6.1"
+  resolved "https://registry.yarnpkg.com/process-launch/-/process-launch-0.6.1.tgz#0644c5a7eac3994c34b78dee27773c6af839f6a4"
+  integrity sha512-xPbLH/oXCSfL57J53e//hB6KjtT4HTKAR2BtC53+2MFL72g6xbvdV5XMcaK2CpGoejpRA29T7tTtCgj5Si126Q==
   dependencies:
     chalk "^2.4.2"
     jege "^0.4.0"

@@ -3,6 +3,7 @@
   "dependencies": {
     "axios": "^0.19.0",
     "babel-polyfill": "^6.26.0",
+    "chalk": "^2.4.2",
     "express-isomorphic": "^0.26.1",
     "express-isomorphic-extension": "^0.26.3",
     "jege": "^0.4.0",

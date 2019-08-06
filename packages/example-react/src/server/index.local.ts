@@ -1,3 +1,4 @@
+import chalk from 'chalk';
 import ExpressIsomorphic, {
   Extend,
 } from 'express-isomorphic';
@@ -41,6 +42,7 @@ const extend: Extend<State> = async (app, serverState) => {
 };
 
 (async function local() {
+  const port = process.env.PORT || 6001;
   const { app } = await ExpressIsomorphic.createDev({
     extend,
     makeHtmlPath: path.resolve(paths.dist, 'makeHtml.bundle.js'),
@@ -53,7 +55,7 @@ const extend: Extend<State> = async (app, serverState) => {
 
   const server = http.createServer(app);
 
-  server.listen(6001, () => {
-    log('local(): server is listening on: %s', 6001);
+  server.listen(port, () => {
+    log(`local(): server is listening on: ${chalk.yellow('%s')}`, port);
   });
 })();
