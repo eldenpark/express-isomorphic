@@ -1,7 +1,7 @@
 import {
   MakeHtml,
 } from 'express-isomorphic';
-import { logger } from 'jege';
+import { logger } from 'jege/server';
 import React from 'react';
 import { renderToString } from 'react-dom/server';
 import { ServerStyleSheet } from 'styled-components';
@@ -17,7 +17,7 @@ const makeHtml: MakeHtml<State> = async function makeHtml({
   serverState,
 }) {
   log(
-    'makeHtml(): requestUrl: %s, serverState: %j',
+    'makeHtml(): requestUrl: %s, serverState: %s',
     requestUrl,
     stringifyServerState(serverState),
   );

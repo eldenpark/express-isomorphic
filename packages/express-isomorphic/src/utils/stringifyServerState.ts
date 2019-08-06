@@ -6,9 +6,9 @@ export default function stringifyServerState(serverStateObject) {
         try {
           const stringifiedValue = JSON.stringify(value);
           const abbrev = abbreviateIfLong(stringifiedValue);
-          result += ` ${key}: ${abbrev}`;
+          result += `,"${key}":${abbrev}`;
         } catch (err) {
-          result += ` ${key}: [circular]`;
+          result += `,"${key}":[circular]`;
         }
       } else if (key === 'state') {
         Object.entries(value as any)
@@ -16,16 +16,16 @@ export default function stringifyServerState(serverStateObject) {
             try {
               const stringifiedValue = JSON.stringify(value2);
               const abbrev = abbreviateIfLong(stringifiedValue);
-              result += ` store.${key2}: ${abbrev}`;
+              result += `,"state.${key2}":${abbrev}`;
             } catch (err) {
-              result += ` store.${key2}: [circular]`;
+              result += `,"state.${key2}":[circular]`;
             }
           });
       } else {
         try {
-          result += ` ${key}: ${JSON.stringify(value)}`;
+          result += `"${key}":${JSON.stringify(value)}`;
         } catch (err) {
-          result += ` ${key}: [circular]`;
+          result += `"${key}":[circular]`;
         }
       }
     });
