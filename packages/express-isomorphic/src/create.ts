@@ -25,20 +25,9 @@ async function create<State>({
   });
 }
 
-export interface WebpackBuild {
-  assets: any[];
-  builtAt: number;
-  entrypoints: {
-    [key: string]: {
-      assets: string[];
-    };
-  };
-  errors: any[];
-}
+export default create;
 
 interface CreateArgs<State> {
   extend?: Extend<State>;
   makeHtmlPath: string;
 }
-
-export default create;

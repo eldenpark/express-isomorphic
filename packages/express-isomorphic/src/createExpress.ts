@@ -83,13 +83,6 @@ export interface Extend<State> {
   ): Promise<any>;
 }
 
-export interface WebpackConfig {
-  output: {
-    [key: string]: any;
-  };
-  [key: string]: any;
-}
-
 interface CreateExpress {
   <State>(arg: {
     bootstrap: (

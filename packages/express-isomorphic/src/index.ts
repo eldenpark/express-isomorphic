@@ -2,13 +2,18 @@ import {
   Extend,
   MakeHtml,
   ServerCreation,
-  WebpackConfig,
 } from './createExpress';
 import createDev from './createDev';
 import create, {
-  WebpackBuild,
 } from './create';
-import ServerState from './ServerState';
+import ServerState, {
+  ServerStateObject,
+} from './ServerState';
+import stringifyServerState from './utils/stringifyServerState';
+import {
+  WebpackBuild,
+  WebpackConfig,
+} from './types';
 
 const ExpressIsomorphic = {
   create,
@@ -18,10 +23,16 @@ const ExpressIsomorphic = {
 export default ExpressIsomorphic;
 
 export {
+  stringifyServerState,
+};
+
+export {
   Extend,
   MakeHtml,
+  MakeHtmlPath,
   ServerCreation,
   ServerState,
+  ServerStateObject,
   WebpackBuild,
   WebpackConfig,
 };
