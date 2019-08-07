@@ -1,4 +1,4 @@
-import { logger } from 'jege/server';
+import { logger } from 'jege';
 
 const log = logger('[express-isomorphic]');
 
