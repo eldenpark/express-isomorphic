@@ -1,6 +1,6 @@
 const merge = require('webpack-merge');
+const nodeExternals = require('webpack-node-externals');
 const path = require('path');
-// const webpack = require('webpack');
 
 const paths = require('./paths');
 const webpackConfigClientWeb = require('./webpack.config.client.web');
@@ -8,6 +8,9 @@ const webpackConfigClientWeb = require('./webpack.config.client.web');
 const config = {
   devtool: 'source-map',
   entry: path.resolve(paths.src, 'server/makeHtml.tsx'),
+  externals: [
+    nodeExternals(),
+  ],
   mode: 'development',
   optimization: {
     minimize: false,
@@ -20,6 +23,7 @@ const config = {
   },
   plugins: [
   ],
+  target: 'node',
 };
 
 module.exports = merge(webpackConfigClientWeb, config);

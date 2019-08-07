@@ -23,17 +23,18 @@ async function createDev<State>({
   watchExt,
   watchPaths,
 }: CreateDevArgs<State>): Promise<ServerCreation<State>> {
-  const { pid } = process;
-  const htmlGeneratorPort = await getAvailablePort(10021) + (pid % 10);
+  // const { pid } = process;
+  const normalizedPid: number = process.pid % 10;
+  const htmlGeneratorPort = await getAvailablePort(10021 + normalizedPid);
   const socketPath = `/${Date.now()}/socket.io`;
 
   return createExpress<State>({
     bootstrap: async (app, serverState) => {
       const socketServer = http.createServer();
-      const socketPort: number = await getAvailablePort(20021) + (pid % 10);
+      const socketPort: number = await getAvailablePort(20021 + normalizedPid);
       log(
         `createExpress(): pid: %s, Calculated socketPort: %s Calculated htmlGeneratorPort: %s`,
-        pid,
+        process.pid,
         socketPort,
         htmlGeneratorPort,
       );

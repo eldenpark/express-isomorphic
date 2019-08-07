@@ -7,6 +7,7 @@ import { defaultWebpackStats } from './internals';
 const log = logger('[express-isomorphic-extension]');
 
 export default async function watch(webpackConfig) {
+  log('watch(): initiate compile with config: %j', webpackConfig);
   return new Promise((resolve, reject) => {
     const serverWebpackCompiler = webpack(webpackConfig);
     serverWebpackCompiler.watch({

@@ -4,6 +4,8 @@ import { logger } from 'jege/server';
 
 const log = logger('[express-isomorphic]');
 
+const MAX_TRY = 10;
+
 export default async function getAvailablePort(initialPort): Promise<number> {
   function openAndCheckConnection(port): Promise<number> {
     return new Promise((resolve, reject) => {
@@ -22,7 +24,7 @@ export default async function getAvailablePort(initialPort): Promise<number> {
     });
   }
 
-  for (let port = initialPort; port < initialPort + 10; port += 1) {
+  for (let port = initialPort; port < initialPort + MAX_TRY; port += 1) {
     try {
       const _port = await openAndCheckConnection(port);
       log('getAvailablePort(): port is available: %s', port);
