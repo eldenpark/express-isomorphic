@@ -11,7 +11,6 @@ class ServerState<State> {
 
   constructor(state: State) {
     const serverStateObject = {
-      latestHtmlGenerated: 'html has yet generated',
       state,
     };
     this.serverStateObject = serverStateObject;
@@ -51,7 +50,6 @@ export {
 export type ServerStateObject<State> = {
   error?: Error;
   [IO]?: Server;
-  latestHtmlGenerated: string;
   socketPath?: string;
   socketPort?: number;
   state: State;

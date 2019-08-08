@@ -2,15 +2,7 @@ export default function stringifyServerState(serverStateObject) {
   let result = '';
   Object.entries(serverStateObject)
     .forEach(([key, value]) => {
-      if (key === 'latestHtmlGenerated') {
-        try {
-          const stringifiedValue = JSON.stringify(value);
-          const abbrev = abbreviateIfLong(stringifiedValue);
-          result += `,"${key}":${abbrev}`;
-        } catch (err) {
-          result += `,"${key}":[circular]`;
-        }
-      } else if (key === 'state') {
+      if (key === 'state') {
         Object.entries(value as any)
           .forEach(([key2, value2]) => {
             try {

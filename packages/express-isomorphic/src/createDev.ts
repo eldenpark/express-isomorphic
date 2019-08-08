@@ -26,6 +26,7 @@ async function createDev<State>({
   const normalizedPid: number = process.pid % 10;
   const htmlGeneratorPort = await getAvailablePort(10021 + normalizedPid);
   const socketPath = `/${Date.now()}/socket.io`;
+  let latestHtmlGenerated = 'html has not been generated';
 
   return createExpress<State>({
     bootstrap: async (app, serverState) => {
@@ -88,17 +89,14 @@ async function createDev<State>({
           serverState: serverState.getState(),
         });
 
-        serverState.update((object) => ({
-          ...object,
-          latestHtmlGenerated: data,
-        }));
+        latestHtmlGenerated = data;
 
         return data;
       } catch (err) {
         log(
           `htmlGenerator(): ${chalk.red('error')} generating html. Most likely htmlGeneratorServer is reloading`,
         );
-        return createHtmlGeneratorErrorHtml(serverState.getState().latestHtmlGenerated);
+        return createHtmlGeneratorErrorHtml(latestHtmlGenerated);
       }
     },
   });
