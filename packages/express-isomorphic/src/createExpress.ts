@@ -23,7 +23,10 @@ const createExpress: CreateExpress = async <State extends {}> ({
 
   if (extend) {
     log('createExpress(): extend is defined thus registered');
-    await extend(app, serverState);
+    (extend as Extend<State>)(app, serverState)
+      .then(() => {
+        log('createExpress(): extend is resolved');
+      });
   }
   await bootstrap(app, serverState);
 

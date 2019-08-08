@@ -23,7 +23,6 @@ async function createDev<State>({
   watchExt,
   watchPaths,
 }: CreateDevArgs<State>): Promise<ServerCreation<State>> {
-  // const { pid } = process;
   const normalizedPid: number = process.pid % 10;
   const htmlGeneratorPort = await getAvailablePort(10021 + normalizedPid);
   const socketPath = `/${Date.now()}/socket.io`;

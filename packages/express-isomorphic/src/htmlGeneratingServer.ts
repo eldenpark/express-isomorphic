@@ -17,7 +17,7 @@ log('htmlGeneratingServer(): command line arguments: %j', argv);
   const app = express();
   const port = argv.port || 10021;
   const makeHtmlPath = requireNonEmpty(argv.makeHtmlPath, 'makeHtmlPath should be provided');
-  const makeHtml: MakeHtml<any> = require(makeHtmlPath).default || require(makeHtmlPath);
+  let cachedMakeHtmlModule: MakeHtml<any>;
 
   app.use(bodyParser.json());
 
@@ -29,10 +29,13 @@ log('htmlGeneratingServer(): command line arguments: %j', argv);
 
     let html: string;
     try {
+      const makeHtml = cachedMakeHtmlModule
+        || (require(makeHtmlPath).default || require(makeHtmlPath));
       html = (await makeHtml({
         requestUrl,
         serverState,
       })).toString();
+      cachedMakeHtmlModule = makeHtml;
     } catch (err) {
       log('htmlGeneratingServer(): error making html: %o', err);
       html = createErrorHtml(err, requestUrl);
