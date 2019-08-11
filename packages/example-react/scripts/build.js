@@ -3,7 +3,7 @@ const chalk = require('chalk');
 const { compile } = require('express-isomorphic-extension/webpack');
 const del = require('del');
 const gulp = require('gulp');
-const { buildLogger, logger } = require('jege/server');
+const { buildLogger } = require('jege/server');
 const path = require('path');
 
 const babelRc = require('./.babelRc');
@@ -11,7 +11,6 @@ const webpackConfigClient = require('../src/webpack/webpack.config.client.prod.w
 const webpackConfigServer = require('../src/webpack/webpack.config.server.prod');
 
 const buildLog = buildLogger('[example-react]');
-const log = logger('[example-react]');
 
 const paths = {
   build: path.resolve(__dirname, '../build'),
@@ -40,10 +39,10 @@ gulp.task('webpack-client', () => {
     webpackConfig: webpackConfigClient,
   })
     .then((result) => {
-      log('webpack-client', 'success: %j', result);
+      buildLog('webpack-client', 'success: %j', result);
     })
     .catch((err) => {
-      log('webpack-client', 'error: %o', err);
+      buildLog('webpack-client', 'error: %o', err);
       throw err;
     });
 });
@@ -55,7 +54,7 @@ gulp.task('webpack-makeHtml', () => {
     webpackConfig: webpackConfigServer,
   })
     .then((result) => {
-      buildLog(`webpack-makehtml`, `${chalk.green('success')}: %`, result);
+      buildLog(`webpack-makehtml`, `${chalk.green('success')}: %j`, result);
     })
     .catch((err) => {
       buildLog('webpack-makehtml', `${chalk.red('error')}: %o`, err);

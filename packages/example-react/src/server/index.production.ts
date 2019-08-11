@@ -10,14 +10,14 @@ import { logger } from 'jege/server';
 import path from 'path';
 import { withWebpack } from 'express-isomorphic-extension/webpack';
 
-import State from './State';
+import IsomorphicState from './IsomorphicState';
 import webpackConfig from '../webpack/webpack.config.client.prod.web';
 
 const webpackBuild = require('../../dist/build.json');
 
 const log = logger('[example-react]');
 
-const extend: Extend<State> = async (app, serverState) => {
+const extend: Extend<IsomorphicState> = async (app, serverState) => {
   app.use((req: Request, res, next: NextFunction) => {
     log('extend(): requestUrl: %s', req.url);
     next();
@@ -32,7 +32,16 @@ const extend: Extend<State> = async (app, serverState) => {
   log('extend(): publicPath: %s, outputPath: %s', publicPath, outputPath);
   app.use(publicPath, express.static(outputPath));
 
-  return true;
+  return Promise.all([])
+    .then(() => {
+      serverState.update((object) => ({
+        ...object,
+        state: {
+          ...object.state,
+          publicPath,
+        },
+      }));
+    });
 };
 
 (async () => {

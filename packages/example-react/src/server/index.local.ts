@@ -14,7 +14,7 @@ import {
   withWebpackDev,
 } from 'express-isomorphic-extension/webpack';
 
-import State from './State';
+import State from './IsomorphicState';
 import webpackConfig from '../webpack/webpack.config.client.local.web';
 import webpackConfigServer from '../webpack/webpack.config.server.local';
 

@@ -1,15 +1,17 @@
 const { argv } = require('yargs');
+const chalk = require('chalk');
 const { logger } = require('jege/server');
 
 const babelRc = require('./.babelRc');
 const { gulp } = require('./build');
 
 const log = logger('[example-react]');
+const { NODE_ENV } = process.env;
 
 function launch() {
-  log('launch(): argv: %j', argv);
+  log(`launch(): argv: %j, NODE_ENV: ${chalk.yellow('%s')}`, argv, NODE_ENV);
 
-  if (argv._.includes('production')) {
+  if (NODE_ENV === 'production') {
     const buildTask = gulp.task('build');
 
     buildTask(() => {

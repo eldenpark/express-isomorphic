@@ -6,14 +6,13 @@ export function createAssetElements(
   assets: string[] = [],
   publicPath?: string,
 ): string {
-  const _publicPath = publicPath ? `/${publicPath}` : '/';
   return assets.map((asset) => {
     if (asset.endsWith('.js')) {
-      return `<script src="${_publicPath}/${asset}"></script>`;
+      return `<script src="${publicPath}${asset}"></script>`;
     }
 
     if (asset.endsWith('.css')) {
-      return `<link rel="stylesheet" type="text/css" href="${_publicPath}/${asset}">`;
+      return `<link rel="stylesheet" type="text/css" href="${publicPath}${asset}">`;
     }
 
     log('getAssets(): The type of asset is not handled: %s', asset);

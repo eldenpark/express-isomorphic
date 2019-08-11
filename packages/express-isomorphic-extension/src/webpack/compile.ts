@@ -32,7 +32,7 @@ export default async function compile({
         if (buildJsonPath) {
           writeBuildJson(buildJsonPath, err);
         }
-        reject(err);
+        reject(err || stats.toJson('errors-only'));
       } else {
         const result = stats.toJson(webpackStats || defaultWebpackStats);
         if (buildJsonPath) {

@@ -23,6 +23,7 @@ const config = {
   },
   plugins: [
   ],
+  target: 'node',
 };
 
 module.exports = merge(webpackConfigClientWeb, config);

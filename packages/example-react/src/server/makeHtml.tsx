@@ -12,7 +12,7 @@ import { renderToString } from 'react-dom/server';
 import { ServerStyleSheet } from 'styled-components';
 
 import ServerApp from './ServerApp';
-import State from './State';
+import State from './IsomorphicState';
 
 const log = logger('[example-react]');
 
@@ -27,6 +27,7 @@ const makeHtml: MakeHtml<State> = async function makeHtml({
   );
 
   const { socketPath, socketPort, state } = serverState;
+  const { publicPath } = state;
   const styledComponentsStyleSheet = new ServerStyleSheet();
 
   let element = (
@@ -52,7 +53,7 @@ const makeHtml: MakeHtml<State> = async function makeHtml({
 </head>
 <body>
   <div id="app-root">${appRootInString}</div>
-  ${createAssetElements(state.assets, 'public')}
+  ${createAssetElements(state.assets, publicPath)}
   <script>
     ${createSocketScriptElement(socketPort, socketPath)}
   </script>
