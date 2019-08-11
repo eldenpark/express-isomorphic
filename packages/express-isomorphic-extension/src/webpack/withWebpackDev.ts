@@ -4,7 +4,10 @@ import {
 } from 'express';
 import { logger } from 'jege/server';
 import { ServerState } from 'express-isomorphic';
-import webpack from 'webpack';
+import webpack, {
+  Configuration,
+  Stats,
+} from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
 
@@ -13,9 +16,7 @@ import {
   parseWebpackBuild,
 } from './internals';
 import {
-  WebpackConfig,
   WebpackServerState,
-  WebpackStats,
 } from './types';
 
 const log = logger('[express-isomorphic-extension]');
@@ -44,8 +45,8 @@ function createWebpackMiddlewares({
   webpackConfig,
   webpackStats,
 }: {
-  webpackConfig: WebpackConfig;
-  webpackStats?: WebpackStats;
+  webpackConfig: Configuration;
+  webpackStats?: Stats.ToJsonOptions;
 }) {
   log(
     'createWebpackMiddlewares(): webpack-client-local will be compiled with config: %j',
@@ -54,7 +55,7 @@ function createWebpackMiddlewares({
   const clientWebpackCompiler = webpack(webpackConfig);
 
   const devMiddleware = webpackDevMiddleware(clientWebpackCompiler, {
-    publicPath: webpackConfig.output.publicPath,
+    publicPath: webpackConfig.output!.publicPath,
     serverSideRender: true,
     stats: webpackStats || defaultWebpackStats,
   });
@@ -69,7 +70,7 @@ function createWebpackMiddlewares({
 
 function createWebpackBuildParserDev<State extends WebpackServerState>(
   serverState: ServerState<State>,
-  webpackStats: WebpackStats,
+  webpackStats: Stats.ToJsonOptions,
 ): RequestHandler {
   return (req, res, next) => {
     if (serverState.getState().state.buildHash !== res.locals.webpackStats.hash) {
@@ -97,6 +98,6 @@ function createWebpackBuildParserDev<State extends WebpackServerState>(
 
 interface WithWebpackDevArgs<State extends WebpackServerState> {
   serverState: ServerState<State>;
-  webpackConfig: WebpackConfig;
-  webpackStats?: WebpackStats;
+  webpackConfig: Configuration;
+  webpackStats?: Stats.ToJsonOptions;
 }

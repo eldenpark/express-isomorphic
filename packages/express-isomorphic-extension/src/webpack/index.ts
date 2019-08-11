@@ -1,20 +1,18 @@
+import compile from './compile';
 import watch from './watch';
 import {
-  WebpackBuild,
-  WebpackConfig,
   WebpackServerState,
 } from './types';
 import withWebpack from './withWebpack';
 import withWebpackDev from './withWebpackDev';
 
 export {
+  compile,
   watch,
   withWebpack,
   withWebpackDev,
 };
 
 export {
-  WebpackBuild,
-  WebpackConfig,
   WebpackServerState,
 };

@@ -1,6 +1,6 @@
 import { logger } from 'jege/server';
 
-import { WebpackBuild } from './types';
+import { Stats } from 'webpack';
 
 const log = logger('[express-isomorphic-extension]');
 
@@ -16,7 +16,7 @@ export const defaultWebpackStats = {
 
 export function parseWebpackBuild({
   entrypoints,
-}: WebpackBuild): ParsedWebpackBuild {
+}: Stats.ToJsonOutput): ParsedWebpackBuild {
   log('parseWebpackBuildInfo(): entrypoints: %j', entrypoints);
 
   const assets: string[] = [];

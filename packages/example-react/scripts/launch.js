@@ -14,7 +14,7 @@ function launch() {
 
     buildTask(() => {
       log('launch(): build complete, launching...');
-      require('../build/server/production.js');
+      require('../build/server/index.production.js');
     });
   } else {
     require('@babel/register')({

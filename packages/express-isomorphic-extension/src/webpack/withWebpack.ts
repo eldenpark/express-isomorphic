@@ -3,12 +3,12 @@ import {
 } from 'express';
 import { logger } from 'jege/server';
 import { ServerState } from 'express-isomorphic';
+import { Stats } from 'webpack';
 
 import {
   parseWebpackBuild,
 } from './internals';
 import {
-  WebpackBuild,
   WebpackServerState,
 } from './types';
 
@@ -43,5 +43,5 @@ export default function withWebpack<State extends WebpackServerState>({
 
 interface WithWebpackArgs<State extends WebpackServerState> {
   serverState: ServerState<State>;
-  webpackBuild: WebpackBuild;
+  webpackBuild: Stats.ToJsonOutput;
 }

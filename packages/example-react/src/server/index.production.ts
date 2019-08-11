@@ -8,7 +8,7 @@ import ExpressIsomorphic, {
 import http from 'http';
 import { logger } from 'jege/server';
 import path from 'path';
-import { withWebpack } from 'express-isomorphic-extension';
+import { withWebpack } from 'express-isomorphic-extension/webpack';
 
 import State from './State';
 import webpackConfig from '../webpack/webpack.config.client.prod.web';

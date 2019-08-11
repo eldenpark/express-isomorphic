@@ -1,12 +1,14 @@
 const babel = require('gulp-babel');
+const chalk = require('chalk');
+const { compile } = require('express-isomorphic-extension/webpack');
 const del = require('del');
-const fs = require('fs');
 const gulp = require('gulp');
 const { buildLogger, logger } = require('jege/server');
 const path = require('path');
-const webpack = require('webpack');
 
 const babelRc = require('./.babelRc');
+const webpackConfigClient = require('../src/webpack/webpack.config.client.prod.web');
+const webpackConfigServer = require('../src/webpack/webpack.config.server.prod');
 
 const buildLog = buildLogger('[example-react]');
 const log = logger('[example-react]');
@@ -17,12 +19,6 @@ const paths = {
   lib: path.resolve(__dirname, '../lib'),
   src: path.resolve(__dirname, '../src'),
 };
-
-function writeWebpackBuildJson(buildInfo) {
-  const buildJsonPath = path.resolve(paths.dist, 'build.json');
-  fs.writeFileSync(buildJsonPath, JSON.stringify(buildInfo, null, 2));
-  log('writeWebpackBuildJson(): buildJsonPath: %s, buildInfo: %j', buildJsonPath, buildInfo);
-}
 
 gulp.task('clean', () => {
   const targetPaths = [
@@ -35,59 +31,36 @@ gulp.task('clean', () => {
   return del(targetPaths);
 });
 
-gulp.task('webpack-bundle', (done) => {
-  const webpackConfigPath = path.resolve(paths.src, 'webpack/webpack.config.client.prod.web.js');
-  buildLog('webpack-bundle', 'configPath: %s', webpackConfigPath);
+gulp.task('webpack-client', () => {
+  const buildJsonPath = path.resolve(paths.dist, 'build.json');
+  buildLog('webpack-client', 'buildJsonPath: %s', buildJsonPath);
 
-  try {
-    const webpackConfig = require(webpackConfigPath);
-    const webpackStats = {
-      all: false,
-      assets: true,
-      builtAt: true,
-      chunks: true,
-      color: true,
-      entrypoints: true,
-      errors: true,
-    };
-
-    webpack(webpackConfig, (err, stats) => {
-      const result = stats.toJson('minimal');
-      if (err || stats.hasErrors()) {
-        buildLog('webpack-bundle', 'webpack(): error: %o, result: %j', err, result);
-        writeWebpackBuildJson(stats.toJson(webpackStats));
-        done('error');
-      } else {
-        writeWebpackBuildJson(stats.toJson(webpackStats));
-        done();
-      }
+  return compile({
+    buildJsonPath,
+    webpackConfig: webpackConfigClient,
+  })
+    .then((result) => {
+      log('webpack-client', 'success: %j', result);
+    })
+    .catch((err) => {
+      log('webpack-client', 'error: %o', err);
+      throw err;
     });
-  } catch (err) {
-    buildLog('webpack-bundle', 'webpack(): error: %o', err);
-    done('error');
-  }
 });
 
-gulp.task('webpack-makeHtml', (done) => {
-  const webpackConfigPath = path.resolve(paths.src, 'webpack/webpack.config.server.prod.js');
-  buildLog('webpack-makeHtml', 'configPath: %s', webpackConfigPath);
+gulp.task('webpack-makeHtml', () => {
+  buildLog('webpack-makeHtml', 'start comilling');
 
-  try {
-    const webpackConfig = require(webpackConfigPath);
-
-    webpack(webpackConfig, (err, stats) => {
-      const result = stats.toJson('minimal');
-      if (err || stats.hasErrors()) {
-        buildLog('webpack-makeHtml', 'webpack(): error: %o, result: %j', err, result);
-        done('error');
-      } else {
-        done();
-      }
+  return compile({
+    webpackConfig: webpackConfigServer,
+  })
+    .then((result) => {
+      buildLog(`webpack-makehtml`, `${chalk.green('success')}: %`, result);
+    })
+    .catch((err) => {
+      buildLog('webpack-makehtml', `${chalk.red('error')}: %o`, err);
+      throw err;
     });
-  } catch (err) {
-    buildLog('webpack-makeHtml', 'webpack(): error: %o', err);
-    done('error');
-  }
 });
 
 gulp.task('copy-public', () => {
@@ -99,7 +72,7 @@ gulp.task('copy-public', () => {
     .pipe(gulp.dest(destPath));
 });
 
-gulp.task('build-example', (done) => {
+gulp.task('babel', (done) => {
   const srcPath = `${paths.src}/**/*.{js,jsx,ts,tsx}`;
   buildLog('build-example', 'srcPath: %s, destPath: %j, babelRc: %j', srcPath, paths.dist, babelRc);
 
@@ -112,7 +85,8 @@ gulp.task('build-example', (done) => {
 });
 
 gulp.task('build-dev', gulp.series('clean', 'copy-public'));
-gulp.task('build', gulp.series('clean', 'webpack-bundle', 'webpack-makeHtml', 'build-example'));
+
+gulp.task('build', gulp.series('clean', 'webpack-client', 'webpack-makeHtml', 'babel'));
 
 function build(callback) {
   const buildTask = gulp.task('build');
