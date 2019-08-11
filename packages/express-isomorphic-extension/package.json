@@ -2,7 +2,7 @@
   "author": "Elden S. Park",
   "dependencies": {
     "chalk": "^2.4.2",
-    "express-isomorphic": "^0.31.0",
+    "express-isomorphic": "^0.31.1",
     "jege": "^0.4.0",
     "webpack": "^4.33.0",
     "webpack-dev-middleware": "^3.7.0",
@@ -30,6 +30,6 @@
     "dev": "node ./src/launch.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "version": "0.31.0",
+  "version": "0.31.1",
   "gitHead": "655b8fdf704c7707f4c0c9ed27bc8d89b572e7b5"
 }
