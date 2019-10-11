@@ -27,7 +27,6 @@ const makeHtml: MakeHtml<State> = async function makeHtml({
   );
 
   const { socketPath, socketPort, state } = serverState;
-  const { publicPath } = state;
   const styledComponentsStyleSheet = new ServerStyleSheet();
 
   let element = (
@@ -53,7 +52,7 @@ const makeHtml: MakeHtml<State> = async function makeHtml({
 </head>
 <body>
   <div id="app-root">${appRootInString}</div>
-  ${createAssetElements(state.assets, publicPath)}
+  ${createAssetElements(state.assets, state.publicPath)}
   <script>
     ${createSocketScriptElement(socketPort, socketPath)}
   </script>

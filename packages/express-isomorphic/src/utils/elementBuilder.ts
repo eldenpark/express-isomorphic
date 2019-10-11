@@ -21,7 +21,7 @@ export function createAssetElements(
     .join('');
 }
 
-export function createStingifiableObjectElement(key: string, object: any) {
+export function createStringifiableObjectElement(key: string, object: any) {
   const stringifiedObj = JSON.stringify(object)
     .replace(/</g, '\\u003c');
 

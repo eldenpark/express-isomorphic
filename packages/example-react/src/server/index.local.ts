@@ -38,6 +38,12 @@ const extend: Extend<State> = async (app, serverState) => {
     webpackConfig,
   })(app);
 
+  serverState.update(() => ({
+    state: {
+      publicPath: webpackConfig.output.publicPath,
+    },
+  }));
+
   return watch(webpackConfigServer);
 };
 
