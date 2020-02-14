@@ -14,7 +14,7 @@ import {
   withWebpackDev,
 } from 'express-isomorphic-extension/webpack';
 
-import State from './IsomorphicState';
+import IsomorphicState from './IsomorphicState';
 import webpackConfig from '../webpack/webpack.config.client.local.web';
 import webpackConfigServer from '../webpack/webpack.config.server.local';
 
@@ -25,7 +25,7 @@ const paths = {
 
 const log = logger('[example-react]');
 
-const extend: Extend<State> = async (app, serverState) => {
+const extend: Extend<IsomorphicState> = async (app, serverState) => {
   app.use((req: Request, res, next: NextFunction) => {
     log('extend(): requestUrl: %s', req.url);
     next();
@@ -38,8 +38,10 @@ const extend: Extend<State> = async (app, serverState) => {
     webpackConfig,
   })(app);
 
-  serverState.update(() => ({
+  serverState.update((object) => ({
+    ...object,
     state: {
+      ...object.state,
       publicPath: webpackConfig.output.publicPath,
     },
   }));

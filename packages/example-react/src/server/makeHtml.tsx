@@ -12,11 +12,11 @@ import { renderToString } from 'react-dom/server';
 import { ServerStyleSheet } from 'styled-components';
 
 import ServerApp from './ServerApp';
-import State from './IsomorphicState';
+import IsomorphicState from './IsomorphicState';
 
 const log = logger('[example-react]');
 
-const makeHtml: MakeHtml<State> = async function makeHtml({
+const makeHtml: MakeHtml<IsomorphicState> = async function makeHtml({
   requestUrl,
   serverState,
 }) {
