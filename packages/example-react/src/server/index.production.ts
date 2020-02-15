@@ -17,6 +17,10 @@ const webpackBuild = require('../../dist/build.json');
 
 const log = logger('[example-react]');
 
+const paths = {
+  dist: path.resolve(__dirname, '../../dist'),
+};
+
 const extend: Extend<IsomorphicState> = async (app, serverState) => {
   app.use((req: Request, res, next: NextFunction) => {
     log('extend(): requestUrl: %s', req.url);
@@ -45,7 +49,8 @@ const extend: Extend<IsomorphicState> = async (app, serverState) => {
 };
 
 (async () => {
-  const { app } = await ExpressIsomorphic.create({
+  const { app, eject } = await ExpressIsomorphic.create({
+    ejectPath: paths.dist,
     extend,
     makeHtmlPath: path.resolve(__dirname, '../makeHtml.bundle.js'),
   });
@@ -56,5 +61,10 @@ const extend: Extend<IsomorphicState> = async (app, serverState) => {
 
   httpServer.listen(port, () => {
     log('productionServer listening on: %s', port);
+  });
+
+  await eject({
+    fileName: 'index.html',
+    requestUrl: `http://localhost:${port}/`,
   });
 })();

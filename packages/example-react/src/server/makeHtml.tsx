@@ -53,9 +53,7 @@ const makeHtml: MakeHtml<IsomorphicState> = async function makeHtml({
 <body>
   <div id="app-root">${appRootInString}</div>
   ${createAssetElements(state.assets, state.publicPath)}
-  <script>
-    ${createSocketScriptElement(socketPort, socketPath)}
-  </script>
+  ${createSocketScriptElement(socketPort, socketPath)}
 </body>
 </html>
 `;

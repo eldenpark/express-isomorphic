@@ -7461,6 +7461,11 @@ object.values@^1.1.0:
     function-bind "^1.1.1"
     has "^1.0.3"
 
+objekt@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/objekt/-/objekt-0.1.0.tgz#67dde9eac21b79b7fe59f13cfc08c89ed42b48d3"
+  integrity sha512-+KxHFt1GmQm/qROxUB7gbJm8UH6lOA7SKycwehKuT9ScB5QPRm3Sds+DsHmujjIxCzqouOlJbjLxNUGdgUi69w==
+
 octokit-pagination-methods@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/octokit-pagination-methods/-/octokit-pagination-methods-1.1.0.tgz#cf472edc9d551055f9ef73f6e42b4dbb4c80bea4"

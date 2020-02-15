@@ -4,8 +4,7 @@ import {
   ServerCreation,
 } from './createExpress';
 import createDev from './createDev';
-import create, {
-} from './create';
+import create from './create';
 import ServerState, {
   ServerStateObject,
 } from './ServerState';

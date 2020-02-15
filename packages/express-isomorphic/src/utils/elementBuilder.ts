@@ -36,6 +36,7 @@ export function createStyleElement(styleDef, id?: string) {
 export function createSocketScriptElement(socketPort?, socketPath?: string) {
   if (socketPort && socketPath) {
     return socketPort && socketPath && `
+<script>
 if (window.io) {
   var socket = io('http://localhost:${socketPort}', {
     path: '${socketPath}',
@@ -43,7 +44,8 @@ if (window.io) {
   socket.on('express-isomorphic', function ({ msg }) {
     console.log('[express-isomorphic] %s', msg);
   });
-}`;
+}
+</sciprt>`;
   }
   return '';
 }

@@ -4,6 +4,7 @@ import express, {
 } from 'express';
 import { logger } from 'jege/server';
 
+import createEject from './createEject';
 import ServerState, {
   ServerStateObject,
 } from './ServerState';
@@ -12,6 +13,7 @@ const log = logger('[express-isomorphic]');
 
 const createExpress: CreateExpress = async <State extends {}> ({
   bootstrap,
+  ejectPath,
   extend,
   htmlGenerator,
   state,
@@ -20,13 +22,12 @@ const createExpress: CreateExpress = async <State extends {}> ({
 
   const serverState = new ServerState<State>(state || {});
   const app = express();
+  const eject = createEject(ejectPath);
 
   if (extend) {
     log('createExpress(): extend is defined thus registered');
-    (extend as Extend<State>)(app, serverState)
-      .then(() => {
-        log('createExpress(): extend is resolved');
-      });
+    await (extend as Extend<State>)(app, serverState);
+    log('createExpress(): extend is resolved');
   }
   await bootstrap(app, serverState);
 
@@ -36,6 +37,7 @@ const createExpress: CreateExpress = async <State extends {}> ({
 
   return {
     app,
+    eject,
     serverState,
   };
 };
@@ -67,6 +69,7 @@ export default createExpress;
 
 export interface ServerCreation<State> {
   app: express.Application;
+  eject;
   serverState: ServerState<State>;
 }
 
@@ -92,6 +95,7 @@ interface CreateExpress {
       app: express.Application,
       serverState: ServerState<State>,
     ) => void;
+    ejectPath?: string;
     extend?: Extend<State>;
     htmlGenerator: HtmlGenerator<State>;
   }): Promise<ServerCreation<State>>;
