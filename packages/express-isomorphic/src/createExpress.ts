@@ -13,7 +13,6 @@ const log = logger('[express-isomorphic]');
 
 const createExpress: CreateExpress = async <State extends {}> ({
   bootstrap,
-  ejectPath,
   extend,
   htmlGenerator,
   state,
@@ -22,7 +21,7 @@ const createExpress: CreateExpress = async <State extends {}> ({
 
   const serverState = new ServerState<State>(state || {});
   const app = express();
-  const eject = createEject(ejectPath);
+  const eject = createEject();
 
   if (extend) {
     log('createExpress(): extend is defined thus registered');
@@ -95,7 +94,6 @@ interface CreateExpress {
       app: express.Application,
       serverState: ServerState<State>,
     ) => void;
-    ejectPath?: string;
     extend?: Extend<State>;
     htmlGenerator: HtmlGenerator<State>;
   }): Promise<ServerCreation<State>>;

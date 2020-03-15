@@ -1,6 +1,5 @@
 {
   "compilerOptions": {
-    "allowJs": true,
     "baseUrl": "./",
     "emitDecoratorMetadata": true,
     "esModuleInterop": true,

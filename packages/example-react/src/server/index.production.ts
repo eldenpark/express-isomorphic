@@ -50,7 +50,6 @@ const extend: Extend<IsomorphicState> = async (app, serverState) => {
 
 (async () => {
   const { app, eject } = await ExpressIsomorphic.create({
-    ejectPath: paths.dist,
     extend,
     makeHtmlPath: path.resolve(__dirname, '../makeHtml.bundle.js'),
   });
@@ -63,8 +62,9 @@ const extend: Extend<IsomorphicState> = async (app, serverState) => {
     log('productionServer listening on: %s', port);
   });
 
+  const filePath = path.resolve(paths.dist, 'index.html');
   await eject({
-    fileName: 'index.html',
+    filePath,
     requestUrl: `http://localhost:${port}/`,
   });
 })();

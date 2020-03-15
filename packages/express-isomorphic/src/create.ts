@@ -5,7 +5,6 @@ import createExpress, {
 } from './createExpress';
 
 async function create<State>({
-  ejectPath,
   extend,
   makeHtmlPath,
 }: CreateArgs<State>): Promise<ServerCreation<State>> {
@@ -13,7 +12,6 @@ async function create<State>({
 
   return createExpress<State>({
     bootstrap: () => {},
-    ejectPath,
     extend,
     htmlGenerator: async ({
       requestUrl,
@@ -30,7 +28,6 @@ async function create<State>({
 export default create;
 
 interface CreateArgs<State> {
-  ejectPath?: string;
   extend?: Extend<State>;
   makeHtmlPath: string;
 }

@@ -73,7 +73,7 @@ gulp.task('copy-public', () => {
 
 gulp.task('babel', (done) => {
   const srcPath = `${paths.src}/**/*.{js,jsx,ts,tsx}`;
-  buildLog('build-example', 'srcPath: %s, destPath: %j, babelRc: %j', srcPath, paths.dist, babelRc);
+  buildLog('babel', 'srcPath: %s, destPath: %j, babelRc: %j', srcPath, paths.dist, babelRc);
 
   return gulp.src([srcPath], {
     dot: true,
