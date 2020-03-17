@@ -30,7 +30,7 @@ export default function withWebpackDev<State extends WebpackServerState>({
     webpackConfig,
   });
 
-  const webpackBuildParserLocal = createWebpackBuildParserDev<State>(serverState, webpackStats);
+  const webpackBuildParserLocal = createWebpackBuildParserDev(serverState, webpackStats);
 
   return (app) => {
     return app.use([
@@ -68,29 +68,26 @@ function createWebpackMiddlewares({
   return { devMiddleware, hotMiddleware };
 }
 
-function createWebpackBuildParserDev<State extends WebpackServerState>(
-  serverState: ServerState<State>,
+function createWebpackBuildParserDev(
+  serverState: ServerState<WebpackServerState>,
   webpackStats: Stats.ToJsonOptions,
 ): RequestHandler {
   return (req, res, next) => {
-    if (serverState.getState().state.buildHash !== res.locals.webpackStats.hash) {
+    if (serverState.state.buildHash !== res.locals.webpackStats.hash) {
       const webpackBuild = res.locals.webpackStats.toJson(webpackStats);
       const { assets, error } = parseWebpackBuild(webpackBuild);
 
-      serverState.update((object) => ({
-        ...object,
-        ...error && {
-          error: {
-            errorObj: error,
-            type: 'LOCAL_WEBPACK_BUILD_ERROR',
-          },
-        },
-        state: {
-          ...object.state,
-          assets,
-          buildHash: res.locals.webpackStats.hash,
-        },
+      serverState.update(() => ({
+        assets,
+        buildHash: res.locals.webpackStats.hash,
       }));
+
+      if (error) {
+        serverState.error = {
+          errorObj: error,
+          type: 'LOCAL_WEBPACK_BUILD_ERROR',
+        };
+      }
     }
     next();
   };

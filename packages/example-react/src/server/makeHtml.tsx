@@ -1,7 +1,6 @@
 import {
   createAssetElements,
   createSocketScriptElement,
-  stringifyServerState,
 } from 'express-isomorphic/utils';
 import {
   MakeHtml,
@@ -11,8 +10,8 @@ import React from 'react';
 import { renderToString } from 'react-dom/server';
 import { ServerStyleSheet } from 'styled-components';
 
-import ServerApp from './ServerApp';
 import IsomorphicState from './IsomorphicState';
+import ServerApp from './ServerApp';
 
 const log = logger('[example-react]');
 
@@ -21,9 +20,9 @@ const makeHtml: MakeHtml<IsomorphicState> = async function makeHtml({
   serverState,
 }) {
   log(
-    'makeHtml(): requestUrl: %s, serverState: %s',
+    'makeHtml(): requestUrl: %s, serverState: %i',
     requestUrl,
-    stringifyServerState(serverState),
+    serverState,
   );
 
   const { socketPath, socketPort, state } = serverState;

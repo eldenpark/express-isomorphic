@@ -1,3 +1,4 @@
+// deprecated
 export default function stringifyServerState(serverStateObject) {
   let result = '';
   Object.entries(serverStateObject)

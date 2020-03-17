@@ -38,6 +38,9 @@ module.exports = {
     'import/prefer-default-export': ['off'],
     'lines-between-class-members': ['off'],
     'no-await-in-loop': ['off'],
+    'no-param-reassign': ['error', {
+      props: false,
+    }],
     'no-underscore-dangle': ['off'],
     'no-use-before-define': ['error', {
       functions: false,

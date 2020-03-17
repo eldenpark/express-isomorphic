@@ -14,34 +14,31 @@ import {
 
 const log = logger('[express-isomorphic-extension]');
 
-export default function withWebpack<State extends WebpackServerState>({
+export default function withWebpack({
   serverState,
   webpackBuild,
-}: WithWebpackArgs<State>): (app: Application) => Application {
+}: WithWebpackArgs<WebpackServerState>): (app: Application) => Application {
   const { assets, error } = parseWebpackBuild(webpackBuild);
 
   log(`bootstrap(): webpackBuild: %j`, webpackBuild);
 
-  serverState.update((object) => ({
-    ...object,
-    ...error && {
-      error: {
-        errorObj: error,
-        type: 'WEBPACK_BUILD_ERROR',
-      },
-    },
-    state: {
-      ...object.state,
-      assets,
-    },
+  serverState.update(() => ({
+    assets,
   }));
+
+  if (error) {
+    serverState.error = {
+      errorObj: error,
+      type: 'WEBPACK_BUILD_ERROR',
+    };
+  }
 
   return (app) => {
     return app;
   };
 }
 
-interface WithWebpackArgs<State extends WebpackServerState> {
+interface WithWebpackArgs<State> {
   serverState: ServerState<State>;
   webpackBuild: Stats.ToJsonOutput;
 }

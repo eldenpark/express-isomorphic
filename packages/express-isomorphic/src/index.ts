@@ -5,10 +5,7 @@ import {
 } from './createExpress';
 import createDev from './createDev';
 import create from './create';
-import ServerState, {
-  ServerStateObject,
-} from './ServerState';
-import stringifyServerState from './utils/stringifyServerState';
+import ServerState from './ServerState';
 import {
   WebpackBuild,
   WebpackConfig,
@@ -22,16 +19,11 @@ const ExpressIsomorphic = {
 export default ExpressIsomorphic;
 
 export {
-  stringifyServerState,
-};
-
-export {
   Extend,
   MakeHtml,
   MakeHtmlPath,
   ServerCreation,
   ServerState,
-  ServerStateObject,
   WebpackBuild,
   WebpackConfig,
 };

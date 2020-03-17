@@ -38,12 +38,8 @@ const extend: Extend<IsomorphicState> = async (app, serverState) => {
     webpackConfig,
   })(app);
 
-  serverState.update((object) => ({
-    ...object,
-    state: {
-      ...object.state,
-      publicPath: webpackConfig.output.publicPath,
-    },
+  serverState.update(() => ({
+    publicPath: webpackConfig.output.publicPath,
   }));
 
   return watch(webpackConfigServer);
@@ -51,7 +47,7 @@ const extend: Extend<IsomorphicState> = async (app, serverState) => {
 
 (async function local() {
   const port = process.env.PORT || 6001;
-  const { app } = await ExpressIsomorphic.createDev({
+  const { app, serverState } = await ExpressIsomorphic.createDev({
     extend,
     makeHtmlPath: path.resolve(paths.dist, 'makeHtml.bundle.js'),
     watchExt: 'js,jsx,ts,tsx,html,test',
@@ -59,6 +55,10 @@ const extend: Extend<IsomorphicState> = async (app, serverState) => {
       path.resolve(__dirname, '../universal'),
       path.resolve(__dirname, 'html'),
     ],
+  });
+
+  serverState.on('change', (files) => {
+    log('change has occurred on files: %s', files);
   });
 
   const server = http.createServer(app);

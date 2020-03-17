@@ -13,7 +13,7 @@ import createExpress, {
   ServerCreation,
 } from './createExpress';
 import getAvailablePort from './utils/getAvailablePort';
-import ServerState, { IO } from './ServerState';
+import ServerState from './ServerState';
 
 const log = logger('[express-isomorphic]');
 
@@ -50,12 +50,9 @@ async function createDev<State>({
         path: socketPath,
       });
 
-      serverState.update((object) => ({
-        ...object,
-        [IO]: io,
-        socketPath,
-        socketPort,
-      }));
+      serverState.socketPath = socketPath;
+      serverState.socketPort = socketPort;
+      serverState.io = io;
 
       io.on('connection', (socket) => {
         const { clientsCount } = (io.engine as any);
@@ -86,7 +83,7 @@ async function createDev<State>({
       try {
         const { data } = await axios.post(`http://localhost:${htmlGeneratorPort}/makeHtml`, {
           requestUrl,
-          serverState: serverState.getState(),
+          serverState,
         });
 
         latestHtmlGenerated = data;
@@ -148,6 +145,10 @@ function setupNodemon<State>({
           msg: 'Nodemon restarting. Refresh recommended',
         });
       }
+
+      serverState.eventHandlers.change.forEach((handler) => {
+        handler(files);
+      });
     });
 }
 

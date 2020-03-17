@@ -32,7 +32,7 @@
     "jege": "^0.4.0",
     "lerna": "^3.15.0",
     "process-launch": "^0.6.1",
-    "typescript": "^3.5.1",
+    "typescript": "^3.8.3",
     "yargs": "^13.2.4"
   },
   "husky": {

@@ -5,9 +5,7 @@ import express, {
 import { logger } from 'jege/server';
 
 import createEject from './createEject';
-import ServerState, {
-  ServerStateObject,
-} from './ServerState';
+import ServerState from './ServerState';
 
 const log = logger('[express-isomorphic]');
 
@@ -78,7 +76,7 @@ export interface MakeHtml<State> {
 
 export interface MakeHtmlPayload<State> {
   requestUrl: string;
-  serverState: ServerStateObject<State>;
+  serverState: ServerState<State>;
 }
 
 export interface Extend<State> {

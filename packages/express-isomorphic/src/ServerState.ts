@@ -1,63 +1,63 @@
 import { logger } from 'jege/server';
 import { Server } from 'socket.io';
 
-import stringifyServerState from './utils/stringifyServerState';
-
 const log = logger('[express-isomorphic]');
 const IO = Symbol('io');
 
 class ServerState<State> {
-  private serverStateObject: ServerStateObject<State>;
+  error?: Error;
+  eventHandlers: EventHandlers;
+  [IO]: Server;
+  state: State;
+  socketPath?: string;
+  socketPort?: number;
 
   constructor(state: State) {
-    const serverStateObject = {
-      state,
+    this.state = state;
+    this.eventHandlers = {
+      change: [],
     };
-    this.serverStateObject = serverStateObject;
   }
 
   get io() {
-    return this.serverStateObject[IO] as Server;
+    return this[IO] as Server;
   }
 
   set io(io: Server) {
-    this.serverStateObject[IO] = io;
+    this[IO] = io;
   }
 
-  getState() {
-    return this.serverStateObject;
+  on(messageType: MessageType, handler: Function) {
+    if (this.eventHandlers[messageType]) {
+      this.eventHandlers[messageType].push(handler);
+    } else {
+      this.eventHandlers[messageType] = [handler];
+    }
   }
 
-  toString() {
-    return stringifyServerState(this.serverStateObject);
-  }
+  update(updater: Updater<State>) {
+    const nextState = {
+      ...this.state,
+      ...updater(this.state),
+    };
+    this.state = nextState;
 
-  update(updater: Updater<ServerStateObject<State>>) {
-    const { serverStateObject } = this;
-    const nextServerState = updater(serverStateObject);
-    this.serverStateObject = nextServerState;
-    log('update(): state is updated into: %s', this.toString());
+    log('update(): state is updated into: %j', this);
     return this;
   }
 }
 
 export default ServerState;
 
-export {
-  IO,
-};
-
-export type ServerStateObject<State> = {
-  error?: Error;
-  [IO]?: Server;
-  socketPath?: string;
-  socketPort?: number;
-  state: State;
-};
-
 interface Error {
   errorObj: any;
   type: string;
 }
 
-type Updater<T> = (serverState: T) => T;
+interface EventHandlers {
+  change: Function[];
+}
+
+type MessageType = 'change';
+
+type Updater<T> = (serverState: T) => Partial<T>;

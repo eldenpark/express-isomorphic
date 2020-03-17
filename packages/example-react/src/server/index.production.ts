@@ -38,12 +38,8 @@ const extend: Extend<IsomorphicState> = async (app, serverState) => {
 
   return Promise.all([])
     .then(() => {
-      serverState.update((object) => ({
-        ...object,
-        state: {
-          ...object.state,
-          publicPath,
-        },
+      serverState.update(() => ({
+        publicPath,
       }));
     });
 };

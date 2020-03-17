@@ -30,11 +30,14 @@ log('htmlGeneratingServer(): command line arguments: %j', argv);
     let html: string;
     try {
       const makeHtml = cachedMakeHtmlModule
-        || (require(makeHtmlPath).default || require(makeHtmlPath));
+        || (require(makeHtmlPath).default
+        || require(makeHtmlPath));
+
       html = (await makeHtml({
         requestUrl,
         serverState,
       })).toString();
+
       cachedMakeHtmlModule = makeHtml;
     } catch (err) {
       log('htmlGeneratingServer(): error making html: %o', err);
