@@ -13,14 +13,8 @@ async function create<State>({
   return createExpress<State>({
     bootstrap: () => {},
     extend,
-    htmlGenerator: async ({
-      requestUrl,
-      serverState,
-    }) => {
-      return makeHtml({
-        requestUrl,
-        serverState,
-      });
+    htmlGenerator: async (generatorArgs) => {
+      return makeHtml(generatorArgs);
     },
   });
 }

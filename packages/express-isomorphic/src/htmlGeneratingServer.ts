@@ -22,10 +22,7 @@ log('htmlGeneratingServer(): command line arguments: %j', argv);
   app.use(bodyParser.json());
 
   app.post('/makeHtml', async (req, res) => {
-    const {
-      requestUrl,
-      serverState,
-    }: MakeHtmlPayload<any> = req.body;
+    const requestBody = req.body as MakeHtmlPayload<any>;
 
     let html: string;
     try {
@@ -33,15 +30,12 @@ log('htmlGeneratingServer(): command line arguments: %j', argv);
         || (require(makeHtmlPath).default
         || require(makeHtmlPath));
 
-      html = (await makeHtml({
-        requestUrl,
-        serverState,
-      })).toString();
+      html = (await makeHtml(requestBody)).toString();
 
       cachedMakeHtmlModule = makeHtml;
     } catch (err) {
       log('htmlGeneratingServer(): error making html: %o', err);
-      html = createErrorHtml(err, requestUrl);
+      html = createErrorHtml(err, requestBody.url);
     }
 
     res.send(html);

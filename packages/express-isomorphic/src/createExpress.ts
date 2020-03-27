@@ -50,8 +50,11 @@ function serveHtml<State>(
 
     try {
       const html = await htmlGenerator({
-        requestUrl: req.url,
+        fullUrl: req.protocol + '://' + req.get('host') + req.originalUrl,
+        host: req.get('host'),
+        protocol: req.protocol,
         serverState,
+        url: req.url,
       });
 
       res.end(html.toString());
@@ -75,8 +78,11 @@ export interface MakeHtml<State> {
 }
 
 export interface MakeHtmlPayload<State> {
-  requestUrl: string;
+  fullUrl: string;
+  host: string | undefined;
+  protocol: string;
   serverState: ServerState<State>;
+  url: string;
 }
 
 export interface Extend<State> {
@@ -99,7 +105,10 @@ interface CreateExpress {
 
 interface HtmlGenerator<State> {
   (arg: {
-    requestUrl: string;
+    fullUrl: string;
+    host: string | undefined;
+    protocol: string;
     serverState: ServerState<State>;
+    url: string;
   }): Promise<string>;
 }

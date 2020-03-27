@@ -16,12 +16,18 @@ import ServerApp from './ServerApp';
 const log = logger('[example-react]');
 
 const makeHtml: MakeHtml<IsomorphicState> = async function makeHtml({
-  requestUrl,
+  fullUrl,
+  host,
+  protocol,
   serverState,
+  url,
 }) {
   log(
-    'makeHtml(): requestUrl: %s, serverState: %i',
-    requestUrl,
+    'makeHtml(): host: %s, protocol: %s, fullUrl: %s, url: %s, serverState: %i',
+    host,
+    protocol,
+    fullUrl,
+    url,
     serverState,
   );
 
@@ -30,7 +36,7 @@ const makeHtml: MakeHtml<IsomorphicState> = async function makeHtml({
 
   let element = (
     <ServerApp
-      requestUrl={requestUrl}
+      requestUrl={url}
     />
   );
   element = styledComponentsStyleSheet.collectStyles(element);

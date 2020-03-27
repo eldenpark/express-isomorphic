@@ -76,15 +76,9 @@ async function createDev<State>({
       });
     },
     extend,
-    htmlGenerator: async ({
-      requestUrl,
-      serverState,
-    }) => {
+    htmlGenerator: async (generatorArgs) => {
       try {
-        const { data } = await axios.post(`http://localhost:${htmlGeneratorPort}/makeHtml`, {
-          requestUrl,
-          serverState,
-        });
+        const { data } = await axios.post(`http://localhost:${htmlGeneratorPort}/makeHtml`, generatorArgs);
 
         latestHtmlGenerated = data;
 
